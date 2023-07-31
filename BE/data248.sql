@@ -73,10 +73,10 @@ CREATE TABLE IF NOT EXISTS `test2`.`apply_form` (
   `f_req_desc` VARCHAR(255) NULL DEFAULT NULL,
   `f_modify_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`f_id`),
-  INDEX `FK_members_TO_apply_form_1` (`m_id` ASC) VISIBLE,
+  INDEX `FK_members_TO_apply_form_1` (`u_id` ASC) VISIBLE,
   INDEX `FK_members_TO_chat_room_2` (`p_id` ASC) VISIBLE,
   CONSTRAINT `FK_members_TO_apply_form_1`
-    FOREIGN KEY (`m_id`)
+    FOREIGN KEY (`u_id`)
     REFERENCES `test2`.`members` (`m_id`),
   CONSTRAINT `FK_members_TO_apply_form_2`
     FOREIGN KEY (`p_id`)
@@ -247,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `test2`.`suggestion` (
     REFERENCES `test2`.`apply_form` (`f_id`),
   CONSTRAINT `FK_members_TO_suggestion_1`
     FOREIGN KEY (`p_id`)
-    REFERENCES `test2`.`members` (`p_id`))
+    REFERENCES `test2`.`members` (`m_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
