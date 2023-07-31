@@ -26,6 +26,18 @@ body {
     margin: 0;
 }
 
+/* ************************************** test */
+.wow {
+    width: 50%;
+    display: inline-block;
+}
+/* ************************************** test */
+
+.max-container {
+    max-width: var(--size-max-width);
+    margin: auto;
+}
+
 h1,
 h2,
 h3,
@@ -35,6 +47,7 @@ p,
 ul {
     margin: 0;
 }
+
 ul {
     list-style: none;
 }
@@ -56,6 +69,7 @@ button:focus {
 .max-container {
     max-width: var(--size-max-width);
     margin: auto;
+    padding: 1rem;
 }
 
 h1 {
@@ -101,5 +115,9 @@ p {
 
     .dynamic {
         font-size: 0.8rem;
+    }
+
+    section {
+        padding: 0 1rem;
     }
 }

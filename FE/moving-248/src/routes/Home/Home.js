@@ -6,14 +6,31 @@ export default function Home() {
     return (
         <div>
             <Header />
-            <FontAwesomeIcon icon={faSearch} className='search' />
-            <h1>h1</h1>
-            <h4>h4</h4>
-            <h5>h5</h5>
-            <p>그냥 p</p>
-            <p className='dynamic'>p dynamic 다이내믹</p>
-            <p className='paragraph'>p paragraph 파라그래프</p>
-            <p className='sub'>p 서브</p>
+            {/* <FontAwesomeIcon icon={faSearch} className='search' /> */}
+
+            <section>
+                <div className='max-container'>
+                    <div className='wow'>
+                        <h2>eeeaaaaaaaaaaaaaaaeee</h2>
+                    </div>
+                    <div className='wow'>
+                        <h2>eeeeaaee</h2>
+                    </div>
+                    <p>hola</p>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                    <h2>eeeeee</h2>
+                </div>
+            </section>
         </div>
     );
 }
