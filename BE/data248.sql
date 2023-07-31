@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `test2`.`review` (
   `r_id` INT NOT NULL AUTO_INCREMENT,
   `u_id` INT NOT NULL,
   `p_id` INT NOT NULL,
-  `r_rate` CHAR(1) NOT NULL,
+  `r_rate` tinyint NOT NULL,
   `r_content` VARCHAR(255) NULL DEFAULT NULL,
   `r_create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`r_id`),
