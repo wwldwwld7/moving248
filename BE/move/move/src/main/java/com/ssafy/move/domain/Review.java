@@ -22,8 +22,8 @@ public class Review {
     @JoinColumn(name = "p_id",referencedColumnName = "m_id")
     private Members pId;
 
-    @Column(name = "r_rate", length = 1)
-    private char rRate;
+    @Column(name = "r_rate")
+    private int rRate;
 
     @Column(name = "r_content")
     private String rContent;

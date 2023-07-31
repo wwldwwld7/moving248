@@ -11,6 +11,8 @@ import javax.persistence.EntityManager;
 public class MoveApplication {
 	
 	public static void main(String[] args) {
+
+
 		SpringApplication.run(MoveApplication.class, args);
 	}
 
