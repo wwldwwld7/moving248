@@ -9,17 +9,17 @@ import javax.persistence.*;
 @Data
 public class Review {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "r_id")
     private int id;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "u_id",insertable = false,updatable = false, referencedColumnName = "m_id")
+    @JoinColumn(name = "u_id",referencedColumnName = "m_id")
     private Members uId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "p_id",insertable = false,updatable = false, referencedColumnName = "m_id")
+    @JoinColumn(name = "p_id",referencedColumnName = "m_id")
     private Members pId;
 
     @Column(name = "r_rate", length = 1)

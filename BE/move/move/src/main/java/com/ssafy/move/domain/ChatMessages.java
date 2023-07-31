@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 public class ChatMessages {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "c_id")
     private int id;
 

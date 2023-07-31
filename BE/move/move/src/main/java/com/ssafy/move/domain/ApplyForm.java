@@ -10,16 +10,16 @@ import java.sql.Date;
 @Data
 public class ApplyForm {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "f_id")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "u_id",insertable = false,updatable = false, referencedColumnName = "m_id")
+    @JoinColumn(name = "u_id", referencedColumnName = "m_id")
     private Members uId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "p_id",insertable = false,updatable = false, referencedColumnName = "m_id")
+    @JoinColumn(name = "p_id", referencedColumnName = "m_id")
     private Members pId;
 
     @Column(name = "f_category", length = 1)

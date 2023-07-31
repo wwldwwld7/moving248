@@ -1,15 +1,17 @@
 package com.ssafy.move.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "suggestion")
 @Data
+@ToString
 public class Suggestion {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "s_id")
     private int id;
 
