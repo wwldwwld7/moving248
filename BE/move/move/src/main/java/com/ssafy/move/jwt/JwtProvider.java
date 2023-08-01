@@ -2,7 +2,7 @@ package com.ssafy.move.jwt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.move.dto.response.LoginResponse;
+import com.ssafy.move.dto.response.MemberResponse;
 import com.ssafy.move.dto.response.TokenResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -32,10 +32,10 @@ public class JwtProvider {
         key = Base64.getEncoder().encodeToString(key.getBytes());
     }
 
-    public TokenResponse createTokenByLogin(LoginResponse loginResponse) throws JsonProcessingException {
+    public TokenResponse createTokenByLogin(MemberResponse memberResponse) throws JsonProcessingException {
         Token atk = Token.atk(
-                loginResponse.getEmail(),
-                loginResponse.getName()
+                memberResponse.getEmail(),
+                memberResponse.getName()
         );
 
         String accessToken = createToken(atk, atkLive);
@@ -58,4 +58,6 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
     }
+
+
 }

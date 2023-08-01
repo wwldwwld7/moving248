@@ -36,10 +36,10 @@ public class Members {
     private String pCeo;
 
     @Column(name = "p_exp")
-    private Integer pExp;
+    private int pExp;
 
     @Column(name = "p_emp_cnt")
-    private Integer pEmpCnt;
+    private int pEmpCnt;
 
     @Column(name = "p_starttime")
     private String pStartTime;
@@ -54,15 +54,15 @@ public class Members {
     private String pLocation;
 
     @Column(name = "p_move_cnt")
-    private Integer pMoveCnt;
+    private int pMoveCnt;
 
     @Column(name = "p_code")
     private String pCode;
 
     @Column(name = "p_total_score")
-    private Integer pTotalScore;
+    private int pTotalScore;
 
     @Column(name = "p_review_cnt")
-    private Integer pReviewCnt;
+    private int pReviewCnt;
 
 }

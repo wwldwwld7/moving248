@@ -6,15 +6,15 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class LoginResponse {
+public class MemberResponse {
     private final String email;
 
     private final char memberType;
 
     private final String name;
 
-    public static LoginResponse of(Members member){
-        return new LoginResponse(
+    public static MemberResponse of(Members member){
+        return new MemberResponse(
                 member.getEmail(),
                 member.getMemberType(),
                 member.getName()
