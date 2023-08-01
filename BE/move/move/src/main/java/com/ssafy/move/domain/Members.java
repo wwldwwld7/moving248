@@ -1,6 +1,7 @@
 package com.ssafy.move.domain;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;

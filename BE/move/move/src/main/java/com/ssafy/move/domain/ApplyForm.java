@@ -1,5 +1,6 @@
 package com.ssafy.move.domain;
 
+import com.ssafy.move.dto.request.ApplyFormRequestDto;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -58,8 +59,9 @@ public class ApplyForm {
     @Column(name = "f_status", length = 1)
     private char fStatus;
 
-    @Column(name = "f_create_time")
+    @Column(name = "f_create_time", insertable = false)
     private String fCreateTime;
+
 
     @Column(name = "f_req_desc")
     private String fReqDesc;
