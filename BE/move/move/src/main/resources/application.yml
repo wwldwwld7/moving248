@@ -5,6 +5,10 @@ spring:
     username: root
     password: ssafy
 
+  jwt:
+    key: move248_secret_key_slakflkajlskjdflkjalksjdlfkjasjdlkfjlasjdlfjalsjfjasdfkjl
+    live:
+      atk: 3600000
 
   jpa:
     hibernate:
