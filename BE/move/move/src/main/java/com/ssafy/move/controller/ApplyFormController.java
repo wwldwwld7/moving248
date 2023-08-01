@@ -20,33 +20,39 @@ public class ApplyFormController {
 
 
     // 신청서 작성
-    @PostMapping
-    public ResponseEntity<?> writeForm(@RequestBody ApplyFormRequestDto applyFormRequestDto){
+//    @PostMapping
+//    public ResponseEntity<?> writeForm(@RequestBody ApplyFormRequestDto applyFormRequestDto){
+//
+//
+//        applyFormService.writeForm(applyFormRequestDto);
+//        return ResponseEntity.status(HttpStatus.OK).body("작성완료");
+//
+//    }
+//
+//    // 신청서 수정
+//    @PutMapping("/{f_id}")
+//    public ResponseEntity<?> updateForm(@PathVariable int f_id, @RequestBody ApplyFormRequestDto applyFormRequestDto){
+//
+//        applyFormService.updateApplyForm(f_id, applyFormRequestDto);
+//
+//        return new ResponseEntity<String>("수정완료", HttpStatus.OK);
+//    }
 
-        System.out.println(applyFormRequestDto);
+    // 신청서 삭제
+    @DeleteMapping("/{f_id}")
+    public ResponseEntity<?> deleteForm(@PathVariable int f_id){
 
-        applyFormService.writeForm(applyFormRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body("작성완료");
+        applyFormService.deleteApplyForm(f_id);
+
+        return new ResponseEntity<String>("삭제성공", HttpStatus.OK);
 
     }
 
-//    // 신청서 수정
-//    @PutMapping("/{f_id}")
-//    public ResponseEntity<?> updateForm(){
-//
-//    }
-//
-//    // 신청서 삭제
-//    @DeleteMapping("/{f_id}")
-//    public ResponseEntity<?> deleteForm(){
-//
-//    }
-//
-//    // 신청서 조회
-//    @GetMapping
-//    public ResponseEntity<?> findApplyById(){
-//
-//    }
+    // 신청서 전체조회
+    @GetMapping
+    public ResponseEntity<?> findApplyById(){
+
+    }
 //
 //    // 신청서 주소별 조회
 //    @GetMapping("/{sido}/{gugun}/{category}/{p_id}")

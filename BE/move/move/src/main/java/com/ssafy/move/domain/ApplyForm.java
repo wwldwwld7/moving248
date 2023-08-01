@@ -66,7 +66,7 @@ public class ApplyForm {
     @Column(name = "f_req_desc")
     private String fReqDesc;
 
-    @Column(name = "f_modify_time")
+    @Column(name = "f_modify_time", insertable = false, updatable = true)
     private String fModifyTime;
 
 
