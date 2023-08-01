@@ -5,7 +5,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MemberRequest {
+public class SignUpUserRequest {
+    private final String name;
+
+    private final String phone;
+
     private final String email;
 
     private final String password;
