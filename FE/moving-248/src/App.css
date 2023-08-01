@@ -90,6 +90,11 @@ p {
 
 .sub {
     font-size: 0.8rem;
+    color: black;
+}
+
+.sub-gray {
+    font-size: 0.8rem;
     color: gray;
 }
 
@@ -105,25 +110,35 @@ p {
     margin: auto;
 }
 .sec-one-container {
+    flex-grow: 1;
     background-color: #fd6413;
     padding: 2rem 0;
 }
 
 .sec-two-one-container {
-    box-sizing: border-box;
+    flex-grow: 1;
 
+    box-sizing: border-box;
     background-color: bisque;
     padding: 2rem 0;
     margin-right: var(--size-half-margin);
-    display: inline-block;
     width: calc(var(--size-left-width) - var(--size-half-margin));
 }
 .sec-two-two-container {
+    flex-grow: 1;
+
     background-color: blueviolet;
     padding: 2rem 0;
-    display: inline-block;
     width: var(--size-right-width);
     box-sizing: border-box;
+}
+
+section {
+    padding: 0 1rem;
+}
+
+.section {
+    display: flex;
 }
 
 /* 768 이하 */
@@ -140,7 +155,19 @@ p {
         font-size: 0.8rem;
     }
 
-    section {
-        padding: 0 1rem;
+    .sec-one-half-container {
+        width: 100%;
+    }
+
+    .sec-two-one-container {
+        margin-right: 0;
+        width: 100%;
+    }
+    .sec-two-two-container {
+        width: 100%;
+    }
+
+    .section {
+        flex-direction: column;
     }
 }
