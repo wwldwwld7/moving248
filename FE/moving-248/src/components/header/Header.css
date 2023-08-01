@@ -11,7 +11,7 @@ header {
     background-color: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(5px);
 
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--color-primary-variant);
     position: fixed; /* 상단에 고정 */
     top: 0;
     width: 100%;
@@ -37,18 +37,48 @@ header {
     width: auto;
 }
 
+.header__logo__img:hover {
+    cursor: pointer;
+}
+
 .header__menu {
     display: flex;
     gap: 4px;
 }
 
 .header__menu__item {
-    padding: 8px 16px;
+    padding: 0.5rem 0;
+    padding-right: 1rem;
+}
+
+.header__icon {
+    font-size: 1.5rem;
 }
 
 .max-container {
     max-width: var(--size-max-width);
     margin: auto;
+}
+
+.header__button {
+    background-color: var(--color-accent);
+    color: white;
+    width: 6.5rem;
+    height: 40.636px;
+    border-radius: 100px;
+}
+
+.header__button:hover {
+    cursor: pointer;
+    background-color: var(--color-accent);
+}
+
+.header__icon {
+    color: var(--color-accent-variant);
+}
+
+.header__icon:hover {
+    color: var(--color-accent);
 }
 
 /* 768 이하 */

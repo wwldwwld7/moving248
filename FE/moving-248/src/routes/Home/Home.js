@@ -1,6 +1,4 @@
 import Header from '../../components/header/Header.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export default function Home() {
     return (
@@ -29,6 +27,38 @@ export default function Home() {
                     <h2>eeeeee</h2>
                     <h2>eeeeee</h2>
                     <h2>eeeeee</h2>
+                </div>
+            </section>
+
+            <section className='max-container'>
+                <div className='sec-one-half-container'>
+                    <p>sec-one-half-containe</p>
+                    <p>sec-one-half-containe</p>
+                </div>
+            </section>
+
+            <section className='max-container'>
+                <div className='sec-one-container'>
+                    <p>sec-one-container</p>
+                    <p>sec-one-container</p>
+                </div>
+            </section>
+
+            <section className='max-container'>
+                <div className='sec-two-one-container'>
+                    <p>sec-two-one-container</p>
+                    <p>sec-two-one-container</p>
+                    <p>sec-two-one-container</p>
+                    <p>sec-two-one-container</p>
+                    <p>sec-two-one-container</p>
+                    <p>sec-two-one-container</p>
+                    <p>sec-two-one-container</p>
+                    <p>sec-two-one-container</p>
+                </div>
+
+                <div className='sec-two-two-container'>
+                    <p>sec-two-one-container</p>
+                    <p>sec-two-one-container</p>
                 </div>
             </section>
         </div>
