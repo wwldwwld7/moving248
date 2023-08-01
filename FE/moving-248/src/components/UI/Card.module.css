@@ -1,0 +1,14 @@
+.card {
+    width: 80%;
+    border: 0.0625rem solid #d3c09a;
+    border-radius: 0.5rem;
+    padding: 40px;
+    margin: 0px auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+@media (min-width: 768px) {
+    .card {
+        width: 420px; /* 5/10(50%)을 차지하도록 설정 */
+    }
+}
