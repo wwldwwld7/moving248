@@ -1,4 +1,4 @@
-.card-login-form {
+.card {
     width: 80%;
     border: 0.0625rem solid #d3c09a;
     border-radius: 0.5rem;
@@ -8,7 +8,7 @@
 }
 
 @media (min-width: 768px) {
-    .card-login-form {
+    .card {
         width: 420px; /* 5/10(50%)을 차지하도록 설정 */
     }
 }

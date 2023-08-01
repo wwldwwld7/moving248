@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './RenderForm.css';
 
-import Card from './UI/Card';
-import InputBox from './InputBox';
-import LoginButton from './LoginButton';
+import Card from '../UI/Card';
+import InputBox from '../UI/InputBox';
+import Buttons from '../UI/Buttons';
 
 export default function RenderForm() {
     const database = [
@@ -52,20 +53,20 @@ export default function RenderForm() {
                 <InputBox label='비밀번호' type='password' name='pass' placeholder='비밀번호를 입력해주세요' required>
                     {renderErrorMessage('pass')}
                 </InputBox>
-                <LoginButton type='submit' text='이메일로 로그인하기' />
+                <Buttons type='submit' text='이메일로 로그인하기' />
             </form>
             <div className='register-section'>
-                <a href='/'>비밀번호 찾기</a>
+                <Link to={'/'}>비밀번호 찾기</Link>
                 <span className='register-divider'>|</span>
-                <a href='/'>회원가입</a>
+                <Link to={'/'}>회원가입</Link>
             </div>
-            <div className='register-section'>
-                <a href='/'>파트너 이신가요? </a>
+            <div className='register-section2'>
+                <Link to={'/'}>파트너 등록이 필요하신가요? </Link>
             </div>
 
-            <LoginButton type='button' text='카카오로 시작' />
-            <LoginButton type='button' text='네이버로 시작' />
-            <LoginButton type='button' text='구글로 시작' />
+            <Buttons type='button' text='카카오로 시작' />
+            <Buttons type='button' text='네이버로 시작' />
+            <Buttons type='button' text='구글로 시작' />
         </div>
     );
 
