@@ -1,3 +1,4 @@
+import Footer from '../../components/Footer/Footer.js';
 import Header from '../../components/header/Header.js';
 
 export default function Home() {
@@ -30,21 +31,21 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className='max-container'>
+            <section className='section max-container'>
                 <div className='sec-one-half-container'>
                     <p>sec-one-half-containe</p>
                     <p>sec-one-half-containe</p>
                 </div>
             </section>
 
-            <section className='max-container'>
+            <section className='section max-container'>
                 <div className='sec-one-container'>
                     <p>sec-one-container</p>
                     <p>sec-one-container</p>
                 </div>
             </section>
 
-            <section className='max-container'>
+            <section className='max-container section'>
                 <div className='sec-two-one-container'>
                     <p>sec-two-one-container</p>
                     <p>sec-two-one-container</p>
@@ -61,6 +62,7 @@ export default function Home() {
                     <p>sec-two-one-container</p>
                 </div>
             </section>
+            <Footer />
         </div>
     );
 }
