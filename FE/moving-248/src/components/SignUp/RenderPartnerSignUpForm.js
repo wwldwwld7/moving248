@@ -6,7 +6,7 @@ import Buttons from '../UI/Buttons';
 
 const RenderMoverSignUpForm = props => {
     const [formData, setFormData] = useState({
-        username: '',
+        registnumber: '',
         telephone: '',
         email: '',
         password: '',
@@ -14,7 +14,7 @@ const RenderMoverSignUpForm = props => {
     });
 
     const [messages, setMessages] = useState({
-        username: '',
+        registnumber: '',
         telephone: '',
         email: '',
         password: '',
@@ -22,7 +22,7 @@ const RenderMoverSignUpForm = props => {
     });
 
     const [isValid, setIsValid] = useState({
-        username: false,
+        registnumber: false,
         telephone: false,
         email: false,
         password: false,
@@ -38,7 +38,7 @@ const RenderMoverSignUpForm = props => {
         }));
 
         const validators = {
-            username: value => value.length >= 2 && value.length <= 5,
+            registnumber: value => value.length >= 2 && value.length <= 5,
             telephone: value => /^\d{3}-\d{4}-\d{4}$/.test(value),
             email: value => /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(value),
             password: value => /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/.test(value),
@@ -59,8 +59,8 @@ const RenderMoverSignUpForm = props => {
 
     const getErrorMessage = fieldName => {
         switch (fieldName) {
-            case 'username':
-                return '2글자 이상 5글자 미만으로 입력해주세요.';
+            case 'registnumber':
+                return '사업자 등록번호를 제대로 써주세요';
             case 'email':
                 return '이메일 제대로 써주겠니?';
             case 'telephone':
@@ -78,20 +78,20 @@ const RenderMoverSignUpForm = props => {
         e.preventDefault();
 
         // Validation check
-        if (isValid.username && isValid.email && isValid.telephone && isValid.password && isValid.checkPass) {
+        if (isValid.registnumber && isValid.email && isValid.telephone && isValid.password && isValid.checkPass) {
             console.log('Form submitted successfully!');
         }
 
         // 넣어라 api call login here
     };
 
-    const RenderButton = <Buttons type='submit' text='회원가입' disabled={!(isValid.username && isValid.email && isValid.telephone && isValid.password && isValid.checkPass)}></Buttons>;
+    const RenderButton = <Buttons type='submit' text='회원가입' disabled={!(isValid.registnumber && isValid.email && isValid.telephone && isValid.password && isValid.checkPass)}></Buttons>;
 
     const RenderInputBox = (
         <div className='form'>
             <form onSubmit={submitHandler}>
-                <InputBox label='이름' type='text' name='username' placeholder='이름을 입력해주세요' required value={formData.username} onChange={changeHandler}>
-                    {messages.username && <div className={`message ${isValid.username ? 'success' : 'error'}`}>{messages.username}</div>}
+                <InputBox label='사업자등록번호' type='text' name='registnumber' placeholder='000-00-00000' required value={formData.registnumber} onChange={changeHandler}>
+                    {messages.registnumber && <div className={`message ${isValid.registnumber ? 'success' : 'error'}`}>{messages.registnumber}</div>}
                 </InputBox>
 
                 <InputBox label='휴대폰번호' type='text' name='telephone' placeholder='010-0000-0000' required value={formData.telephone} onChange={changeHandler}>
@@ -115,7 +115,7 @@ const RenderMoverSignUpForm = props => {
 
     return (
         <Card>
-            <div className='title'>회원가입</div>
+            <div className='title'>파트너 회원가입</div>
             <div>{RenderInputBox}</div>
             <div>{RenderButton}</div>
         </Card>

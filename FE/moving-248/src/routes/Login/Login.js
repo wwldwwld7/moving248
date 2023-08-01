@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // import ReactDom from 'react-dom';
-import RenderForm from '../../components/Login/RenderForm';
+import RenderForm from '../../components/Login/RenderLoginForm';
 
 export default function Login() {
     return (
