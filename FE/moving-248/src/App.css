@@ -1,10 +1,10 @@
 /* ********Global******** */
 :root {
     /* App Colors */
-    --color-primary: var(--color-black);
-    --color-primary-variant: var(--color-gray);
-    --color-accent: var(--color-blue);
-    --color-accent-variant: var(--color-orange);
+    --color-primary: #d3c09a;
+    --color-primary-variant: #f1ebd6;
+    --color-accent: #3a2c2b;
+    --color-accent-variant: #9b8d78;
 
     /* Colors */
     --color-black: #050a13;
@@ -14,6 +14,10 @@
 
     /* size */
     --size-max-width: 1200px;
+    --size-half-width: 600px;
+    --size-left-width: 60%;
+    --size-right-width: 40%;
+    --size-half-margin: 5rem;
 }
 
 /* ********Default******** */
@@ -35,6 +39,7 @@ p,
 ul {
     margin: 0;
 }
+
 ul {
     list-style: none;
 }
@@ -58,6 +63,7 @@ button:focus {
     margin: auto;
 }
 
+/* ********Font******** */
 h1 {
     font-size: 2.5rem;
 }
@@ -84,10 +90,56 @@ p {
 
 .sub {
     font-size: 0.8rem;
+    color: black;
+}
+
+.sub-gray {
+    font-size: 0.8rem;
     color: gray;
 }
 
-/* ********Font******** */
+/* ********Section******** */
+.max-container {
+    max-width: var(--size-max-width);
+    margin: auto;
+}
+.sec-one-half-container {
+    background-color: #03e8f9;
+    width: var(--size-half-width);
+    padding: 2rem 0;
+    margin: auto;
+}
+.sec-one-container {
+    flex-grow: 1;
+    background-color: #fd6413;
+    padding: 2rem 0;
+}
+
+.sec-two-one-container {
+    flex-grow: 1;
+
+    box-sizing: border-box;
+    background-color: bisque;
+    padding: 2rem 0;
+    margin-right: var(--size-half-margin);
+    width: calc(var(--size-left-width) - var(--size-half-margin));
+}
+.sec-two-two-container {
+    flex-grow: 1;
+
+    background-color: blueviolet;
+    padding: 2rem 0;
+    width: var(--size-right-width);
+    box-sizing: border-box;
+}
+
+section {
+    padding: 0 1rem;
+}
+
+.section {
+    display: flex;
+}
 
 /* 768 이하 */
 @media (max-width: 768px) {
@@ -101,5 +153,21 @@ p {
 
     .dynamic {
         font-size: 0.8rem;
+    }
+
+    .sec-one-half-container {
+        width: 100%;
+    }
+
+    .sec-two-one-container {
+        margin-right: 0;
+        width: 100%;
+    }
+    .sec-two-two-container {
+        width: 100%;
+    }
+
+    .section {
+        flex-direction: column;
     }
 }

@@ -1,0 +1,71 @@
+.list-container {
+    display: flex;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+.title {
+    font-size: 25px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.register-section,
+.register-section2 {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+    justify-content: center;
+}
+.register-section a {
+    color: black; /* Set the font color to black */
+    margin-right: 5px;
+}
+.register-section2 a {
+    color: #0038ff; /* Set the font color to black */
+    padding-top: 10px;
+    margin-right: 5px;
+    font-size: 15px;
+}
+
+.register-divider {
+    padding: 0 15px; /* Add padding to create space for the divider */
+}
+
+/* input[type='text'],
+input[type='password'] {
+    display: flex;
+    height: 48px;
+    margin: 1rem 0 1rem 0;
+    padding: 0.75rem;
+    border-radius: 4px;
+    width: 100%;
+    border: 1px solid #d3c09a(0, 0, 0, 0.2);
+}
+
+input[type='submit'],
+input[type='button'] {
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    background: #9b8d78;
+    border: 1px solid #9b8d78;
+    color: #fff;
+    width: 100%;
+    padding: 12px;
+}
+
+input[type='submit']:hover,
+input[type='button']:hover {
+    width: 100%;
+    background: #3a2c2b;
+} */
+
+/* .button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+} */

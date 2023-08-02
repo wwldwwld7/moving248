@@ -24,10 +24,10 @@ public class ChatMessages {
     @Column(name = "c_message")
     private String cMessage;
 
-    @Column(name = "c_read_yn", length = 1)
+    @Column(name = "c_read_yn",insertable = false, length = 1)
     private char cReadYn;
 
-    @Column(name = "c_write_date")
+    @Column(name = "c_write_date",insertable = false)
     private String cWriteDate;
 
 
