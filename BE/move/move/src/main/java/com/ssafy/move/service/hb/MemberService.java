@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -51,6 +52,7 @@ public class MemberService {
         return udto;
     }
 
+    @Transactional
     public List<PartnerViewDto> findAllPartner() {
         List<Members> plist = memberRepository.findAllPartner();
         List<PartnerViewDto> pvlist = new ArrayList<>();
@@ -76,6 +78,7 @@ public class MemberService {
 
     }
 
+    @Transactional
     public PartnerDetailDto findPartnerById(int m_id) {
         Members pm = memberRepository.findMember(m_id);
         List<Review> rlist = memberRepository.findReviewByPid(m_id);
