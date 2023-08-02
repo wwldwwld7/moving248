@@ -1,16 +1,20 @@
 package com.ssafy.move.service;
 
 import com.ssafy.move.domain.ApplyForm;
+import com.ssafy.move.domain.FormStatus;
 import com.ssafy.move.domain.Members;
 import com.ssafy.move.dto.request.ApplyFormRequestDto;
+import com.ssafy.move.dto.response.ApplyFormResponseDto;
 import com.ssafy.move.repository.ApplyFormRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Tuple;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -80,6 +84,63 @@ public class ApplyFormService {
 
         applyFormRepository.deleteApplyForm(f_id);
 
+    }
+
+    @Transactional
+    public List<ApplyFormResponseDto> findAll(){
+
+        List<ApplyFormResponseDto> list = new ArrayList<>();
+
+        //List<ApplyFormWithStatus> allForm = applyFormRepository.findAll();
+
+        List<Tuple> allForm = applyFormRepository.findAll();
+
+
+        for(Tuple af : allForm){
+
+            ApplyFormResponseDto applyFormResponseDto = new ApplyFormResponseDto();
+            ApplyForm applyForm = af.get(0,ApplyForm.class);
+            FormStatus formStatus = af.get(1, FormStatus.class);
+
+
+            applyFormResponseDto.setF_id(applyForm.getId());
+            applyFormResponseDto.setF_status(formStatus.getStatusName());
+            applyFormResponseDto.setF_date(applyForm.getFDate());
+            applyFormResponseDto.setF_dep_sido(applyForm.getFDepSido());
+            applyFormResponseDto.setF_dep_gungu(applyForm.getFDepGungu());
+            applyFormResponseDto. setF_arr_sido(applyForm.getFArrSido());
+            applyFormResponseDto.setF_arr_gungu(applyForm.getFArrGungu());
+            applyFormResponseDto.setF_category(applyForm.getFCategory());
+
+            list.add(applyFormResponseDto);
+
+        }
+        return list;
+    }
+
+    @Transactional
+    public List<ApplyFormResponseDto> findApplyByCategory(String sido, String gungu, int category, int pId){
+
+        List<ApplyFormResponseDto> list = new ArrayList<>();
+
+        List<Tuple> option = applyFormRepository.findByOption(sido, gungu, category, pId);
+
+
+        for(Tuple af : option){
+
+            ApplyForm applyForm = af.get(0,ApplyForm.class);
+            FormStatus formStatus = af.get(1, FormStatus.class);
+
+
+            ApplyFormResponseDto applyFormResponseDto = new ApplyFormResponseDto(
+
+                    applyForm.getId(), formStatus.getStatusName(), applyForm.getFDate(),
+                    applyForm.getFDepSido(), applyForm.getFDepGungu(), applyForm.getFArrSido(),
+                    applyForm.getFArrGungu(), applyForm.getFCategory()
+            );
+            list.add(applyFormResponseDto);
+        }
+        return list;
     }
 
 

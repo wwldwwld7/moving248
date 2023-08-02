@@ -56,7 +56,7 @@ public class ApplyForm {
     @Column(name = "f_room_video_url")
     private String fRoomVideoUrl;
 
-    @Column(name = "f_status", length = 1)
+    @Column(name = "f_status", length = 1, insertable = false)
     private char fStatus;
 
     @Column(name = "f_create_time", insertable = false)
@@ -66,7 +66,7 @@ public class ApplyForm {
     @Column(name = "f_req_desc")
     private String fReqDesc;
 
-    @Column(name = "f_modify_time", insertable = false, updatable = true)
+    @Column(name = "f_modify_time", insertable = false)
     private String fModifyTime;
 
 
