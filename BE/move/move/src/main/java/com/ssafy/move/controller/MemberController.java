@@ -7,6 +7,7 @@ import com.ssafy.move.dto.request.SignUpUserRequest;
 import com.ssafy.move.dto.response.MemberResponse;
 import com.ssafy.move.dto.response.TokenResponse;
 import com.ssafy.move.jwt.JwtProvider;
+import com.ssafy.move.jwt.RedisService;
 import com.ssafy.move.service.MemberDetails;
 import com.ssafy.move.service.MemberService;
 import lombok.Getter;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final JwtProvider jwtProvider;
+    private final RedisService redisService;
 
     //유저 회원가입
     @PostMapping("/user")
@@ -48,12 +52,28 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    @DeleteMapping("/{m_id}")
+    public ResponseEntity<String> deleteMember(@PathVariable("m_id") int m_id){
+        memberService.deleteMember(m_id);
+
+        return new  ResponseEntity<>("회원 탈퇴 완료", HttpStatus.OK);
+    }
+
     //통합로그인
     @PostMapping("/login")
     public TokenResponse loginMember(@RequestBody LogInRequest logInRequest) throws JsonProcessingException {
         MemberResponse memberResponse = memberService.logIn(logInRequest);
 
         return jwtProvider.createTokenByLogin(memberResponse);
+    }
+
+    @GetMapping("/logout/{m_email}")
+    public ResponseEntity<String> logoutMember(@PathVariable String m_email){
+        redisService.deleteValue(m_email);
+        if(Objects.isNull(redisService.getValues(m_email))){
+            return new ResponseEntity<>("로그아웃 완료", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     //accesstoken 재발급

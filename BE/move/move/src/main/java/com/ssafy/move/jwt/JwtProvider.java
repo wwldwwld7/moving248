@@ -10,8 +10,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +22,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class JwtProvider {
 
-    private final RedisDao redisDao;
+    private final RedisService redisService;
     private final ObjectMapper objectMapper;
 
     @Value("${spring.jwt.key}")
@@ -56,7 +54,7 @@ public class JwtProvider {
         String refreshToken = createToken(rtk, rtkLive);
         
         //redis에 refreshtoken저장
-        redisDao.setValue(memberResponse.getEmail(), refreshToken, Duration.ofMillis(rtkLive));
+        redisService.setValue(memberResponse.getEmail(), refreshToken, Duration.ofMillis(rtkLive));
 
         return new TokenResponse(accessToken, refreshToken);
     }
@@ -79,7 +77,7 @@ public class JwtProvider {
 
     //accesstoken 재발급
     public TokenResponse reissueAtk(MemberResponse memberResponse) throws JsonProcessingException {
-        String rtkInRedis = redisDao.getValues(memberResponse.getEmail());
+        String rtkInRedis = redisService.getValues(memberResponse.getEmail());
         System.out.println(rtkInRedis);
         if(Objects.isNull(rtkInRedis)) throw new BadRequestException("인증 정보가 만료되었습니다.");
 

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 
 @Component
-public class RedisDao {
+public class RedisService {
     //redis 저장소에 key-value 쌍으로 데이터 create, delete
     private final RedisTemplate<String, String> redisTemplate;
 
-    public RedisDao(RedisTemplate<String, String> redisTemplate) {
+    public RedisService(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
@@ -27,7 +27,7 @@ public class RedisDao {
 
     public String getValues(String key){
         ValueOperations<String, String> values = redisTemplate.opsForValue();
-        System.out.println(values.get(key));
+
         return values.get(key);
     }
 

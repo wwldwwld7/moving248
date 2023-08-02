@@ -10,5 +10,6 @@ public interface MemberRepository extends JpaRepository<Members, Integer> {
 
     Optional<Members> findByEmail(String email);
 
+    public void deleteById(int id);
 }
 

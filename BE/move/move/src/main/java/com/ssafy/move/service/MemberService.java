@@ -67,6 +67,11 @@ public class MemberService {
         return MemberResponse.of(member);
     }
 
+    @Transactional
+    public void deleteMember(int id) {
+        memberRepository.deleteById(id);
+    }
+
     public MemberResponse logIn(LogInRequest logInRequest){
         Members member = memberRepository.findByEmail(logInRequest.getEmail())
                 .orElseThrow(()->new BadRequestException("존재하지 않는 이메일 입니다."));
@@ -79,5 +84,6 @@ public class MemberService {
 
         return MemberResponse.of(member);
     }
+
 
 }
