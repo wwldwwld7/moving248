@@ -4,6 +4,8 @@ package com.ssafy.move.controller;
 import com.ssafy.move.domain.ApplyForm;
 import com.ssafy.move.dto.request.ApplyFormRequestDto;
 import com.ssafy.move.dto.response.ApplyFormResponseDto;
+import com.ssafy.move.dto.response.GuResponseDto;
+import com.ssafy.move.dto.response.SidoResponseDto;
 import com.ssafy.move.service.ApplyFormService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -79,16 +81,18 @@ public class ApplyFormController {
         map.put("data", applyByCategory);
 
         return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-
-
     }
 
 //    // 신청서 상세 조회
 //    @GetMapping("/{f_id}")
 //    public ResponseEntity<?> findApplyById(){
 //
-//    }
 //
+//
+//
+//
+//    }
+
 //    // 제안서 정렬
 //    @GetMapping("/{f_id}/{option}")
 //    public ResponseEntity<?> sortSuggestion(){
@@ -96,6 +100,43 @@ public class ApplyFormController {
 //    }
     
     // 이사완료
+    @PutMapping("/status/{f_id}")
+    public ResponseEntity<?> updateFormStatus(@PathVariable int f_id){
+
+        applyFormService.updateFormStatus(f_id);
+
+        return new ResponseEntity<String>("이사가 완료되었습니다", HttpStatus.OK);
+    }
+
+    
+    // 시도 가져오기
+    @GetMapping("/sido")
+    public ResponseEntity<?> getSido(){
+
+        Map<String, Object> map = new HashMap<>();
+
+        List<SidoResponseDto> sidoList = applyFormService.getSido();
+
+        map.put("data", sidoList);
+
+        return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+    }
+
+    // 군구 가져오기
+    @GetMapping("/gu/{sido}")
+    public ResponseEntity<?> getGu(@PathVariable String sido){
+
+        Map<String, Object> map = new HashMap<>();
+
+
+        List<GuResponseDto> guList = applyFormService.getGu(sido);
+
+        map.put("data", guList);
+
+        return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+    }
+
+
 
 
 

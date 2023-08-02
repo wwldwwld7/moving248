@@ -1,10 +1,10 @@
 package com.ssafy.move.service;
 
-import com.ssafy.move.domain.ApplyForm;
-import com.ssafy.move.domain.FormStatus;
-import com.ssafy.move.domain.Members;
+import com.ssafy.move.domain.*;
 import com.ssafy.move.dto.request.ApplyFormRequestDto;
 import com.ssafy.move.dto.response.ApplyFormResponseDto;
+import com.ssafy.move.dto.response.GuResponseDto;
+import com.ssafy.move.dto.response.SidoResponseDto;
 import com.ssafy.move.repository.ApplyFormRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,6 @@ public class ApplyFormService {
     public void updateApplyForm(int f_id, ApplyFormRequestDto applyFormRequestDto){
 
         ApplyForm applyForm = applyFormRepository.findApplyFormById(f_id);
-        System.out.println(applyForm);
 
         applyForm.setFCategory(applyFormRequestDto.getF_category());
         applyForm.setFDate(applyFormRequestDto.getF_date());
@@ -141,6 +140,46 @@ public class ApplyFormService {
             list.add(applyFormResponseDto);
         }
         return list;
+    }
+
+
+    @Transactional
+    public List<SidoResponseDto> getSido(){
+
+        List<Sido> sido = applyFormRepository.getSido();
+
+        List<SidoResponseDto> list = new ArrayList<>();
+
+        for(Sido si : sido){
+
+            SidoResponseDto sidoResponseDto = new SidoResponseDto(si.getSidoCode(),si.getSidoName());
+
+            list.add(sidoResponseDto);
+
+        }
+
+        return list;
+    }
+
+    @Transactional
+    public List<GuResponseDto> getGu(String sido){
+
+        List<Gu> gu = applyFormRepository.getGu(sido);
+
+        List<GuResponseDto> list = new ArrayList<>();
+
+        for(Gu g : gu){
+
+            GuResponseDto guResponseDto = new GuResponseDto(g.getGuCode(), g.getGuName());
+            list.add(guResponseDto);
+        }
+
+        return list;
+    }
+
+    @Transactional
+    public void updateFormStatus(int fId){
+        applyFormRepository.updateFormStatus(fId);
     }
 
 

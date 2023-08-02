@@ -1,7 +1,10 @@
 package com.ssafy.move.repository;
 
 import com.ssafy.move.domain.ApplyForm;
+import com.ssafy.move.domain.Gu;
 import com.ssafy.move.domain.Members;
+import com.ssafy.move.domain.Sido;
+import com.ssafy.move.dto.response.SidoResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -41,6 +44,15 @@ public class ApplyFormRepository {
     
     // 신청서 수정
     public void updateApplyForm(ApplyForm applyForm){
+        // 수정
+        em.merge(applyForm);
+    }
+
+    // 신청서 상태 이사완료로 수정
+    public void updateFormStatus(int fId){
+
+        ApplyForm applyForm = em.find(ApplyForm.class, fId);
+        applyForm.setFStatus('2');
         em.merge(applyForm);
     }
 
@@ -184,7 +196,7 @@ public class ApplyFormRepository {
 
             // 시도에서 전국일때
             if (sido.equals("0")){
-                jpql = "select a, b from ApplyForm a, FormStatus b where a.pId.id = :pId and a.fStatus=3 " +
+                jpql = "select a, b from ApplyForm a, FormStatus b where a.pId.id = :pId and a.fStatus=2 " +
                         "and a.fStatus = b.statusCode order by a.fCreateTime desc";
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("pId", pId)
@@ -194,7 +206,7 @@ public class ApplyFormRepository {
             else if(!sido.equals("0") &&  gungu.equals("0")){
                 jpql = "select a, b from ApplyForm a, FormStatus b " +
                         "where a.fDepSido = :sido and a.pId.id = :pId " +
-                        "and a.fStatus=3 and a.fStatus = b.statusCode " +
+                        "and a.fStatus=2 and a.fStatus = b.statusCode " +
                         "order by a.fCreateTime desc";
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("sido", sido)
@@ -205,7 +217,7 @@ public class ApplyFormRepository {
             else {
                 jpql = "select a, b from ApplyForm a, FormStatus  b " +
                         "where a.fDepSido = :sido and a.fDepGungu = :gungu " +
-                        "and a.pId.id = :pId and a.fStatus=3 " +
+                        "and a.pId.id = :pId and a.fStatus=2 " +
                         "and a.fStatus = b.statusCode order by a.fCreateTime desc";
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("sido", sido)
@@ -215,6 +227,31 @@ public class ApplyFormRepository {
             }
 
         }
+
+        return resultList;
+    }
+
+    // 신청서 상세 조회
+
+
+    // 시도 가져오기
+    public List<Sido> getSido(){
+
+        String jpql = "select s from Sido s";
+
+        List<Sido> resultList = em.createQuery(jpql, Sido.class).getResultList();
+
+        return resultList;
+
+    }
+
+    // 군구 가져오기
+    public List<Gu> getGu(String sido){
+
+
+        String jpql = "select g from Gu g where g.sido.sidoCode = :sido";
+
+        List<Gu> resultList = em.createQuery(jpql, Gu.class).setParameter("sido", sido).getResultList();
 
         return resultList;
     }
