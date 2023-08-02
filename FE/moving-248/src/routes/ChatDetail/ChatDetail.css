@@ -1,0 +1,9 @@
+.circle {
+    border-radius: 50%;
+    background-color: #3a2c2b;
+    width: 42px;
+    height: 42px;
+}
+
+.btn_close {
+}
