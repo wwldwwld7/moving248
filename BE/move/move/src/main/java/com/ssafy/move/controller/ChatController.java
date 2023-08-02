@@ -19,7 +19,8 @@ public class ChatController {
 
     private final ChatService chatService;
 
-
+    
+    //회원 메시지방 조회
     @GetMapping("/user/{u_id}")
     public ResponseEntity<Map<String,Object>> findUserChatRoom(@PathVariable("u_id")int m_id ){
 
@@ -30,7 +31,7 @@ public class ChatController {
 
         return new ResponseEntity<Map<String, Object>>(rsmap,HttpStatus.OK);
     }
-
+    //파트너 메시지방 조회
     @GetMapping("/partner/{p_id}")
     public ResponseEntity<Map<String,Object>> findPartnerChatRoom(@PathVariable("p_id")int m_id ){
 
@@ -41,7 +42,7 @@ public class ChatController {
         return new ResponseEntity<Map<String, Object>>(rsmap,HttpStatus.OK);
     }
 
-
+    //메시지 읽음여부 확인
     @GetMapping("/message/{m_id}")
     public ResponseEntity<Map<String,Object>> existMessage(@PathVariable("m_id")int m_id ){
 
@@ -50,7 +51,7 @@ public class ChatController {
         rsmap.put("noread_message",noread_message);
         return new ResponseEntity<Map<String, Object>>(rsmap,HttpStatus.OK);
     }
-
+    //해당 채팅방 채팅조회
     @GetMapping("/message/{p_id}/{u_id}/{m_id}")
     public ResponseEntity<Map<String,Object>> findMessage(@PathVariable("p_id")int p_id,@PathVariable("u_id")int u_id
     ,@PathVariable("m_id")int m_id){
@@ -60,6 +61,7 @@ public class ChatController {
         return new ResponseEntity<Map<String, Object>>(rsmap,HttpStatus.OK);
     }
 
+    //메시지 보내기
     @PostMapping("/message/{p_id}/{u_id}")
     public ResponseEntity<Map<String,Object>> writeMessage(@PathVariable("p_id")int p_id,@PathVariable("u_id")int u_id
     ,@RequestBody Map<String, String> map){
