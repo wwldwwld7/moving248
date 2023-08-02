@@ -50,7 +50,7 @@ public class JwtProvider {
                 .setSubject(tokenStr);
 
         Date date = new Date();
-
+        System.out.println(date.getTime());
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(date)
@@ -59,5 +59,12 @@ public class JwtProvider {
                 .compact();
     }
 
+    //토큰의 권한 확인을 위한 요청이 들어오면
+    //jwt payload에 있는 유저 정보를 Token으로 꺼낸다.
+    public Token getToken(String atk) throws JsonProcessingException {
+        String tokenStr = Jwts.parser().setSigningKey(key).parseClaimsJws(atk).getBody().getSubject();
+
+        return objectMapper.readValue(tokenStr, Token.class);
+    }
 
 }

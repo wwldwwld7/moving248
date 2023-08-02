@@ -71,7 +71,6 @@ public class MemberService {
         Members member = memberRepository.findByEmail(logInRequest.getEmail())
                 .orElseThrow(()->new BadRequestException("존재하지 않는 이메일 입니다."));
 
-        System.out.println(logInRequest.getEmail());
         //비밀번호가 인코딩 되어서 저장되면 이걸로 비교해야함.
         boolean pwCheck = passwordEncoder.matches(logInRequest.getPassword(), member.getPassword());
         //지금은 내가 데이터에 직접 값을 넣어서 인코딩 되어있지 않으니까 이거 썼음

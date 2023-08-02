@@ -11,10 +11,7 @@ import com.ssafy.move.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/member")
@@ -26,7 +23,7 @@ public class MemberController {
 
     @PostMapping("/user")
 //    public LogInResponse signUp(@RequestBody SignUpUserRequest signUpUserRequest){
-    public ResponseEntity<String> signUp(@RequestBody SignUpUserRequest signUpUserRequest){
+    public ResponseEntity<String> signUpUser(@RequestBody SignUpUserRequest signUpUserRequest){
         MemberResponse res = memberService.signUpUser(signUpUserRequest);
         if(signUpUserRequest.getEmail().equals(res.getEmail())){
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -37,7 +34,7 @@ public class MemberController {
 
     @PostMapping("/partner")
 //    public LogInResponse signUp(@RequestBody SignUpUserRequest signUpUserRequest){
-    public ResponseEntity<String> signUp(@RequestBody SignUpPartnerRequest signUpPartnerRequest){
+    public ResponseEntity<String> signUpPartner(@RequestBody SignUpPartnerRequest signUpPartnerRequest){
         MemberResponse res = memberService.signUpPartner(signUpPartnerRequest);
         if(signUpPartnerRequest.getEmail().equals(res.getEmail())){
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -47,10 +44,14 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public TokenResponse login(@RequestBody LogInRequest logInRequest) throws JsonProcessingException {
+    public TokenResponse loginMember(@RequestBody LogInRequest logInRequest) throws JsonProcessingException {
         MemberResponse memberResponse = memberService.logIn(logInRequest);
-        System.out.println(memberResponse.getMemberType());
 
         return jwtProvider.createTokenByLogin(memberResponse);
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        return "good!";
     }
 }
