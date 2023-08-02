@@ -22,6 +22,7 @@ public class ReviewController {
 
         Map<String, Object> rsmap = new HashMap<>();
         reviewService.writeReview(reviewRequestDto);
+        rsmap.put("msg","후기등록완료");
         return new ResponseEntity<Map<String,Object>>(rsmap, HttpStatus.OK);
     }
 }
