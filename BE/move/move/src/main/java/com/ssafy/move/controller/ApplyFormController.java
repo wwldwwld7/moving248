@@ -3,10 +3,10 @@ package com.ssafy.move.controller;
 
 import com.ssafy.move.domain.ApplyForm;
 import com.ssafy.move.dto.request.ApplyFormRequestDto;
-import com.ssafy.move.dto.response.ApplyFormResponseDto;
-import com.ssafy.move.dto.response.GuResponseDto;
-import com.ssafy.move.dto.response.SidoResponseDto;
+import com.ssafy.move.dto.request.SuggestionRequestDto;
+import com.ssafy.move.dto.response.*;
 import com.ssafy.move.service.ApplyFormService;
+import com.ssafy.move.service.SuggestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,22 @@ import java.util.Map;
 public class ApplyFormController {
 
     private final ApplyFormService applyFormService;
+    private final SuggestionService suggestionService;
 
 
+    // 신청서 유무
+    @GetMapping("/user/{m_id}")
+    public ResponseEntity<?> existForm(@PathVariable int m_id){
+
+        Map<String, Boolean> map = new HashMap<>();
+
+        boolean existForm = applyFormService.existForm(m_id);
+        System.out.println(existForm);
+
+        map.put("is_form_empty", existForm);
+
+        return new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.OK);
+    }
 
 
     // 신청서 작성
@@ -83,21 +97,29 @@ public class ApplyFormController {
         return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
     }
 
-//    // 신청서 상세 조회
-//    @GetMapping("/{f_id}")
-//    public ResponseEntity<?> findApplyById(){
-//
-//
-//
-//
-//
-//    }
+    // 신청서 상세 조회
+    @GetMapping("/{f_id}")
+    public ResponseEntity<?> findApplyById(@PathVariable int f_id){
 
-//    // 제안서 정렬
-//    @GetMapping("/{f_id}/{option}")
-//    public ResponseEntity<?> sortSuggestion(){
-//
-//    }
+        Map<String, Object> map = new HashMap<>();
+
+        DetailApplyFormResponseDto detailApply = applyFormService.findDetailApplyById(f_id);
+
+        map.put("data", detailApply);
+
+
+        return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+
+    }
+
+    // 제안서 정렬
+    @GetMapping("/{f_id}/{option}")
+    public ResponseEntity<?> sortSuggestion(@PathVariable int f_id, @PathVariable int option){
+
+        List<DetailSuggestionResponseDto> resultList = suggestionService.sortSuggestion(f_id, option);
+
+        return new ResponseEntity<List<DetailSuggestionResponseDto>>(resultList, HttpStatus.OK);
+    }
     
     // 이사완료
     @PutMapping("/status/{f_id}")
@@ -135,6 +157,58 @@ public class ApplyFormController {
 
         return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
     }
+
+    // 견적서 작성
+    @PostMapping("/suggestion/{f_id}")
+    public ResponseEntity<?> writeSuggestion(@PathVariable int f_id,
+                                             @RequestBody SuggestionRequestDto suggestionRequestDto){
+
+        suggestionService.writeSuggestion(f_id, suggestionRequestDto);
+
+        return new ResponseEntity<String>("견적서 등록이 완료되었습니다", HttpStatus.OK);
+    }
+
+    // 견적서 수정
+    @PutMapping("/suggestion/{f_id}")
+    public ResponseEntity<?> updateSuggestion(@PathVariable int f_id,
+                                              @RequestBody SuggestionRequestDto suggestionRequestDto){
+
+        suggestionService.updateSuggestion(f_id, suggestionRequestDto);
+
+        return new ResponseEntity<String>("견적서 수정이 완료되었습니다", HttpStatus.OK);
+    }
+
+    // 견적서 삭제
+    @DeleteMapping("/suggestion/{f_id}/{p_id}")
+    public ResponseEntity<?> deleteSuggestion(@PathVariable int f_id, @PathVariable int p_id){
+
+        suggestionService.deleteSuggestion(f_id, p_id);
+
+        return new ResponseEntity<String>("견적서 삭제가 완료되었습니다", HttpStatus.OK);
+    }
+
+    // 견적서 확정
+    @PutMapping("/suggestion/{f_id}/{p_id}")
+    public ResponseEntity<?> confirmSuggestion(@PathVariable int f_id, @PathVariable int p_id){
+
+        suggestionService.confirmSuggestion(f_id, p_id);
+
+        return new ResponseEntity<String>("확정되었습니다", HttpStatus.OK);
+    }
+
+    // 견적서 확정취소
+    @PutMapping("/suggestion/{f_id}/{u_id}/{p_id}")
+    public ResponseEntity<?> cancelSuggestion(@PathVariable int f_id, @PathVariable int u_id,
+                                              @PathVariable int p_id){
+
+        suggestionService.cancelSuggestion(f_id, u_id, p_id);
+
+        return new ResponseEntity<String>("확정 취소되었습니다", HttpStatus.OK);
+
+    }
+
+
+
 
 
 

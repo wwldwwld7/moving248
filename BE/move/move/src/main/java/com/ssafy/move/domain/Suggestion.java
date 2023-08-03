@@ -29,14 +29,11 @@ public class Suggestion {
     @Column(name = "s_desc")
     private String sDesc;
 
-    @Column(name = "s_create_time")
+    @Column(name = "s_create_time", insertable = false)
     private String sCreateTime;
 
-    @Column(name = "s_modify_time")
+    @Column(name = "s_modify_time", insertable = false)
     private String sModifyTime;
-
-
-
 
 
 }

@@ -2,6 +2,7 @@ package com.ssafy.move.domain;
 
 import com.ssafy.move.dto.request.ApplyFormRequestDto;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -9,6 +10,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "apply_form")
 @Data
+@ToString
 public class ApplyForm {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
