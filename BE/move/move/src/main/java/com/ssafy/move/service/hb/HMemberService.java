@@ -5,7 +5,7 @@ import com.ssafy.move.domain.Members;
 import com.ssafy.move.domain.Review;
 import com.ssafy.move.domain.Suggestion;
 import com.ssafy.move.dto.response.*;
-import com.ssafy.move.repository.hb.MemberRepository;
+import com.ssafy.move.repository.hb.HMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +16,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class HMemberService {
 
-    private final MemberRepository memberRepository;
+    private final HMemberRepository memberRepository;
 
 
     @Transactional

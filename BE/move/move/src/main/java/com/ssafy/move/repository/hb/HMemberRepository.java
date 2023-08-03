@@ -4,7 +4,6 @@ import com.ssafy.move.domain.ApplyForm;
 import com.ssafy.move.domain.Members;
 import com.ssafy.move.domain.Review;
 import com.ssafy.move.domain.Suggestion;
-import com.ssafy.move.dto.response.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberRepository {
+public class HMemberRepository {
 
     private final EntityManager em;
 
