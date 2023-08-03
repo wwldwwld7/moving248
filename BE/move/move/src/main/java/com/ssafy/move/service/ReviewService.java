@@ -4,7 +4,7 @@ import com.ssafy.move.domain.Members;
 import com.ssafy.move.domain.Review;
 import com.ssafy.move.dto.request.ReviewRequestDto;
 import com.ssafy.move.repository.ReviewRepository;
-import com.ssafy.move.repository.hb.MemberRepository;
+import com.ssafy.move.repository.hb.HMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final MemberRepository memberRepository;
+    private final HMemberRepository memberRepository;
 
 
     @Transactional

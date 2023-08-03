@@ -3,7 +3,7 @@ package com.ssafy.move.controller.hb;
 import com.ssafy.move.dto.response.PartnerDetailDto;
 import com.ssafy.move.dto.response.PartnerViewDto;
 import com.ssafy.move.dto.response.UserViewDto;
-import com.ssafy.move.service.hb.MemberService;
+import com.ssafy.move.service.hb.HMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/member")
 @RequiredArgsConstructor
-public class MemberController {
+public class HMemberController {
 
-    private final MemberService memberService;
+    private final HMemberService memberService;
 
     @GetMapping("/user/{m_id}")
     public ResponseEntity<Map<String,Object>> findUserById(@PathVariable("m_id") int m_id){
