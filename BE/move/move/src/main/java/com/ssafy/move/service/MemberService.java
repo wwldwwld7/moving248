@@ -1,26 +1,28 @@
 package com.ssafy.move.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.move.domain.Members;
-import com.ssafy.move.dto.request.LogInRequest;
-import com.ssafy.move.dto.request.SignUpPartnerRequest;
-import com.ssafy.move.dto.request.SignUpUserRequest;
+import com.ssafy.move.dto.request.*;
 import com.ssafy.move.dto.response.MemberResponse;
 import com.ssafy.move.exception.BadRequestException;
+import com.ssafy.move.jwt.JwtProvider;
+import com.ssafy.move.jwt.Token;
 import com.ssafy.move.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
-//    @Autowired
+
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
-    //response를 로그인,회원가입을 나눌지 결정하지 않아서
-    //일단 로그인 response에 넣었음
     //유저 회원가입
     @Transactional
     public MemberResponse signUpUser(SignUpUserRequest signUpUserRequest){
@@ -85,5 +87,47 @@ public class MemberService {
         return MemberResponse.of(member);
     }
 
+    @Transactional
+    public void updateUser(int id, UpdateUserRequest updateUserRequest, HttpServletRequest request) throws JsonProcessingException {
+        Members member = memberRepository.findById(id)
+                .orElseThrow(()->new BadRequestException("유저가 존재하지 않습니다."));
+
+        Token tk = jwtProvider.getToken(request.getHeader("Authorization"));
+
+        if(!tk.getEmail().equals(member.getEmail())) throw new BadRequestException("토큰 정보가 다릅니다.");
+
+        member.setPhone(updateUserRequest.getPhone());
+
+        String encodedPassword = passwordEncoder.encode(updateUserRequest.getPassword());
+        member.setPassword(encodedPassword);
+
+        member = memberRepository.save(member);
+    }
+
+    @Transactional
+    public void updatePartner(int id, UpdatePartnerRequest updatePartnerRequest, HttpServletRequest request) throws JsonProcessingException {
+        Members member = memberRepository.findById(id)
+                .orElseThrow(()->new BadRequestException("유저가 존재하지 않습니다."));
+
+        Token tk = jwtProvider.getToken(request.getHeader("Authorization"));
+
+        if(!tk.getEmail().equals(member.getEmail())) throw new BadRequestException("토큰 정보가 다릅니다.");
+
+        member.setName(updatePartnerRequest.getName());
+        member.setPCeo(updatePartnerRequest.getPCeo());
+        member.setPExp(updatePartnerRequest.getPExp());
+        member.setPhone(updatePartnerRequest.getPhone());
+        member.setPEmpCnt(updatePartnerRequest.getPEmpCnt());
+        member.setPStartTime(updatePartnerRequest.getPStartTime());
+        member.setPEndTime(updatePartnerRequest.getPEndTime());
+        member.setPDesc(updatePartnerRequest.getPDesc());
+        member.setPLocation(updatePartnerRequest.getPLocation());
+        member.setProfileUrl(updatePartnerRequest.getProfileUrl());
+
+        String encodedPassword = passwordEncoder.encode(updatePartnerRequest.getPassword());
+        member.setPassword(encodedPassword);
+
+        member = memberRepository.save(member);
+    }
 
 }
