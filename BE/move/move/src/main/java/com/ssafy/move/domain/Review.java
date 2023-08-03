@@ -28,7 +28,7 @@ public class Review {
     @Column(name = "r_content")
     private String rContent;
 
-    @Column(name = "r_create_time")
+    @Column(name = "r_create_time", insertable = false)
     private String rCreateTime;
 
 
