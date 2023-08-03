@@ -109,6 +109,7 @@ const RenderMoverSignUpForm = props => {
                 <InputBox label='비밀번호 확인' type='password' name='checkPass' placeholder='다시 한번 입력해주세요' required value={formData.checkPass} onChange={changeHandler}>
                     {messages.checkPass && <div className={`message ${isValid.checkPass ? 'success' : 'error'}`}>{messages.checkPass}</div>}
                 </InputBox>
+                <div>{RenderButton}</div>
             </form>
         </div>
     );
@@ -117,7 +118,6 @@ const RenderMoverSignUpForm = props => {
         <Card>
             <div className='title'>파트너 회원가입</div>
             <div>{RenderInputBox}</div>
-            <div>{RenderButton}</div>
         </Card>
     );
 };
