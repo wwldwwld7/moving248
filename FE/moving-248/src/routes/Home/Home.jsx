@@ -29,7 +29,7 @@ export default function Home() {
 
             <section className='max-container section home__sec-two-container-outer'>
                 <div className='home__sec-two-one-container inner__section'>
-                    <img className='home__img' src={require(`../../assets/image/broadcast.jpg`)} alt='img' />
+                    <img className='home__img' src={require(`../../assets/image/video-chat.jpg`)} alt='img' />
                 </div>
                 <div className='home__sec-two-two-container inner__section'>
                     <h1 className='home__h1'>

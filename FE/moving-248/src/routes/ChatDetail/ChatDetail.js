@@ -1,4 +1,4 @@
-import Header from '../../components/header/Header.js';
+import Header from '../../components/header/Header.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane, faVideo, faUser } from '@fortawesome/free-solid-svg-icons';
 import './ChatDetail.css';
