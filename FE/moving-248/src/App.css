@@ -115,20 +115,6 @@ p {
     margin: auto;
 }
 
-.sec-two-one-container {
-    flex-grow: 1;
-
-    box-sizing: border-box;
-    margin-right: var(--size-half-margin);
-    width: calc(var(--size-left-width) - var(--size-half-margin));
-}
-.sec-two-two-container {
-    margin-top: 20px;
-    flex-grow: 1;
-    width: var(--size-right-width);
-    box-sizing: border-box;
-}
-
 section {
     padding: 0 1rem;
 }
@@ -140,6 +126,46 @@ section {
 .section-divide {
     width: 100%;
     border: 0.5px solid var(--color-primary-variant);
+}
+
+.overlap-imgbox {
+    margin-top: calc(-2 * var(--size-section-margin));
+    z-index: 998;
+}
+
+/* **********sec-two-container********** */
+.apply-detail {
+    background-color: #fffdfc;
+}
+
+.sec-two-container__h2 {
+    text-align: center;
+    padding-bottom: 3rem;
+}
+
+.sec-two-container__h4 {
+    padding-bottom: 0.5rem;
+}
+
+.sec-two-container__paragraph {
+    padding-bottom: 2rem;
+}
+
+.sec-two-one-container {
+    display: flex;
+    flex-direction: column;
+    padding: 5rem;
+    background-color: white;
+    border: 2px solid var(--color-primary-variant);
+    border-radius: 5px;
+
+    box-sizing: border-box;
+    margin-right: var(--size-half-margin);
+    width: calc(var(--size-left-width) - var(--size-half-margin));
+}
+.sec-two-two-container {
+    width: var(--size-right-width);
+    box-sizing: border-box;
 }
 
 /* 최소 768px 이상, 최대 984px 이하 */
@@ -177,5 +203,25 @@ section {
 
     .section {
         flex-direction: column;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h4 {
+        font-size: 1.2rem;
+    }
+
+    .dynamic {
+        font-size: 0.8rem;
+    }
+
+    .sec-two-one-container {
+        padding: 3rem;
+    }
+
+    .sec-two-two-container {
+        padding: 3rem;
     }
 }

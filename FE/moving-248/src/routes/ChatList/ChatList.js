@@ -1,4 +1,4 @@
-import Header from '../../components/header/Header.js';
+import Header from '../../components/header/Header.jsx';
 import './ChatList.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
