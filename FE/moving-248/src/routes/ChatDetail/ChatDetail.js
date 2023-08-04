@@ -10,7 +10,33 @@ export default function ChatDetail() {
     const handleMessageSubmit = message => {
         setMessages([...messages, { user: '이사왕김이사', text: message }]);
     };
+    var list = [
+        {
+            m_id: 'sss',
+            c_message: '123',
+        },
+        {
+            m_id: 'ddd',
+            c_message: '123',
+        },
+        {
+            m_id: 'sss',
+            c_message: '123',
+        },
+        {
+            m_id: 'ddd',
+            c_message: '123',
+        },
+        {
+            m_id: 'sss',
+            c_message: '123',
+        },
+    ];
     const myId = 'sss';
+    const p_id = 'sss';
+    const u_id = 'sss';
+    const m_id = 'sss';
+
     const memberType = 'p';
     useEffect(() => {
         const handleResize = () => {
@@ -25,20 +51,24 @@ export default function ChatDetail() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const [data, setData] = useState([]);
+    const [data, setData] = useState();
 
     useEffect(() => {
-        // GET 요청 보내기
-        axios
-            .get('https://i9b301asddasd/data')
-            .then(response => {
-                // 받은 데이터를 상태로 설정
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        // 컴포넌트가 마운트되면 getData 함수를 5초마다 호출하는 interval을 시작
+        const interval = setInterval(getData, 5000);
+
+        // 컴포넌트가 언마운트될 때 interval을 정리(cleanup)
+        return () => clearInterval(interval);
     }, []);
+
+    const getData = async () => {
+        try {
+            const response = await axios.get(`https://i9b301.p.ssafy.io:8080/chat/message/${p_id}/${u_id}/${m_id}`); // GET 요청을 보냄
+            setData(response.data); // 받아온 데이터를 상태에 저장
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     return (
         <div className='ro'>
@@ -63,19 +93,17 @@ export default function ChatDetail() {
                     대화방 나가기
                 </button>
             </div>
-            {data.map((item, index) =>
-                item.m_id === { myId } ? (
-                    <div className='chat-box'>
-                        <div className='chat-messages'>
+            <div className='chat-box'>
+                {list.map((item, index) =>
+                    item.m_id === myId ? (
+                        <div className='chat-messagesRight'>
                             <div className='messageBoxs'>
                                 <ChatMessage className='chatMessage' key={index} user={item.m_id} text={item.c_message} />
                             </div>
                             {/* {messages.map((message, index) => (
                         ))} */}
                         </div>
-                    </div>
-                ) : (
-                    <div className='chat-boxLeft'>
+                    ) : (
                         <div className='chat-messages'>
                             <div className='messageBoxs'>
                                 <ChatMessageLeft className='chatMessage' key={index} user={item.m_id} text={item.c_message} />
@@ -83,46 +111,11 @@ export default function ChatDetail() {
                             {/* {messages.map((message, index) => (
                             ))} */}
                         </div>
-                    </div>
-                )
-            )}
-            {memberType === 'm' ? (
-                <div className='chat-box'>
-                    <div className='chat-messages'>
-                        {messages.map((message, index) => (
-                            <div className='messageBoxs'>
-                                <ChatMessage className='chatMessage' key={index} user={message.user} text={message.text} />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            ) : (
-                <div className='chat-boxLeft'>
-                    <div className='chat-messages'>
-                        {messages.map((message, index) => (
-                            <div className='messageBoxs'>
-                                <ChatMessageLeft className='chatMessage' key={index} user={message.user} text={message.text} />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-            <ChatInput onMessageSubmit={handleMessageSubmit} />
-            {/* <div className='sendCam'>
-                <FontAwesomeIcon
-                    icon={faPaperPlane}
-                    onClick={() => {
-                        window.open('https://i9b301.p.ssafy.io/', '_blank', 'width=700, height=700');
-                    }}
-                />
+                    )
+                )}
+            </div>
 
-                <FontAwesomeIcon
-                    icon={faVideo}
-                    onClick={() => {
-                        window.open('https://i9b301.p.ssafy.io/', '_blank', 'width=700, height=700');
-                    }}
-                />
-            </div> */}
+            <ChatInput onMessageSubmit={handleMessageSubmit} />
         </div>
     );
 }
@@ -143,7 +136,9 @@ const ChatMessageLeft = ({ user, text }) => {
 const ChatMessage = ({ user, text }) => {
     return (
         <div className='messages'>
-            <span className='date'>2020.02.02</span>
+            <span className='date'>
+                <div className='dateDiv'>2020.02.02</div>
+            </span>
             <div className='test'>
                 <span className='text'>{text}</span>
 
@@ -181,10 +176,10 @@ const ChatInput = ({ onMessageSubmit }) => {
     const handleKeyDown = e => {
         if (e.key === 'Enter') {
             e.preventDefault(); // Enter 키의 기본 동작을 막습니다.
-            handleSubmit(e);
+            // handleSubmit(e);
 
             axios
-                .post('https://i9b301asddasd/chat/message/{p_id}/{u_id}')
+                .post('https://localhost:8080/chat/message/{p_id}/{u_id}')
                 .then(response => {
                     setMessage(response.data);
                 })
@@ -213,55 +208,3 @@ const ChatInput = ({ onMessageSubmit }) => {
         </form>
     );
 };
-
-// export default function ChatDetail() {
-//     const [messages, setMessages] = useState([]);
-//     const [inputText, setInputText] = useState('');
-//     const innerRef = useRef(null);
-
-//     const handleKeyPress = e => {
-//         if (e.key === 'Enter' && inputText.trim() !== '') {
-//             const newMessage = {
-//                 text: inputText.trim(),
-//                 time: currentTime(),
-//                 class: 'your-class-name', // Replace with your custom class name
-//             };
-//             setMessages(prevMessages => [...prevMessages, newMessage]);
-//             setInputText('');
-//         }
-//     };
-
-//     const currentTime = () => {
-//         const date = new Date();
-//         const hh = date.getHours();
-//         const mm = date.getMinutes();
-//         const apm = hh >= 12 ? '오후' : '오전';
-//         const ct = `${apm} ${hh}:${mm}`;
-//         return ct;
-//     };
-
-//     useEffect(() => {
-//         const lastItem = innerRef.current.lastChild;
-//         if (lastItem) {
-//             lastItem.classList.add('on');
-//             const position = lastItem.offsetTop;
-//             innerRef.current.scrollTop = position;
-//         }
-//     }, [messages]);
-
-//     return (
-//         <div className='chat_wrap'>
-//             <div className='inner' ref={innerRef}>
-//                 {messages.map((message, index) => (
-//                     <div key={index} className={`item ${message.class}`}>
-//                         <div className='box'>
-//                             <p className='msg'>{message.text}</p>
-//                             <span className='time'>{message.time}</span>
-//                         </div>
-//                     </div>
-//                 ))}
-//             </div>
-//             <input type='text' value={inputText} onChange={e => setInputText(e.target.value)} onKeyPress={handleKeyPress} placeholder='메시지를 입력하세요. 채팅 박스 크기가 자동으로 조절됩니다.' />
-//         </div>
-//     );
-// }
