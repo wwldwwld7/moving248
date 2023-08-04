@@ -1,0 +1,9 @@
+.suggestion-block__btn-outer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.suggestion-block__btn {
+    margin-left: 1rem;
+}
