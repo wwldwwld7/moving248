@@ -33,6 +33,7 @@ public class S3Config {
         return AwsBasicCredentials.create(accessKey, secretKey);
     }
 
+
     @Bean
     public S3Client s3Client(AwsCredentials awsCredentials) {
         return S3Client.builder()

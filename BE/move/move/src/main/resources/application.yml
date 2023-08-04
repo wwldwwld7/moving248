@@ -4,13 +4,15 @@ spring:
     url: jdbc:mysql://localhost:3306/test2
     username: root
     password: ssafy
-
+---
+spring:
   profiles:
     group:
       "local": "local, common"
       "development": "development, common"
     active: local
-
+---
+spring:
   config:
     activate:
       on-profile: "common"
@@ -18,17 +20,6 @@ spring:
     multipart:
       max-file-size: 1GB
       max-request-size: 1GB
-
-cloud:
-  aws:
-    region:
-      static: ap-northeast-2
-    s3:
-      bucket: yeonybucket
-    stack:
-      auto: false
-
-
   jpa:
     hibernate:
       ddl-auto: none
@@ -47,6 +38,17 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: error
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: yeonybucket
+    stack:
+      auto: false
+    credentials:
+      instance-profile: true
 
 ---
 # 로컬 환경

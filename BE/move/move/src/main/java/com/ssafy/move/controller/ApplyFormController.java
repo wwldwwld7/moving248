@@ -112,14 +112,6 @@ public class ApplyFormController {
 
     }
 
-    // 제안서 정렬
-    @GetMapping("/{f_id}/{option}")
-    public ResponseEntity<?> sortSuggestion(@PathVariable int f_id, @PathVariable int option){
-
-        List<DetailSuggestionResponseDto> resultList = suggestionService.sortSuggestion(f_id, option);
-
-        return new ResponseEntity<List<DetailSuggestionResponseDto>>(resultList, HttpStatus.OK);
-    }
     
     // 이사완료
     @PutMapping("/status/{f_id}")
@@ -207,6 +199,14 @@ public class ApplyFormController {
 
     }
 
+    // 견적서 정렬
+    @GetMapping("/{f_id}/{option}")
+    public ResponseEntity<?> sortSuggestion(@PathVariable int f_id, @PathVariable int option){
+
+        List<DetailSuggestionResponseDto> resultList = suggestionService.sortSuggestion(f_id, option);
+
+        return new ResponseEntity<List<DetailSuggestionResponseDto>>(resultList, HttpStatus.OK);
+    }
 
 
 

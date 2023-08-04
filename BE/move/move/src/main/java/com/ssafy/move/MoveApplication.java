@@ -4,16 +4,23 @@ import com.ssafy.move.domain.FormStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 
 import javax.persistence.EntityManager;
 
 @SpringBootApplication
 public class MoveApplication {
+
+	public static final String APPLICATION_LOCATIONS = "spring.config.location=" +
+			"classpath:application.yml," +
+			"classpath:aws.yml";
 	
 	public static void main(String[] args) {
 
 
-		SpringApplication.run(MoveApplication.class, args);
+		new SpringApplicationBuilder(MoveApplication.class)
+				.properties(APPLICATION_LOCATIONS)
+				.run(args);
 	}
 
 }
