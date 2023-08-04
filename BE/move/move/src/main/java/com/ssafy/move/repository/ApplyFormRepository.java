@@ -81,10 +81,9 @@ public class ApplyFormRepository {
 
         //String jpql = "select a from ApplyForm a order by a.fModifyTime DESC ";
 
-        String jpql = "SELECT a, b, c from ApplyForm a, FormStatus b, MoveCategory c " +
-                "where a.fStatus = b.statusCode " +
-                "and a.fCategory = c.categoryCode " +
-                "order by a.fCreateTime desc";
+        String jpql = "SELECT a, c from ApplyForm a, MoveCategory c " +
+                "where a.fCategory = c.categoryCode " +
+                "order by a.fModifyTime desc";
 
         List<Tuple> resultList = em.createQuery(jpql, Tuple.class).getResultList();
 
@@ -106,30 +105,29 @@ public class ApplyFormRepository {
 
             // 시도에서 전국일때
             if (sido.equals("0")){
-                jpql = "select a, b, c from ApplyForm a, FormStatus b, MoveCategory c " +
-                        "where a.fStatus = b.statusCode " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc ";
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
+                        "where a.fCategory = c.categoryCode " +
+                        "order by a.fModifyTime desc ";
 
                 resultList = em.createQuery(jpql, Tuple.class).getResultList();
             }
             // 시도는 값이 있고 군구에서 전체 일때
             else if(!sido.equals("0") &&  gungu.equals("0")){
-                jpql = "select a, b, c from ApplyForm a , FormStatus b, MoveCategory c " +
-                        "where a.fStatus = b.statusCode and a.fDepSido = :sido " +
+                jpql = "select a, c from ApplyForm a , MoveCategory c " +
+                        "where a.fDepSido = :sido " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
 
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("sido", sido).getResultList();
             }
             // 시도와 군구 모두 값이 있을 때
             else {
-                jpql = "select a, b, c from ApplyForm a, FormStatus b, MoveCategory c " +
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
                         "where a.fDepSido = :sido " +
-                        "and a.fDepGungu = :gungu and a.fStatus = b.statusCode " +
+                        "and a.fDepGungu = :gungu " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("sido", sido)
                         .setParameter("gungu", gungu)
@@ -141,10 +139,10 @@ public class ApplyFormRepository {
 
             // 시도에서 전국일때
             if (sido.equals("0")){
-                jpql = "select a, b, c from ApplyForm a, FormStatus b, MoveCategory c " +
-                        "where a.pId.id = :pId and a.fStatus = b.statusCode " +
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
+                        "where a.pId.id = :pId " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
 
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("pId", pId)
@@ -152,11 +150,10 @@ public class ApplyFormRepository {
             }
             // 시도는 값이 있고 군구에서 전체 일때
             else if(!sido.equals("0") &&  gungu.equals("0")){
-                jpql = "select a, b, c from ApplyForm a, FormStatus b, MoveCategory c " +
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
                         "where a.fDepSido = :sido and a.pId.id = :pId " +
-                        "and a.fStatus = b.statusCode " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
 
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("sido", sido)
@@ -165,11 +162,11 @@ public class ApplyFormRepository {
             }
             // 시도와 군구 모두 값이 있을 때
             else {
-                jpql = "select a, b, c from ApplyForm a, FormStatus  b, MoveCategory c " +
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
                         "where a.fDepSido = :sido and a.fDepGungu = :gungu " +
-                        "and a.pId.id = :pId and a.fStatus = b.statusCode " +
+                        "and a.pId.id = :pId " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
 
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("sido", sido)
@@ -185,10 +182,10 @@ public class ApplyFormRepository {
 
             // 시도에서 전국일때
             if (sido.equals("0")){
-                jpql = "select a, b, c from ApplyForm a, FormStatus b, MoveCategory c " +
-                        "where a.pId.id != :pId and a.fStatus = b.statusCode " +
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
+                        "where a.pId.id != :pId " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
 
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("pId", pId)
@@ -196,11 +193,10 @@ public class ApplyFormRepository {
             }
             // 시도는 값이 있고 군구에서 전체 일때
             else if(!sido.equals("0") &&  gungu.equals("0")){
-                jpql = "select a, b, c from ApplyForm a, FormStatus b, MoveCategory c " +
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
                         "where a.fDepSido = :sido and a.pId.id != :pId " +
-                        "and a.fStatus = b.statusCode " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
 
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("sido", sido)
@@ -209,11 +205,11 @@ public class ApplyFormRepository {
             }
             // 시도와 군구 모두 값이 있을 때
             else {
-                jpql = "select a, b, c from ApplyForm a, FormStatus  b, MoveCategory c " +
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
                         "where a.fDepSido = :sido and a.fDepGungu = :gungu " +
-                        "and a.pId.id != :pId and a.fStatus = b.statusCode " +
+                        "and a.pId.id != :pId " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
 
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("sido", sido)
@@ -227,22 +223,21 @@ public class ApplyFormRepository {
 
             // 시도에서 전국일때
             if (sido.equals("0")){
-                jpql = "select a, b, c from ApplyForm a, FormStatus b, MoveCategory c " +
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
                         "where a.pId.id = :pId and a.fStatus=2 " +
-                        "and a.fStatus = b.statusCode " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("pId", pId)
                         .getResultList();
             }
             // 시도는 값이 있고 군구에서 전체 일때
             else if(!sido.equals("0") &&  gungu.equals("0")){
-                jpql = "select a, b, c from ApplyForm a, FormStatus b, MoveCategory c " +
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
                         "where a.fDepSido = :sido and a.pId.id = :pId " +
-                        "and a.fStatus=2 and a.fStatus = b.statusCode " +
+                        "and a.fStatus=2 " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("sido", sido)
                         .setParameter("pId", pId)
@@ -250,12 +245,11 @@ public class ApplyFormRepository {
             }
             // 시도와 군구 모두 값이 있을 때
             else {
-                jpql = "select a, b, c from ApplyForm a, FormStatus  b, MoveCategory c " +
+                jpql = "select a, c from ApplyForm a, MoveCategory c " +
                         "where a.fDepSido = :sido and a.fDepGungu = :gungu " +
                         "and a.pId.id = :pId and a.fStatus=2 " +
-                        "and a.fStatus = b.statusCode " +
                         "and a.fCategory = c.categoryCode " +
-                        "order by a.fCreateTime desc";
+                        "order by a.fModifyTime desc";
                 resultList = em.createQuery(jpql, Tuple.class)
                         .setParameter("sido", sido)
                         .setParameter("gungu", gungu)
@@ -273,8 +267,8 @@ public class ApplyFormRepository {
 
 
 
-        String jpql = "select a,b,c from ApplyForm a, FormStatus b, MoveCategory c " +
-                "where a.id = :fId and a.fStatus = b.statusCode and  a.fCategory = c.categoryCode";
+        String jpql = "select a,c from ApplyForm a, MoveCategory c " +
+                "where a.id = :fId  and  a.fCategory = c.categoryCode";
 
         List<Tuple> resultList = em.createQuery(jpql, Tuple.class)
                 .setParameter("fId", fId)

@@ -16,5 +16,6 @@ public class DetailSuggestionResponseDto {
     private int s_money;
     private String s_desc;
     private String s_create_time;
+    private String is_selected;
 
 }

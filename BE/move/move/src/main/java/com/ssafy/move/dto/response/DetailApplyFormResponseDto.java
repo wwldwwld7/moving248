@@ -15,6 +15,7 @@ public class DetailApplyFormResponseDto {
     private int f_id;
     private int u_id;
     private int p_id;
+    private String userName;
     private String f_category;
     private String f_date;
     private String f_dep_sido;
@@ -27,7 +28,7 @@ public class DetailApplyFormResponseDto {
     private char f_arr_ladder;
     private String f_room_video_url;
     private String f_req_desc;
-    private String f_status;
+    private int f_status;
 
     private List<DetailSuggestionResponseDto> list;
 

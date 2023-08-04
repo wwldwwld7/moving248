@@ -11,7 +11,7 @@ import lombok.ToString;
 public class ApplyFormResponseDto {
 
     private int f_id;
-    private String f_status;
+    private int f_status;
     private String f_date;
     private String f_dep_sido;
     private String f_dep_gungu;

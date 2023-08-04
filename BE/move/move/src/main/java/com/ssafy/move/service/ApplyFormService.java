@@ -112,12 +112,12 @@ public class ApplyFormService {
             ApplyFormResponseDto applyFormResponseDto = new ApplyFormResponseDto();
 
             ApplyForm applyForm = af.get(0,ApplyForm.class);
-            FormStatus formStatus = af.get(1, FormStatus.class);
-            MoveCategory moveCategory = af.get(2, MoveCategory.class);
+           //FormStatus formStatus = af.get(1, FormStatus.class);
+            MoveCategory moveCategory = af.get(1, MoveCategory.class);
 
 
             applyFormResponseDto.setF_id(applyForm.getId());
-            applyFormResponseDto.setF_status(formStatus.getStatusName());
+            applyFormResponseDto.setF_status(applyForm.getFStatus()-'0');
             applyFormResponseDto.setF_date(applyForm.getFDate());
             applyFormResponseDto.setF_dep_sido(applyForm.getFDepSido());
             applyFormResponseDto.setF_dep_gungu(applyForm.getFDepGungu());
@@ -143,13 +143,13 @@ public class ApplyFormService {
         for(Tuple af : option){
 
             ApplyForm applyForm = af.get(0,ApplyForm.class);
-            FormStatus formStatus = af.get(1, FormStatus.class);
-            MoveCategory moveCategory = af.get(2, MoveCategory.class);
+            //FormStatus formStatus = af.get(1, FormStatus.class);
+            MoveCategory moveCategory = af.get(1, MoveCategory.class);
 
 
             ApplyFormResponseDto applyFormResponseDto = new ApplyFormResponseDto(
 
-                    applyForm.getId(), formStatus.getStatusName(), applyForm.getFDate(),
+                    applyForm.getId(), (applyForm.getFStatus()-'0'), applyForm.getFDate(),
                     applyForm.getFDepSido(), applyForm.getFDepGungu(), applyForm.getFArrSido(),
                     applyForm.getFArrGungu(), moveCategory.getCategoryName()
             );
@@ -170,12 +170,13 @@ public class ApplyFormService {
         for(Tuple af : detail){
 
             ApplyForm applyForm = af.get(0, ApplyForm.class);
-            FormStatus formStatus = af.get(1, FormStatus.class);
-            MoveCategory moveCategory = af.get(2, MoveCategory.class);
+            //FormStatus formStatus = af.get(1, FormStatus.class);
+            MoveCategory moveCategory = af.get(1, MoveCategory.class);
 
             detailApply.setF_id(applyForm.getId());
             detailApply.setU_id(applyForm.getUId().getId());
             detailApply.setP_id(applyForm.getPId().getId());
+            detailApply.setUserName(applyForm.getUId().getName());
             detailApply.setF_category(moveCategory.getCategoryName());
             detailApply.setF_date(applyForm.getFDate());
             detailApply.setF_dep_sido(applyForm.getFDepSido());
@@ -188,7 +189,7 @@ public class ApplyFormService {
             detailApply.setF_arr_ladder(applyForm.getFArrLadder());
             detailApply.setF_room_video_url(applyForm.getFRoomVideoUrl());
             detailApply.setF_req_desc(applyForm.getFReqDesc());
-            detailApply.setF_status(formStatus.getStatusName());
+            detailApply.setF_status(applyForm.getFStatus()-'0'); // int 여서
         }
 
         List<DetailSuggestionResponseDto> suggestionResponseDtoList = new ArrayList<>();
@@ -205,6 +206,13 @@ public class ApplyFormService {
             detailSuggestion.setS_desc(s.getSDesc());
             detailSuggestion.setS_create_time(s.getSModifyTime());
 
+            // 만약 제안서의 업체id 와 신청서의 업체 아이디와 같다면
+            if (s.getPId().getId() == detailApply.getP_id()){
+                detailSuggestion.setIs_selected("t");
+            } else {
+                detailSuggestion.setIs_selected("f");
+            }
+
             suggestionResponseDtoList.add(detailSuggestion);
         }
 
@@ -219,11 +227,11 @@ public class ApplyFormService {
     @Transactional
     public List<SidoResponseDto> getSido(){
 
-        List<Sido> sido = applyFormRepository.getSido();
+        List<Sido> sidoList = applyFormRepository.getSido();
 
         List<SidoResponseDto> list = new ArrayList<>();
 
-        for(Sido si : sido){
+        for(Sido si : sidoList){
 
             SidoResponseDto sidoResponseDto = new SidoResponseDto(si.getSidoCode(),si.getSidoName());
 
@@ -254,6 +262,7 @@ public class ApplyFormService {
     // 신청서 상태 수정
     @Transactional
     public void updateFormStatus(int fId){
+        //
         applyFormRepository.updateFormStatus(fId);
     }
 

@@ -124,6 +124,12 @@ public class SuggestionService {
             detail.setS_desc(s.getSDesc());
             detail.setS_create_time(s.getSModifyTime());
 
+            if (s.getFId().getPId() == s.getPId()){
+                detail.setIs_selected("t");
+            } else {
+                detail.setIs_selected("f");
+            }
+
             resultList.add(detail);
         }
         return resultList;
