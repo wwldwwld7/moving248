@@ -5,6 +5,29 @@ spring:
     username: root
     password: ssafy
 
+  profiles:
+    group:
+      "local": "local, common"
+      "development": "development, common"
+    active: local
+
+  config:
+    activate:
+      on-profile: "common"
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: yeonybucket
+    stack:
+      auto: false
+
 
   jpa:
     hibernate:
@@ -17,3 +40,27 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
+
+---
+# 로컬 환경
+spring:
+  environment: "local"
+  config:
+    activate:
+      on-profile: "local"
+  file-dir: /src/main/resources/static/files/
+---
+# 배포 환경
+spring:
+  environment: "development"
+  config:
+    activate:
+      on-profile: "development"
+  file-dir: /home/ubuntu/fileupload/
