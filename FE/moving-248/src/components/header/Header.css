@@ -17,7 +17,7 @@ header {
     width: 100%;
 
     padding: 0.8rem 1rem;
-    /* background-color: blue; */
+    z-index: 999;
 }
 
 .header__inner {
@@ -28,7 +28,6 @@ header {
     display: flex; /* 가지고 있는 태그들을 나란히 배치 */
     justify-content: space-between; /* 태그들을 양옆으로 붙이고 자동 간격 */
     align-items: center; /* 수직 가운데 */
-    z-index: 1;
     transition: all 300ms ease;
 }
 
