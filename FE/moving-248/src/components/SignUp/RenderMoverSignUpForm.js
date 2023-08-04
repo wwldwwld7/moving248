@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Card from '../UI/Card';
 import InputBox from '../UI/InputBox';
 import Buttons from '../UI/Buttons';
+import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 const RenderMoverSignUpForm = props => {
     const [formData, setFormData] = useState({
@@ -74,13 +76,35 @@ const RenderMoverSignUpForm = props => {
         }
     };
 
+    const moveToHome = useNavigate();
     const submitHandler = e => {
         e.preventDefault();
 
+        const data = {
+            name: formData.username,
+            phone: formData.telephone,
+            email: formData.email,
+            password: formData.password
+        };
+
+        axios.post('/member/user', data)
+        .then((res) => {
+            if(res.request.statusText=="Created"){
+                alert("회원가입 완료");
+                moveToHome('/');
+            }
+            // console.log(res);
+        })
+        .catch((err) => {
+            if(err.response.status==500){
+                alert("이미 존재하는 이메일 입니다.");
+            }
+        });
+
         // Validation check
-        if (isValid.username && isValid.email && isValid.telephone && isValid.password && isValid.checkPass) {
-            console.log('Form submitted successfully!');
-        }
+        // if (isValid.username && isValid.email && isValid.telephone && isValid.password && isValid.checkPass) {
+        //     console.log('Form submitted successfully!');
+        // }
 
         // 넣어라 api call login here
     };

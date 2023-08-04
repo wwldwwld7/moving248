@@ -6,6 +6,8 @@ import Card from '../UI/Card';
 import InputBox from '../UI/InputBox';
 import Buttons from '../UI/Buttons';
 import Modal from '../UI/Modal';
+import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 export default function RenderForm() {
     const database = [
@@ -67,22 +69,45 @@ export default function RenderForm() {
                 return '';
         }
     };
-
+    
+    const moveToHome = useNavigate();
     const submitHandler = e => {
         e.preventDefault();
 
-        // Validation check
-        if (isValid.email && isValid.password) {
-            const matchedUser = database.find(user => user.email === formData.email && user.password === formData.password);
 
-            if (matchedUser) {
-                setShowModal(true);
-                setLoginResult('Login successful!');
-            } else {
-                setShowModal(true);
-                setLoginResult('Login failed. Invalid email or password.');
+        const data = {
+            email: formData.email,
+            password: formData.password
+        };
+
+        axios.post('/member/login', data)
+        .then((res) => {
+            //res.data에 토큰 들어있음
+            //local storage에 저장해서 모든 request의 header에 "Authorizatoin" 이름으로 박아야 함.!!!!!!!!!!!!!!!
+            console.log(res.data);
+            localStorage.setItem("accessToken", res.data.accessToken);
+            localStorage.setItem("refreshToken", res.data.refreshToken);
+            //메인페이지로 이동
+            moveToHome('/');
+        })
+        .catch((err) => {
+            if(err.response.status==500){
+                alert("이메일 또는 비밀번호를 잘못 입력했습니다.");
             }
-        }
+        });
+
+        // Validation check
+        // if (isValid.email && isValid.password) {
+        //     const matchedUser = database.find(user => user.email === formData.email && user.password === formData.password);
+
+        //     if (matchedUser) {
+        //         setShowModal(true);
+        //         setLoginResult('Login successful!');
+        //     } else {
+        //         setShowModal(true);
+        //         setLoginResult('Login failed. Invalid email or password.');
+        //     }
+        // }
 
         // 넣어라 api call login here
     };
