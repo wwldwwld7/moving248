@@ -1,4 +1,4 @@
-.header {
+.head {
     text-align: center;
     background-color: #3a2c2b;
     color: white;
@@ -7,7 +7,7 @@
     padding-bottom: 20px;
     letter-spacing: 3px;
 }
-.root {
+.rot {
     height: 100vh;
     background-color: #f1ebd6;
 }
