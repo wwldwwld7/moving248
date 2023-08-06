@@ -226,6 +226,12 @@ section {
     text-align: center;
 }
 
+.sub-division {
+    width: 100%;
+    border: 0.5px solid var(--color-primary-variant);
+    margin: 50px 0;
+}
+
 /* 최소 768px 이상, 최대 984px 이하 */
 @media (min-width: 768px) and (max-width: 984px) {
     h1 {
@@ -285,6 +291,7 @@ section {
 
     .sec-two-two-container {
         padding: 3rem;
+        padding-bottom: 0px;
         border-top: 2px solid var(--color-primary-variant);
         margin-top: 77px;
     }

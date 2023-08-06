@@ -31,6 +31,9 @@
     margin-bottom: 2rem;
     display: flex;
     padding: 2rem;
+    position: relative;
+    padding-top: 3rem;
+    padding-bottom: 4rem;
 }
 
 .suggestion-block__image {
@@ -44,6 +47,11 @@
     padding-bottom: 0.5rem;
 }
 
-.apply-detail__sub-h2 {
-    padding-top: 29px;
+.suggestion-block__inner {
+    width: 100%;
+}
+
+.suggestion-block__h5 {
+    margin-top: 1rem;
+    margin-bottom: 5px;
 }
