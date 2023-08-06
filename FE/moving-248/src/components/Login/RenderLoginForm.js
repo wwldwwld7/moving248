@@ -91,10 +91,10 @@ export default function RenderForm() {
         <div className='form'>
             <form onSubmit={submitHandler}>
                 <InputBox label='이메일' type='text' name='email' placeholder='example@ssafy.com' required value={formData.username} onChange={changeHandler}>
-                    {messages.email && <div className={`message ${isValid.email ? 'success' : 'error'}`}>{messages.email}</div>}
+                    {messages.email && <div className={`eMessage ${isValid.email ? 'success' : 'error'}`}>{messages.email}</div>}
                 </InputBox>
                 <InputBox label='비밀번호' type='password' name='password' placeholder='비밀번호를 입력해주세요' required value={formData.password} onChange={changeHandler}>
-                    {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
+                    {messages.password && <div className={`eMessage ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
                 </InputBox>
                 <Buttons type='submit' text='이메일로 로그인하기' />
             </form>
