@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 // import ReactDom from 'react-dom';
-import Footer from '../../components/Footer/Footer';
-import Header from '../../components/header/Header';
-import ImgBox from '../../components/ImgBox/ImgBox';
 import './MoverMyPageDetail.css';
 import Buttons from '../UI/Buttons';
-import MoverMyPageHistory from './MoverMyPageHistory';
 import Modal from '../UI/Modal';
 
 const MoverMyPageDetail = props => {
@@ -19,55 +15,84 @@ const MoverMyPageDetail = props => {
     });
 
     const [showModal, setShowModal] = useState(false); // Modal 표시 여부 상태
+    const [isEditing, setIsEditing] = useState(false); // 편집 모드 여부 상태
 
     const handleDeleteClick = () => {
-        console.log('되니?');
         setShowModal(true); // "회원 탈퇴" 버튼 클릭 시 Modal 표시
     };
 
     const handleModalClose = () => {
-        console.log('닫어');
         setShowModal(false); // Modal 닫기
     };
 
     const handleConfirmDelete = () => {
-        // 여기에 "예" 버튼 클릭 시 동작을 추가하면 됩니다.
-        // 회원 탈퇴 등의 동작을 수행하거나 API 호출 등을 처리할 수 있습니다.
-        // ...
+        // 여기에 "예" 버튼 클릭 시 동작을 추가
 
         // Modal 닫기
-        console.log('닫어2');
-
         setShowModal(false);
     };
 
-    return (
-        <div className='apply-detail'>
-            <Header />
-            <ImgBox imgSrc='moving-box' imgTitle='무버 마이페이지' />
+    const handleEditClick = () => {
+        setIsEditing(true); // 정보 수정 버튼 클릭 시 편집 모드 활성화
+    };
 
-            <section className='max-container section'>
-                <div className='sec-two-one-container inner__section  overlap-imgbox'>
+    const handleSaveClick = () => {
+        // 여기에서 변경된 정보를 서버에 전송하고 편집 모드 비활성화
+
+        setIsEditing(false); // 편집 모드 비활성화
+    };
+
+    const handleUserInfoChange = e => {
+        const { name, value } = e.target;
+
+        setUserInfo(prevUserInfo => ({
+            ...prevUserInfo,
+            [name]: value,
+        }));
+    };
+
+    return (
+        <div className='sec-two-one-container inner__section  overlap-imgbox'>
                     <div className='mypage-detail-flexbox'>
                         <h1 className='sec-two-container__h2'>마이페이지</h1>
                     </div>
                     <div className='mypage-detail-flexbox vertical-align-center'>
                         <div className='vertical-center'>
-                            <h2>{userInfo.username} </h2>
+                            <h2>{isEditing ? 
+                            (
+                            <>이름 :
+                            <input className='textarea-editing'  name='username' value={userInfo.username} onChange={handleUserInfoChange} /> 
+                            </>
+                            )
+                            : userInfo.username}</h2>
                         </div>
                         <div className='vertical-center'>
-                            <h3>연락처 : {userInfo.phone} </h3>
+                        <h3>연락처 : {isEditing ? <input className='textarea-editing'  name='phone' value={userInfo.phone} onChange={handleUserInfoChange} /> : userInfo.phone}</h3>
                         </div>
                         <div className='vertical-center'>
-                            <h3>이메일 : {userInfo.email}</h3>
+                        <h3>이메일 : {isEditing ? <input type='text' name='email' value={userInfo.email} onChange={handleUserInfoChange} /> : userInfo.email}</h3>
                         </div>
                         <div>
-                            <img className='vertical-center-image' src={userInfo.profile_url} alt='Profile' />
+                        {isEditing ? (
+                            <>
+                                <h3>이미지 URL :</h3>
+                                <textarea className='textarea-editing' name='profile_url' value={userInfo.profile_url} onChange={handleUserInfoChange} />
+                            </>
+                            ) : (
+                                <img className='vertical-center-image' src={userInfo.profile_url} alt='Profile' />
+                            )}
                         </div>
                     </div>
 
                     <div className='mypage-detail-button-align'>
-                        <Buttons type='button' text='정보 수정' small={true} />
+                    {isEditing ? (
+                            <>
+                                <Buttons type='button' text='저장' small={true} onClick={handleSaveClick} />
+                                <Buttons type='button' text='취소' small={true} onClick={() => setIsEditing(false)} />
+                            </>
+                        ) : (
+                            <Buttons type='button' text='정보 수정' small={true} onClick={handleEditClick} />
+                        )}
                         <Buttons type='button' text='회원 탈퇴' small={true} delete={true} onClick={handleDeleteClick} />
                     </div>
                     <Modal
@@ -76,11 +101,6 @@ const MoverMyPageDetail = props => {
                         message='정말로 회원 탈퇴하시겠습니까?' // Modal에 표시할 메시지
                         onConfirm={handleConfirmDelete} // "예" 버튼 클릭 시 동작
                     />
-                </div>
-                <MoverMyPageHistory />
-            </section>
-
-            <Footer />
         </div>
     );
 };

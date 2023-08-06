@@ -1,0 +1,82 @@
+.mypage-detail-button-align {
+    display: flex;
+    flex-direction: row; /* 수평(행) 방향으로 정렬 */
+}
+
+.partner-outerbox {
+    width: 100%;
+    padding: 1.5rem;
+    /* border: 5px solid black; */
+    background-color: var(--color-primary-variant);
+    border-radius: 1rem;
+}
+
+.partner-innerbox {
+    display: flex;
+    flex-direction: column; /* 수직(열) 방향으로 정렬 */
+    background-color: white;
+    border-radius: 1rem;
+    width: 100%;
+    padding: 1.5rem;
+    margin: 1.5rem 0 1.5rem 0;
+    /* border: 5px solid black; */
+}
+.partner-innerbox div,
+h3 {
+    margin: 0.1rem 0 0.1rem 0;
+}
+
+.partner-innerbox-inline {
+    max-width: 40%;
+    display: flex;
+    flex-direction: row; /* 수평(행) 방향으로 정렬 */
+    justify-content: space-between;
+}
+
+.partner-innerbox-inline-align {
+    display: flex;
+    flex-direction: row; /* 수평(행) 방향으로 정렬 */
+    justify-content: space-between;
+}
+
+.partner-innerbox-label {
+    font-size: 1.2rem; /* 원하는 크기로 조정 */
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.partner-innerbox-value {
+    font-size: 1rem; /* 원하는 크기로 조정 */
+}
+
+.partner-innerbox-inline div {
+    margin-right: 2rem;
+}
+
+.partner-desc {
+    white-space: pre-line; /* 줄바꿈 및 공백 유지 */
+    max-width: 50%; /* 요소의 최대 너비를 50%로 설정 */
+    word-wrap: break-word; /* 긴 단어를 두 줄로 나누기 */
+}
+
+.partner-mypage-input {
+    width: 5rem;
+    height: 2rem;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.profile-mypage-desc {
+    width: 50%;
+    height: 150px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 1rem;
+    line-height: 1.5;
+}

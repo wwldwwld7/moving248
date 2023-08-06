@@ -11,6 +11,7 @@ import PartnerSignUp from './routes/SignUp/PartnerSignUp';
 import ApplyList from './routes/ApplyList/ApplyList';
 import ApplyDetail from './routes/ApplyDetail/ApplyDetail';
 import MoverMyPage from './routes/MyPage/MoverMyPage';
+import PartnerMyPage from './routes/MyPage/PartnerMyPage';
 
 function App() {
     return (
@@ -27,6 +28,8 @@ function App() {
                 <Route path='/apply-list' element={<ApplyList />} />
                 <Route path='/apply-detail' element={<ApplyDetail />} />
                 <Route path='/mover-my-page' element={<MoverMyPage />} />
+                <Route path='/partner-my-page' element={<PartnerMyPage />} />
+
                 {/* 동적 url 사용 */}
                 {/* <Route path='/movie/:id' element={<Detail />} /> */}
             </Routes>
