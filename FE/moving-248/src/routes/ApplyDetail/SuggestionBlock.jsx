@@ -8,7 +8,7 @@ export default function SuggestionBlock({ element, f_status }) {
         // Mover이고, 미확정 상태일 때
         if (user_status === 1 && f_status === 1) {
             return (
-                <div>
+                <div className='suggestion-block__btn-outer'>
                     <button className='btn-dynamic suggestion-block__btn'>문의하기</button>
                     <button className='btn-dynamic suggestion-block__btn'>확정하기</button>
                 </div>
@@ -17,7 +17,7 @@ export default function SuggestionBlock({ element, f_status }) {
         // Mover이고, 확정 상태이고, 확정된 견적서인 경우
         else if (user_status === 1 && f_status === 2 && element.is_selected === 't') {
             return (
-                <div>
+                <div className='suggestion-block__btn-outer'>
                     <button className='btn-dynamic suggestion-block__btn'>문의하기</button>
                     <button className='btn-dynamic suggestion-block__btn'>취소하기</button>
                 </div>
@@ -26,7 +26,7 @@ export default function SuggestionBlock({ element, f_status }) {
         // Partner이고, 본인의 글이며, 확정 상태일 때
         else if (user_status === 2 && element.f_id === user_id && f_status === 2) {
             return (
-                <div>
+                <div className='suggestion-block__btn-outer'>
                     <button className='btn-dynamic suggestion-block__btn'>문의하기</button>
                     <button className='btn-dynamic suggestion-block__btn'>취소하기</button>
                 </div>
@@ -47,12 +47,11 @@ export default function SuggestionBlock({ element, f_status }) {
                         &nbsp;&nbsp;|&nbsp;&nbsp;<b>이사 횟수</b> {element.p_move_cnt}
                     </span>
                 </p>
-
                 <p className='paragraph sec-two-container__paragraph'>{element.s_desc}</p>
                 <br />
-                <div className='suggestion-block__btn-outer'>
-                    {renderStatusMessage()} {/* 조건부 렌더링 */}
-                </div>
+            </div>
+            <div className='suggestion-block__btn-div'>
+                {renderStatusMessage()} {/* 조건부 렌더링 */}
             </div>
         </div>
     );

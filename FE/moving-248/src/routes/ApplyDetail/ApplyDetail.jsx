@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/header/Header';
 import ImgBox from '../../components/ImgBox/ImgBox';
 import './ApplyDetail.css';
 
 import SuggestionBlock from './SuggestionBlock';
+import SuggestionForm from './SuggestionForm';
 export default function ApplyDetail() {
+    const user_status = 2; // 전역으로 사용할 것임
+    const user_id = 4; // 전역으로 사용할 것임
+
     const [apply, setApply] = useState({
         f_id: 1,
         u_id: 2,
@@ -39,7 +43,7 @@ export default function ApplyDetail() {
                 is_selected: 't',
             },
             {
-                p_id: 3,
+                p_id: 4,
                 name: '라현이사',
                 profile_url: 'https://yeonybucket.s3.ap-northeast-2.amazonaws.com/image/9befd15a-ff15-4b4e-853e-d13e7aef09d00e351634-3ffe-4299-bf96-1daaaab119a2.jpg',
                 p_move_cnt: 50,
@@ -49,7 +53,7 @@ export default function ApplyDetail() {
                 is_selected: 'f',
             },
             {
-                p_id: 3,
+                p_id: 5,
                 name: '승용이사',
                 profile_url: 'https://yeonybucket.s3.ap-northeast-2.amazonaws.com/image/9befd15a-ff15-4b4e-853e-d13e7aef09d00e351634-3ffe-4299-bf96-1daaaab119a2.jpg',
                 p_move_cnt: 50,
@@ -61,10 +65,28 @@ export default function ApplyDetail() {
         ],
     });
 
+    useEffect(() => {
+        suggestion.list
+            .filter(element => element.p_id === user_id)
+            .map(element => {
+                // console.log(element);
+                return setMySuggestion({
+                    s_desc: element.s_desc,
+                    s_money: element.s_money,
+                });
+            });
+        // console.log(mySuggestion);
+    }, [suggestion]);
+
+    const [mySuggestion, setMySuggestion] = useState({
+        s_money: 0,
+        s_desc: '',
+    });
+
     const renderSelected = () => {
         return (
             <>
-                <h2 className='apply-detail__sub-h2-1 left-align'>확정된 견적서</h2>
+                <h2 className='left-align'>확정된 견적서</h2>
                 {apply.f_status === 2 || apply.f_status === 3 ? (
                     suggestion.list
                         .filter(element => element.is_selected === 't')
@@ -81,7 +103,8 @@ export default function ApplyDetail() {
     const renderAll = () => {
         return (
             <>
-                <h2 className='apply-detail__sub-h2 left-align'>제안된 견적서</h2>
+                <div className='sub-division'></div>
+                <h2 className='left-align'>제안된 견적서</h2>
                 {suggestion.list.length !== 0 ? (
                     suggestion.list
                         // .filter(element => element.is_selected !== 't')
@@ -91,6 +114,18 @@ export default function ApplyDetail() {
                 ) : (
                     <div className='suggestion-block center-align'>작성된 견적서가 없습니다.</div>
                 )}
+            </>
+        );
+    };
+
+    const renderSuggestionForm = () => {
+        return (
+            <>
+                {/* 아이디가 파트너일 때만 작성 가능하도록 수정해야 함! */}
+                {
+                    // 파트너인 경우
+                    user_status === 2 ? <SuggestionForm mySuggestion={mySuggestion} /> : null
+                }
             </>
         );
     };
@@ -170,11 +205,13 @@ export default function ApplyDetail() {
 
                 {/* [S] 견적서 */}
                 <div className='sec-two-two-container inner__section'>
-                    {/* [S] 확정된 견적서 */}
-
+                    {/* 확정된 견적서 */}
                     {renderSelected()}
-
+                    {/* 제안된 견적서 */}
                     {renderAll()}
+
+                    {/* 견적서 작성 Form */}
+                    {renderSuggestionForm()}
                 </div>
             </section>
 
