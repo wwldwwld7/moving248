@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './RenderLoginForm.css';
+import {useNavigate} from "react-router-dom";
+import {useCookies} from "react-cookie"
 
 import Card from '../UI/Card';
 import InputBox from '../UI/InputBox';
 import Buttons from '../UI/Buttons';
 import Modal from '../UI/Modal';
 import axios from 'axios';
-import {useNavigate} from "react-router-dom";
+
 
 export default function RenderForm() {
     const database = [
@@ -70,6 +72,7 @@ export default function RenderForm() {
         }
     };
     
+    const [cookies, setCookie] = useCookies(["refreshToken"]);
     const moveToHome = useNavigate();
     const submitHandler = e => {
         e.preventDefault();
@@ -84,14 +87,15 @@ export default function RenderForm() {
         .then((res) => {
             //res.data에 토큰 들어있음
             //local storage에 저장해서 모든 request의 header에 "Authorizatoin" 이름으로 박아야 함.!!!!!!!!!!!!!!!
-            console.log(res.data);
+            // console.log(res.data);
             localStorage.setItem("accessToken", res.data.accessToken);
-            localStorage.setItem("refreshToken", res.data.refreshToken);
+            setCookie("refreshToken", res.data.refreshToken);
+            console.log(localStorage.getItem("refeshToken"));
             //메인페이지로 이동
             moveToHome('/');
         })
         .catch((err) => {
-            if(err.response.status==500){
+            if(err.response.status===500){
                 alert("이메일 또는 비밀번호를 잘못 입력했습니다.");
             }
         });

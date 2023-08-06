@@ -81,7 +81,8 @@ const RenderMoverSignUpForm = props => {
         e.preventDefault();
 
         const data = {
-            name: formData.registnumber,
+            name: "김라현",
+            p_code: formData.registnumber,
             phone: formData.telephone,
             email: formData.email,
             password: formData.password
