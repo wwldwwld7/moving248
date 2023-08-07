@@ -7,6 +7,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class MemberResponse {
+    private final int m_id;
+
     private final String email;
 
     private final char memberType;
@@ -15,6 +17,7 @@ public class MemberResponse {
 
     public static MemberResponse of(Members member){
         return new MemberResponse(
+                member.getId(),
                 member.getEmail(),
                 member.getMemberType(),
                 member.getName()

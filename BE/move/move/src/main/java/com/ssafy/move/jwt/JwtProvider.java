@@ -56,7 +56,7 @@ public class JwtProvider {
         //redis에 refreshtoken저장
         redisService.setValue(memberResponse.getEmail(), refreshToken, Duration.ofMillis(rtkLive));
 
-        return new TokenResponse(accessToken, refreshToken);
+        return new TokenResponse(accessToken, refreshToken, memberResponse.getM_id(), memberResponse.getEmail(), memberResponse.getMemberType(), memberResponse.getName());
     }
 
     public String createToken(Token token, Long tokenLive) throws JsonProcessingException {
@@ -88,7 +88,7 @@ public class JwtProvider {
         String accessToken = createToken(atk, atkLive);
 //        System.out.println("토큰프로바이더"+accessToken);
 
-        return new TokenResponse(accessToken, null);
+        return new TokenResponse(accessToken, null, memberResponse.getM_id(), memberResponse.getEmail(), memberResponse.getMemberType(), memberResponse.getName());
     }
 
     //토큰의 권한 확인을 위한 요청이 들어오면
