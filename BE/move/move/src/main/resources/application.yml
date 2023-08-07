@@ -4,6 +4,22 @@ spring:
     url: jdbc:mysql://localhost:3306/test2
     username: root
     password: ssafy
+---
+spring:
+  profiles:
+    group:
+      "local": "local, common"
+      "development": "development, common"
+    active: local
+---
+spring:
+  config:
+    activate:
+      on-profile: "common"
+  servlet:
+    multipart:
+      max-file-size: 5GB
+      max-request-size: 5GB
 
   jwt:
     key: move248_secret_key_slakflkajlskjdflkjalksjdlfkjasjdlkfjlasjdlfjalsjfjasdfkjl
