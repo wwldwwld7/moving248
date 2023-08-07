@@ -54,7 +54,7 @@ public class JwtProvider {
         String refreshToken = createToken(rtk, rtkLive);
         
         //redis에 refreshtoken저장
-        redisService.setValue(memberResponse.getEmail(), refreshToken, Duration.ofMillis(rtkLive));
+        // redisService.setValue(memberResponse.getEmail(), refreshToken, Duration.ofMillis(rtkLive));
 
         return new TokenResponse(accessToken, refreshToken, memberResponse.getM_id(), memberResponse.getEmail(), memberResponse.getMemberType(), memberResponse.getName());
     }
