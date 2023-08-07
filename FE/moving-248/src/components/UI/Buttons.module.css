@@ -1,0 +1,53 @@
+.button_field {
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    background: #9b8d78;
+    border: 1px solid #9b8d78;
+    color: #fff;
+    width: 100%;
+    padding: 12px;
+}
+
+.button_field:hover {
+    width: 100%;
+    background: #3a2c2b;
+}
+
+/* .col-12 {
+    flex: 0 0 100%;
+} */
+
+/* input {
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    background: #9b8d78;
+    border: 1px solid #9b8d78;
+    color: #fff;
+    width: 100%;
+    padding: 12px;
+} */
+
+/* input {
+    width: 100%;
+    background: #3a2c2b;
+} */
+
+/* input[type='submit'],
+input[type='button'] {
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    background: #9b8d78;
+    border: 1px solid #9b8d78;
+    color: #fff;
+    width: 100%;
+    padding: 12px;
+} */
+
+/* input[type='submit']:hover,
+input[type='button']:hover {
+    width: 100%;
+    background: #3a2c2b;
+} */

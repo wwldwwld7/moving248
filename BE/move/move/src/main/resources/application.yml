@@ -4,22 +4,19 @@ spring:
     url: jdbc:mysql://localhost:3306/test2
     username: root
     password: ssafy
----
-spring:
-  profiles:
-    group:
-      "local": "local, common"
-      "development": "development, common"
-    active: local
----
-spring:
-  config:
-    activate:
-      on-profile: "common"
-  servlet:
-    multipart:
-      max-file-size: 1GB
-      max-request-size: 1GB
+
+  jwt:
+    key: move248_secret_key_slakflkajlskjdflkjalksjdlfkjasjdlkfjlasjdlfjalsjfjasdfkjl
+    live:
+      atk: 1800000 #30분
+#      atk: 30000
+      rtk: 7200000 #2시간
+
+  redis:
+    host: localhost
+    port: 6379
+#    password: your-redis-server-password (설정하지 않았다면 생략)
+
   jpa:
     hibernate:
       ddl-auto: none
