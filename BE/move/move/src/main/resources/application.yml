@@ -18,8 +18,8 @@ spring:
       on-profile: "common"
   servlet:
     multipart:
-      max-file-size: 1GB
-      max-request-size: 1GB
+      max-file-size: 5GB
+      max-request-size: 5GB
 
   jwt:
     key: move248_secret_key_slakflkajlskjdflkjalksjdlfkjasjdlkfjlasjdlfjalsjfjasdfkjl
