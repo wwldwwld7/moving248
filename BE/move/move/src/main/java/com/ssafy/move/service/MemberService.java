@@ -61,6 +61,8 @@ public class MemberService {
         member.setPassword(encodedPassword);
         member.setPCode(signUpPartnerRequest.getP_code());
         member.setPCeo(signUpPartnerRequest.getP_ceo());
+        int exp = 2023-Integer.parseInt(signUpPartnerRequest.getP_exp().substring(0,4));
+        member.setPExp(exp);
         member.setPLocation(signUpPartnerRequest.getP_location());
         member.setProfileUrl(signUpPartnerRequest.getProfile_url());
 

@@ -79,7 +79,8 @@ public class MemberController {
 
     //accesstoken 재발급
     @GetMapping("/reissue")
-    public TokenResponse reissue(@AuthenticationPrincipal MemberDetails memberDetails) throws JsonProcessingException {
+    public TokenResponse reissue(@AuthenticationPrincipal MemberDetails memberDetails, HttpServletRequest request) throws JsonProcessingException {
+//        System.out.println("권한"+request.getHeader("Authorization"));
         MemberResponse memberResponse = MemberResponse.of(memberDetails.getMembers());
 
         return jwtProvider.reissueAtk(memberResponse);

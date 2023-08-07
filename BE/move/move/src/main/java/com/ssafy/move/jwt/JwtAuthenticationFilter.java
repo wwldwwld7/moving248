@@ -30,6 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
        //request에서 토큰 빼온다.
         String authorization = request.getHeader("Authorization");
+//        System.out.println("author "+authorization);
 
         if(!Objects.isNull(authorization)){
             //만약 보낼때 "bearer "+토큰 이렇게 보냈으면 앞에 7글자를 없앤다.
@@ -37,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try{
                 //토큰에서 멤버의 정보를 가져온다.
                 Token tk = jwtProvider.getToken(authorization);
-
+//                System.out.println("??????"+tk);
                 //request의 헤더에 담겨있던 토큰이 refreshtoken인데 = atk 재발급 요청이 왔는데
                 // 요청 주소가 "/member/reissue"아니면 예외 던짐
                 String requestURI = request.getRequestURI();
@@ -53,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(token);
             }catch (JwtException e){
 
-                //여기서 accesstoken 재발급하는 코드 연결하면 될듯?
+                //여기서 accesstoken 재발급하는 코드 연결하면 될듯? 아닌듯 프론트에서 해야하는듯
 //                Token tk = jwtProvider.getToken(atk);
 //                UserDetails userDetails = memberDetailsService.loadUserByUsername(tk.getEmail());
 //                jwtProvider.reissueAtk()
