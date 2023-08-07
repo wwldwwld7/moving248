@@ -70,7 +70,14 @@ export default function Header() {
         navigate(btnUrl);
     };
 
-    const handleLogout = () => {};
+    const handleLogout = () => {
+        localStorage.removeItem('accessToken');
+        document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        settermemberName('');
+        settermemberEmail('');
+        settermemberType('');
+        settermemberId('');
+    };
 
     return (
         <header>
