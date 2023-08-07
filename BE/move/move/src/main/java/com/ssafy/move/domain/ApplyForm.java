@@ -1,6 +1,8 @@
 package com.ssafy.move.domain;
 
+import com.ssafy.move.dto.request.ApplyFormRequestDto;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -8,6 +10,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "apply_form")
 @Data
+@ToString
 public class ApplyForm {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,16 +58,17 @@ public class ApplyForm {
     @Column(name = "f_room_video_url")
     private String fRoomVideoUrl;
 
-    @Column(name = "f_status", length = 1)
+    @Column(name = "f_status", length = 1, insertable = false)
     private char fStatus;
 
-    @Column(name = "f_create_time")
+    @Column(name = "f_create_time", insertable = false)
     private String fCreateTime;
+
 
     @Column(name = "f_req_desc")
     private String fReqDesc;
 
-    @Column(name = "f_modify_time")
+    @Column(name = "f_modify_time", insertable = false)
     private String fModifyTime;
 
 
