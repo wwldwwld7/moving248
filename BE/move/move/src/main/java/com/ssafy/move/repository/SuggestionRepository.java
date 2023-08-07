@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
@@ -32,6 +33,27 @@ public class SuggestionRepository {
         return partner;
     }
 
+    @Transactional
+    public List<Suggestion> suggestionSortByOption(int fId, int option){
+
+        String jpql = "select s from Suggestion s " +
+                "where s.fId.id = :fId ";
+
+        if (option==1){
+            jpql += "order by s.sModifyTime desc";
+        } else if (option==2){
+            jpql += "order by s.sMoney asc";
+        } else {
+            jpql += "order by s.pId.pMoveCnt desc";
+        }
+
+        List<Suggestion> suggestionList = em.createQuery(jpql, Suggestion.class)
+                .setParameter("fId", fId).getResultList();
+
+        return suggestionList;
+    }
+
+
     // 신청서id에 따른 전체 견적서 조회 날짜순으로
     public List<Suggestion> findAllSuggestionByFid(int fId){
 
@@ -46,33 +68,33 @@ public class SuggestionRepository {
 
     }
     
-    // 견적서 가격순을 최저가로 조회
-    public List<Suggestion> suggestionSortByPrice(int fId) {
-
-        String jpql = "select s from Suggestion s " +
-                "where s.fId.id = :fId order by s.sMoney asc";
-
-        List<Suggestion> suggestionList = em.createQuery(jpql, Suggestion.class)
-                .setParameter("fId", fId)
-                .getResultList();
-
-        return suggestionList;
-    }
-
-
-    
-    // 견적서 이사이동횟수 내림차순으로 조회
-    public List<Suggestion> suggestionSortByMoveCnt(int fId) {
-
-        String jpql = "select s from Suggestion s " +
-                "where s.fId.id = :fId order by s.pId.pMoveCnt desc";
-
-        List<Suggestion> suggestionList = em.createQuery(jpql, Suggestion.class)
-                .setParameter("fId", fId)
-                .getResultList();
-
-        return suggestionList;
-    }
+//    // 견적서 가격순을 최저가로 조회
+//    public List<Suggestion> suggestionSortByPrice(int fId) {
+//
+//        String jpql = "select s from Suggestion s " +
+//                "where s.fId.id = :fId order by s.sMoney asc";
+//
+//        List<Suggestion> suggestionList = em.createQuery(jpql, Suggestion.class)
+//                .setParameter("fId", fId)
+//                .getResultList();
+//
+//        return suggestionList;
+//    }
+//
+//
+//
+//    // 견적서 이사이동횟수 내림차순으로 조회
+//    public List<Suggestion> suggestionSortByMoveCnt(int fId) {
+//
+//        String jpql = "select s from Suggestion s " +
+//                "where s.fId.id = :fId order by s.pId.pMoveCnt desc";
+//
+//        List<Suggestion> suggestionList = em.createQuery(jpql, Suggestion.class)
+//                .setParameter("fId", fId)
+//                .getResultList();
+//
+//        return suggestionList;
+//    }
 
 
 

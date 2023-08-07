@@ -9,9 +9,12 @@ import com.ssafy.move.service.ApplyFormService;
 import com.ssafy.move.service.SuggestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +35,6 @@ public class ApplyFormController {
         Map<String, Boolean> map = new HashMap<>();
 
         boolean existForm = applyFormService.existForm(m_id);
-        System.out.println(existForm);
 
         map.put("is_form_empty", existForm);
 
@@ -41,20 +43,22 @@ public class ApplyFormController {
 
 
     // 신청서 작성
-    @PostMapping
-    public ResponseEntity<?> writeForm(@RequestBody ApplyFormRequestDto applyFormRequestDto){
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> writeForm(@RequestPart(name = "data") ApplyFormRequestDto applyFormRequestDto,
+                                       @RequestPart(name = "file") MultipartFile multipartFile) throws IOException {
 
+        applyFormService.writeForm(applyFormRequestDto, multipartFile);
 
-        applyFormService.writeForm(applyFormRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("작성완료");
-
     }
 
     // 신청서 수정
     @PutMapping("/{f_id}")
-    public ResponseEntity<?> updateForm(@PathVariable int f_id, @RequestBody ApplyFormRequestDto applyFormRequestDto){
+    public ResponseEntity<?> updateForm(@PathVariable int f_id,
+                                        @RequestPart(name = "data") ApplyFormRequestDto applyFormRequestDto,
+                                        @RequestPart(name = "file") MultipartFile multipartFile) throws IOException {
 
-        applyFormService.updateApplyForm(f_id, applyFormRequestDto);
+        applyFormService.updateApplyForm(f_id, applyFormRequestDto, multipartFile);
 
         return new ResponseEntity<String>("수정완료", HttpStatus.OK);
     }
@@ -98,6 +102,7 @@ public class ApplyFormController {
     }
 
     // 신청서 상세 조회
+    // 과연 견적서가 없을 때 어떻게?
     @GetMapping("/{f_id}")
     public ResponseEntity<?> findApplyById(@PathVariable int f_id){
 

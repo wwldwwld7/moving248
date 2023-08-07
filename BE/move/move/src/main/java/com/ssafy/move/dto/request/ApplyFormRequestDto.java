@@ -24,7 +24,7 @@ public class ApplyFormRequestDto {
     private String f_arr_gungu;
     private char f_arr_ev;
     private char f_arr_ladder;
-    private String video_File;
+    //private String video_File;
     private String f_req_desc;
 
 

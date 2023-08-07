@@ -41,18 +41,24 @@ public class S3UploaderService {
     private void init(){
         if(environment.equals("local")){
             this.fileDir = System.getProperty("user.dir") + this.rootDir;
+
+
         } else if(environment.equals("development")){
             this.fileDir = this.rootDir;
         }
     }
 
-    @Transactional
+
     // 사용자에게 받은 파일 Multipartfile을 받아서 전환
     public String uploadFileByClient(MultipartFile multipartFile, String bucket, String dirName) throws IOException{
         // multipartfile을 file타입으로 바꿀수 없으면 에러
+
+
         File uploadFile = convert(multipartFile)
                 .orElseThrow(()-> new IllegalArgumentException("error: MultiparFile -> File 변환 에러"));
         // dirName -> s3의 디렉토리
+
+
         return uploadToS3(uploadFile, bucket, dirName);
     }
 
@@ -61,15 +67,18 @@ public class S3UploaderService {
 
         String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName(); // s3 에 저장될 이름
 
+        System.out.println(fileName);
+
         // s3에 업로드
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile)
                 .withCannedAcl(CannedAccessControlList.PublicRead)); // 아무나 읽기 가능하게
 
+
         // s3에 저장되어있는 url 가져오기
         String uploadFileUrl = amazonS3Client.getUrl(bucket, fileName).toString();
-       
+
         // 로컬에 저장된 이미지 지우기
-        removeNewFile(uploadFile);
+        //removeNewFile(uploadFile);
 
         return uploadFileUrl;
     }
@@ -88,6 +97,7 @@ public class S3UploaderService {
     // Multipartfile -> File
     private Optional<File> convert(MultipartFile multipartFile) throws IOException{
 
+
         if (multipartFile.isEmpty()){
             return Optional.empty();
         }
@@ -96,8 +106,9 @@ public class S3UploaderService {
         String storeFileName = createStoreFileName(originalFileName); // uuid+확장자
 
 
-        // 파일 업로드
-        File file = new File(fileDir + storeFileName); // 저장될 경로 + 파일이름
+        File file = new File(fileDir+storeFileName); // 저장될 경로 + 파일이름
+
+
         multipartFile.transferTo(file);
 
         return Optional.of(file);

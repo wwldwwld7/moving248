@@ -12,7 +12,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
@@ -79,11 +81,10 @@ public class ApplyFormRepository {
     // 신청서 전체 조회
     public List<Tuple> findAll(){
 
-        //String jpql = "select a from ApplyForm a order by a.fModifyTime DESC ";
 
         String jpql = "SELECT a, c from ApplyForm a, MoveCategory c " +
                 "where a.fCategory = c.categoryCode " +
-                "order by a.fModifyTime desc";
+                "order by a.fDate asc";
 
         List<Tuple> resultList = em.createQuery(jpql, Tuple.class).getResultList();
 
@@ -92,175 +93,50 @@ public class ApplyFormRepository {
     }
 
     // 주소별 카테고리별 조회
-    public List<Tuple> findByOption(String sido, String gungu, int category, int pId){
+    public List<Tuple> findByOption(String sido, String gungu, int category, int pId) {
+        String jpql = "SELECT a, c FROM ApplyForm a, MoveCategory c WHERE a.fCategory = c.categoryCode ";
+        Map<String, Object> parameters = new HashMap<>();
 
-        String jpql = "";
-
-
-        List<Tuple> resultList = new ArrayList<>();
-
-
-        // 모든 견적
-        if (category==1){
-
-            // 시도에서 전국일때
-            if (sido.equals("0")){
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc ";
-
-                resultList = em.createQuery(jpql, Tuple.class).getResultList();
+        // 참여, 미참여, 확정
+        if (category == 2 || category == 3 || category == 4) {
+            jpql += " AND a.pId.id ";
+            // 참여
+            if (category == 2) {
+                jpql += "= :pId ";
+            parameters.put("pId", pId);
+            // 미참여
+            } else if (category == 3) {
+                jpql += "= null And a.fStatus = 1 ";
+            // 확정
+            } else if (category == 4) {
+                jpql += "= :pId AND a.fStatus != 1 ";
+            parameters.put("pId", pId);
             }
-            // 시도는 값이 있고 군구에서 전체 일때
-            else if(!sido.equals("0") &&  gungu.equals("0")){
-                jpql = "select a, c from ApplyForm a , MoveCategory c " +
-                        "where a.fDepSido = :sido " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("sido", sido).getResultList();
-            }
-            // 시도와 군구 모두 값이 있을 때
-            else {
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.fDepSido = :sido " +
-                        "and a.fDepGungu = :gungu " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("sido", sido)
-                        .setParameter("gungu", gungu)
-                        .getResultList();
-            }
-
-            // 업체가 참여한 자기꺼
-        } else if (category==2) {
-
-            // 시도에서 전국일때
-            if (sido.equals("0")){
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.pId.id = :pId " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("pId", pId)
-                        .getResultList();
-            }
-            // 시도는 값이 있고 군구에서 전체 일때
-            else if(!sido.equals("0") &&  gungu.equals("0")){
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.fDepSido = :sido and a.pId.id = :pId " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("sido", sido)
-                        .setParameter("pId", pId)
-                        .getResultList();
-            }
-            // 시도와 군구 모두 값이 있을 때
-            else {
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.fDepSido = :sido and a.fDepGungu = :gungu " +
-                        "and a.pId.id = :pId " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("sido", sido)
-                        .setParameter("gungu", gungu)
-                        .setParameter("pId", pId)
-                        .getResultList();
-            }
-
-
-            // 업체가 미참여한
-        } else if (category==3){
-
-
-            // 시도에서 전국일때
-            if (sido.equals("0")){
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.pId.id != :pId " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("pId", pId)
-                        .getResultList();
-            }
-            // 시도는 값이 있고 군구에서 전체 일때
-            else if(!sido.equals("0") &&  gungu.equals("0")){
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.fDepSido = :sido and a.pId.id != :pId " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("sido", sido)
-                        .setParameter("pId", pId)
-                        .getResultList();
-            }
-            // 시도와 군구 모두 값이 있을 때
-            else {
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.fDepSido = :sido and a.fDepGungu = :gungu " +
-                        "and a.pId.id != :pId " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("sido", sido)
-                        .setParameter("gungu", gungu)
-                        .setParameter("pId", pId)
-                        .getResultList();
-            }
-
-        // 업체가 참여한 신청서 중 확정
-        } else {
-
-            // 시도에서 전국일때
-            if (sido.equals("0")){
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.pId.id = :pId and a.fStatus=2 " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("pId", pId)
-                        .getResultList();
-            }
-            // 시도는 값이 있고 군구에서 전체 일때
-            else if(!sido.equals("0") &&  gungu.equals("0")){
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.fDepSido = :sido and a.pId.id = :pId " +
-                        "and a.fStatus=2 " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("sido", sido)
-                        .setParameter("pId", pId)
-                        .getResultList();
-            }
-            // 시도와 군구 모두 값이 있을 때
-            else {
-                jpql = "select a, c from ApplyForm a, MoveCategory c " +
-                        "where a.fDepSido = :sido and a.fDepGungu = :gungu " +
-                        "and a.pId.id = :pId and a.fStatus=2 " +
-                        "and a.fCategory = c.categoryCode " +
-                        "order by a.fModifyTime desc";
-                resultList = em.createQuery(jpql, Tuple.class)
-                        .setParameter("sido", sido)
-                        .setParameter("gungu", gungu)
-                        .setParameter("pId", pId)
-                        .getResultList();
-            }
-
         }
 
-        return resultList;
+        // 시도에서 전국
+        if (!sido.equals("0")) {
+            jpql += " And or a.fDepSido = :sido or a.fArrSido = :sido ";
+            parameters.put("sido", sido);
+        }
+
+        // 군구에서 전국
+        if (!gungu.equals("0")) {
+            jpql += " AND a.fDepGungu = :gungu or a.fArrGungu = :gungu ";
+            parameters.put("gungu", gungu);
+        }
+
+        jpql += " ORDER BY a.fModifyTime DESC";
+
+        TypedQuery<Tuple> query = em.createQuery(jpql, Tuple.class);
+
+        for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
+            query.setParameter(parameter.getKey(), parameter.getValue());
+        }
+
+        return query.getResultList();
     }
+
 
     // 신청서 상세 조회
     public List<Tuple> findDetailApplyById(int fId){

@@ -95,22 +95,8 @@ public class SuggestionService {
 
         List<DetailSuggestionResponseDto> resultList = new ArrayList<>();
 
-        List<Suggestion> suggestionList;
+        List<Suggestion> suggestionList = suggestionRepository.suggestionSortByOption(fId, option);
 
-
-        if (option==1){
-
-            suggestionList = suggestionRepository.findAllSuggestionByFid(fId);
-
-        } else if(option==2){
-
-            suggestionList = suggestionRepository.suggestionSortByPrice(fId);
-
-        } else {
-
-             suggestionList = suggestionRepository.suggestionSortByMoveCnt(fId);
-
-        }
 
         for(Suggestion s : suggestionList){
 

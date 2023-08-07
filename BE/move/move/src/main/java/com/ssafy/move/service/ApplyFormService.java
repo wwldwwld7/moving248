@@ -8,8 +8,10 @@ import com.ssafy.move.repository.SuggestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Tuple;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,13 +23,12 @@ public class ApplyFormService {
 
     private final ApplyFormRepository applyFormRepository;
     private final SuggestionRepository suggestionRepository;
+    private final S3UploaderService s3UploaderService;
 
     // 신청서 유무
     @Transactional
     public boolean existForm(int uId){
         List<ApplyForm> applyForms = applyFormRepository.existForm(uId);
-
-        System.out.println(applyForms.size());
 
         if (applyForms.size()==0)
             return true;
@@ -37,11 +38,15 @@ public class ApplyFormService {
 
     //신청서 작성
     @Transactional
-    public void writeForm(ApplyFormRequestDto applyFormRequestDto) {
+    public void writeForm(ApplyFormRequestDto applyFormRequestDto, MultipartFile multipartFile) throws IOException {
 
         ApplyForm applyForm = new ApplyForm();
 
         Members member = applyFormRepository.findMemberById(applyFormRequestDto.getM_id());
+
+
+        String videoUrl = s3UploaderService.uploadFileByClient(multipartFile, "yeonybucket", "file");
+
 
         applyForm.setUId(member);
         applyForm.setFCategory(applyFormRequestDto.getF_category());
@@ -54,7 +59,7 @@ public class ApplyFormService {
         applyForm.setFArrGungu(applyFormRequestDto.getF_arr_gungu());
         applyForm.setFArrEv(applyFormRequestDto.getF_arr_ev());
         applyForm.setFArrLadder(applyFormRequestDto.getF_arr_ladder());
-        applyForm.setFRoomVideoUrl(applyFormRequestDto.getVideo_File());
+        applyForm.setFRoomVideoUrl(videoUrl);
         applyForm.setFReqDesc(applyFormRequestDto.getF_req_desc());
 
 
@@ -64,9 +69,11 @@ public class ApplyFormService {
 
     // 신청서 수정
     @Transactional
-    public void updateApplyForm(int f_id, ApplyFormRequestDto applyFormRequestDto){
+    public void updateApplyForm(int f_id, ApplyFormRequestDto applyFormRequestDto, MultipartFile multipartFile) throws IOException {
 
         ApplyForm applyForm = applyFormRepository.findApplyFormById(f_id);
+
+        String videoUrl = s3UploaderService.uploadFileByClient(multipartFile, "yeonybucket", "file");
 
         applyForm.setFCategory(applyFormRequestDto.getF_category());
         applyForm.setFDate(applyFormRequestDto.getF_date());
@@ -78,7 +85,7 @@ public class ApplyFormService {
         applyForm.setFArrGungu(applyFormRequestDto.getF_arr_gungu());
         applyForm.setFArrEv(applyFormRequestDto.getF_arr_ev());
         applyForm.setFArrLadder(applyFormRequestDto.getF_arr_ladder());
-        applyForm.setFRoomVideoUrl(applyFormRequestDto.getVideo_File());
+        applyForm.setFRoomVideoUrl(videoUrl);
         applyForm.setFReqDesc(applyFormRequestDto.getF_req_desc());
         applyForm.setFCreateTime(applyForm.getFCreateTime());
         applyForm.setFModifyTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
@@ -159,6 +166,7 @@ public class ApplyFormService {
     }
 
     // 신청서 상세조회
+    @Transactional
     public DetailApplyFormResponseDto findDetailApplyById(int fId){
 
         List<Suggestion> suggestionList = suggestionRepository.findAllSuggestionByFid(fId);
@@ -175,7 +183,10 @@ public class ApplyFormService {
 
             detailApply.setF_id(applyForm.getId());
             detailApply.setU_id(applyForm.getUId().getId());
-            detailApply.setP_id(applyForm.getPId().getId());
+            if (applyForm.getPId() != null)
+                detailApply.setP_id(applyForm.getPId().getId());
+                //detailApply.setP_id(0);
+
             detailApply.setUserName(applyForm.getUId().getName());
             detailApply.setF_category(moveCategory.getCategoryName());
             detailApply.setF_date(applyForm.getFDate());
@@ -194,30 +205,32 @@ public class ApplyFormService {
 
         List<DetailSuggestionResponseDto> suggestionResponseDtoList = new ArrayList<>();
 
-        for(Suggestion s : suggestionList){
+        if (suggestionList.size()!=0) {
 
-            DetailSuggestionResponseDto detailSuggestion = new DetailSuggestionResponseDto();
+            for (Suggestion s : suggestionList) {
 
-            detailSuggestion.setP_id(s.getPId().getId());
-            detailSuggestion.setName(s.getPId().getName());
-            detailSuggestion.setProfile_url(s.getPId().getProfileUrl());
-            detailSuggestion.setP_move_cnt(s.getPId().getPMoveCnt());
-            detailSuggestion.setS_money(s.getSMoney());
-            detailSuggestion.setS_desc(s.getSDesc());
-            detailSuggestion.setS_create_time(s.getSModifyTime());
+                DetailSuggestionResponseDto detailSuggestion = new DetailSuggestionResponseDto();
 
-            // 만약 제안서의 업체id 와 신청서의 업체 아이디와 같다면
-            if (s.getPId().getId() == detailApply.getP_id()){
-                detailSuggestion.setIs_selected("t");
-            } else {
-                detailSuggestion.setIs_selected("f");
+                detailSuggestion.setP_id(s.getPId().getId());
+                detailSuggestion.setName(s.getPId().getName());
+                detailSuggestion.setProfile_url(s.getPId().getProfileUrl());
+                detailSuggestion.setP_move_cnt(s.getPId().getPMoveCnt());
+                detailSuggestion.setS_money(s.getSMoney());
+                detailSuggestion.setS_desc(s.getSDesc());
+                detailSuggestion.setS_create_time(s.getSModifyTime());
+
+                // 만약 제안서의 업체id 와 신청서의 업체 아이디와 같다면
+                if (s.getPId().getId() == detailApply.getP_id()) {
+                    detailSuggestion.setIs_selected("t");
+                } else {
+                    detailSuggestion.setIs_selected("f");
+                }
+
+                suggestionResponseDtoList.add(detailSuggestion);
             }
 
-            suggestionResponseDtoList.add(detailSuggestion);
+            detailApply.setList(suggestionResponseDtoList);
         }
-
-        detailApply.setList(suggestionResponseDtoList);
-
 
         return detailApply;
     }

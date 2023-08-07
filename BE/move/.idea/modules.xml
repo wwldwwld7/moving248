@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.ssafy.move.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.ssafy.move.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/move.iml" filepath="$PROJECT_DIR$/.idea/move.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/move.move.main.iml" filepath="$PROJECT_DIR$/.idea/modules/move.move.main.iml" />
     </modules>
   </component>
 </project>
