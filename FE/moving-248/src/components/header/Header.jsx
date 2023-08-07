@@ -3,8 +3,17 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faRightFromBracket, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
 import './Header.css';
+import axios from 'axios';
+// import { defaultInstance as api } from '../../jwt/token';
 
 export default function Header() {
+
+    // axios.get('/member/test')
+    // .then((res)=>{
+    //     console.log(res);
+    // });
+
+
     const [userId, setUserId] = useState('s'); // userId
     const [userCategory, setUserCategory] = useState(''); // user 분류
     const [activeApply, setActiveApply] = useState(''); // 활성화된 신청서 주소
