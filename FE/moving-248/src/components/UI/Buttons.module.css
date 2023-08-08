@@ -14,6 +14,39 @@
     background: #3a2c2b;
 }
 
+.button_field_small {
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    background: #9b8d78;
+    border: 1px solid #9b8d78;
+    color: #fff;
+    width: 70%;
+    padding: 12px;
+    text-align: center;
+}
+
+.button_field_small:hover {
+    width: 70%;
+    background: #3a2c2b;
+}
+
+.button_field_small_delete {
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    background: grey;
+    border: 1px solid grey;
+    color: #fff;
+    width: 70%;
+    padding: 12px;
+}
+
+.button_field_small_delete:hover {
+    width: 70%;
+    background: red;
+}
+
 /* .col-12 {
     flex: 0 0 100%;
 } */

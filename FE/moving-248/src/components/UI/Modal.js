@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './Modal.module.css';
 
-const Modal = ({ show, onClose, message }) => {
+const Modal = ({ show, onClose, message, onConfirm }) => {
     if (!show) {
         return null;
     }
@@ -16,6 +16,14 @@ const Modal = ({ show, onClose, message }) => {
                 </div>
                 <div className={classes.modal_body}>
                     <p>{message}</p>
+                </div>
+                <div className={classes.modal_footer}>
+                    <button className={classes.modal_button} onClick={onConfirm}>
+                        예
+                    </button>
+                    <button className={classes.modal_button} onClick={onClose}>
+                        아니오
+                    </button>
                 </div>
             </div>
         </div>

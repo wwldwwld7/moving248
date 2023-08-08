@@ -1,8 +1,40 @@
+.applylist-max-container {
+    max-width: var(--size-max-width);
+    margin: auto;
+    justify-content: center;
+}
+.applylist-sec-two-one-container {
+    display: flex;
+    flex-direction: column;
+    padding: 5rem;
+    background-color: white;
+    border: 2px solid var(--color-accent-variant);
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-right: var(--size-half-margin);
+    width: calc(var(--size-left-width) - var(--size-half-margin));
+}
+@media (max-width: 768px) {
+    .applylist-sec-two-one-container {
+        margin-right: 0;
+        width: 100%;
+        padding: 3rem;
+    }
+}
+@media (min-width: 770px) {
+    .applylist-sec-two-one-container {
+        margin-right: 0;
+        width: 60%;
+        padding: 3rem;
+    }
+}
+
 /* filter.css */
 
 .filter-dropdown {
     display: flex;
-    align-items: center;
+    flex-direction: column; /* Display items vertically */
+
     gap: 10px;
 }
 
@@ -12,21 +44,32 @@
     font-weight: bold;
 }
 
+/* select {
+    background-color: #a6cf9c;
+} */
+
 .filter-dropdown select {
     padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 1rem;
     outline: none;
     transition: border-color 0.3s;
+    width: 150px;
+
+    /* 배경색 및 색상 설정 */
+    background: var(--color-primary); /* 배경색 */
+    color: #fff; /* 텍스트 색상 */
 }
 
 .filter-dropdown select:hover {
-    border-color: #007bff;
+    border-color: var(--color-primary);
+    background: var(--color-accent); /* 호버시 배경색 변경 */
 }
 
 .filter-dropdown select:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 5px var(--color-accent);
+    background-color: var(--color-accent); /* 포커스 시 배경색 변경 */
 }
 
 /* 스타일을 수정하거나 추가할 수 있습니다. */
@@ -35,15 +78,21 @@
     display: flex;
     justify-content: center;
 }
+
+.filter-dropAndButton {
+    width: 80%;
+    display: flex;
+    justify-content: space-between; /* 양 옆 끝으로 정렬 */
+    margin-bottom: 1rem;
+}
+
 .filter-status {
     width: 80%;
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
     border-radius: 20px;
     padding: 10px;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 
 .filter-status button {
@@ -58,30 +107,43 @@
 }
 
 .filter-status button:hover {
-    background-color: #007bff;
+    background-color: var(--color-primary);
     color: #fff;
-    border-color: #007bff;
+    border-color: var(--color-primary);
 }
 
 .filter-status .active {
-    background-color: #007bff;
+    background-color: var(--color-accent);
     color: white;
     font-weight: bold;
     transform: scale(1.05);
 }
 
-.reset-button {
+.buttons-box {
+    display: flex;
+
+    justify-content: center;
+}
+
+.filter-buttons {
     background-color: #f2f2f2;
-    color: #333;
+    height: 3rem;
+    width: 7rem;
+    color: #fff;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 1rem;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s ease;
+    text-align: center;
+    vertical-align: middle;
+    background-color: var(--color-primary);
 }
 
-.reset-button:hover {
-    background-color: #ddd;
+.filter-buttons:hover {
+    background-color: var(--color-accent);
+    color: #fff;
+    border-color: var(--color-accent);
 }
 
 /* Pagination CSS */
@@ -98,17 +160,83 @@
     color: #333;
     padding: 5px 10px;
     cursor: pointer;
+    border-radius: 1rem;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .pagination button.active {
-    background-color: #007bff;
+    background-color: var(--color-accent);
     color: #fff;
-    border-color: #007bff;
+    border-color: var(--color-accent);
 }
 
 .pagination button:hover {
-    background-color: #007bff;
+    background-color: var(--color-primary);
     color: #fff;
-    border-color: #007bff;
+    border-color: var(--color-primary);
+}
+
+/* table css */
+
+.listTable {
+    /* border: 2px solid black; */
+    width: 100%;
+    /* border-collapse: collapse; */
+
+    padding: 1rem;
+}
+
+.listTable-row {
+    /* padding: 2rem;
+    margin: 1rem; */
+
+    border-bottom: 2px solid var(--color-primary);
+}
+
+.listTable-column {
+    padding: 1rem;
+    /* border-bottom: 2px solid var(--color-primary); */
+
+    /* border: 2px solid var(--color-accent); */
+}
+.listTable-column-child {
+    padding: 0.3rem;
+}
+.listTable-column-double {
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    border-bottom: 2px solid var(--color-primary);
+
+    /* border: 2px solid var(--color-accent); */
+}
+.listTable-column.확정,
+.listTable-column.완료,
+.listTable-column.입찰 {
+    /* padding: */
+    padding: 0.2rem;
+    border-radius: 1rem;
+    text-align: center; /* Center align text */
+    vertical-align: middle; /* Center content vertically */
+    margin: 1rem;
+    /* border: 2px solid var(--color-accent); */
+    max-width: 3rem;
+}
+
+.listTable-column.확정 {
+    background-color: #f59299;
+    color: white;
+}
+
+.listTable-column.완료 {
+    background-color: #bdbdbd;
+    color: white;
+}
+
+.listTable-column.입찰 {
+    background-color: #a6cf9c;
+    color: white;
+}
+
+.listTable-row:hover {
+    background-color: lightgray; /* 원하는 hover 배경색으로 변경 */
+    cursor: pointer; /* 마우스 커서 모양 변경 */
 }

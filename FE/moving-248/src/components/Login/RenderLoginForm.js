@@ -132,8 +132,9 @@ export default function RenderForm() {
         <div className='form'>
             <form onSubmit={submitHandler}>
                 <InputBox label='이메일' type='text' name='email' placeholder='example@ssafy.com' required value={formData.username} onChange={changeHandler}>
-                    {messages.email && <div className={`message ${isValid.email ? 'success' : 'error'}`}>{messages.email}</div>}
+                    {messages.email && <div className={`eMessage ${isValid.email ? 'success' : 'error'}`}>{messages.email}</div>}
                 </InputBox>
+
                 <InputBox label='비밀번호' type='password' name='password' placeholder='비밀번호' required value={formData.password} onChange={changeHandler}>
                     {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
                 </InputBox>

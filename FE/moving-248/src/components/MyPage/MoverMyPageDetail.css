@@ -1,0 +1,162 @@
+.mypage-detail-flexbox {
+    display: flex;
+    justify-content: center;
+}
+
+.vertical-align-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.vertical-align-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vertical-center {
+    margin: 10px;
+}
+
+.vertical-center-image {
+    margin: 30px;
+    /* padding: auto; */
+    height: 300px;
+    width: 300px;
+    border-radius: 300px;
+    border: 5px solid var(--color-primary);
+}
+
+.applyform-block {
+    display: flex;
+    background-color: white;
+    border: 2px solid var(--color-primary-variant);
+    border-radius: 5px;
+    padding: 2rem 1rem;
+    margin: 20px 0;
+}
+.applyform-block {
+    display: flex;
+    background-color: white;
+    border: 2px solid var(--color-primary);
+    border-radius: 30px;
+    padding: 2rem 1rem;
+}
+
+.applyform-block-left {
+    flex: 1;
+    padding-right: 1rem;
+    border-right: 1px solid var(--color-primary-variant);
+}
+
+.applyform-block-right {
+    flex: 2;
+    padding-left: 1rem;
+}
+
+.mypage-detail-button-align {
+    display: flex;
+    margin-top: auto;
+    flex-direction: column; /* 수직(열) 방향으로 정렬 */
+    align-items: center; /* 가로 가운데 정렬 */
+}
+
+.star-rating {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column; /* 수직(열) 방향으로 정렬 */
+    font-size: 16px;
+}
+
+.comment-section {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column; /* 수직(열) 방향으로 정렬 */
+}
+
+.p-margin {
+    margin: 10px 0; /* 상하 여백만 유지 */
+    display: flex;
+    justify-content: space-between;
+}
+.rate-input {
+    width: 3rem;
+    height: 2rem;
+    padding: 8px;
+    border: 0px;
+    background-color: #e9e7e7;
+    border-radius: 4px;
+    resize: none;
+    font-size: 1rem;
+    line-height: 1.5;
+    /* background-color: white;
+    border: 2px solid var(--color-primary-variant);
+    border-radius: 5px; */
+}
+.textarea-editing {
+    width: 15rem;
+    height: 2rem;
+    padding: 8px;
+    border: 0px;
+    background-color: #e9e7e7;
+    border-radius: 4px;
+    resize: none;
+    font-size: 1rem;
+    line-height: 1.5;
+    /* background-color: white;
+    border: 2px solid var(--color-primary-variant);
+    border-radius: 5px; */
+    /* padding: 2rem 1rem; */
+    /* width: 80%; */
+    /* margin: 20px 0; */
+}
+.textarea-editing-hb {
+    width: 100%;
+    height: 2rem;
+    padding: 8px;
+    border: 0px;
+    background-color: #e9e7e7;
+    border-radius: 4px;
+    resize: none;
+    font-size: 1rem;
+    line-height: 1.5;
+    /* background-color: white;
+    border: 2px solid var(--color-primary-variant);
+    border-radius: 5px; */
+    /* padding: 2rem 1rem; */
+    /* width: 80%; */
+    /* margin: 20px 0; */
+}
+
+.textarea-editing-hb::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+/* 기본 버튼 스타일 */
+.review-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: var(--color-accent-variant);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.review-button:hover {
+    background-color: var(--color-accent);
+}
+
+.review-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);
+}
+
+.hb-scroll {
+    overflow-y: scroll;
+    height: 600px;
+}
