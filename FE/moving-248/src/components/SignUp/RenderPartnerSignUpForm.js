@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import Card from '../UI/Card';
 import InputBox from '../UI/InputBox';
 import Buttons from '../UI/Buttons';
 import axios from 'axios';
@@ -8,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 
 const RenderMoverSignUpForm = props => {
     const [formData, setFormData] = useState({
+        registname: '',
+        registceo: '',
         registnumber: '',
         telephone: '',
         email: '',
@@ -16,6 +17,8 @@ const RenderMoverSignUpForm = props => {
     });
 
     const [messages, setMessages] = useState({
+        registname: '',
+        registceo: '',
         registnumber: '',
         telephone: '',
         email: '',
@@ -24,6 +27,8 @@ const RenderMoverSignUpForm = props => {
     });
 
     const [isValid, setIsValid] = useState({
+        registname: true,
+        registceo: true,
         registnumber: false,
         telephone: false,
         email: false,
@@ -40,6 +45,8 @@ const RenderMoverSignUpForm = props => {
         }));
 
         const validators = {
+            registname: value => value.trim() !== '',
+            registceo: value => value.trim() !== '',
             registnumber: value => /^\d{3}-\d{2}-\d{5}$/.test(value),
             telephone: value => /^\d{3}-\d{4}-\d{4}$/.test(value),
             email: value => /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(value),
@@ -47,7 +54,7 @@ const RenderMoverSignUpForm = props => {
             checkPass: value => value === formData.password,
         };
 
-        const isValidInput = validators[name](value);
+        const isValidInput = validators[name] ? validators[name](value) : true;
 
         setIsValid(prevState => ({
             ...prevState,
@@ -61,12 +68,16 @@ const RenderMoverSignUpForm = props => {
 
     const getErrorMessage = fieldName => {
         switch (fieldName) {
+            case 'registname':
+                return '업체명을 입력해주세요.';
+            case 'registceo':
+                return '대표자명 입력해주세요.';
             case 'registnumber':
                 return '사업자 등록번호를 제대로 써주세요';
             case 'email':
-                return '이메일 제대로 써주겠니?';
+                return '올바른 이메일 형식이 아닙니다.';
             case 'telephone':
-                return '폰번호 제대로 써주세요';
+                return '-를 추가해주세요';
             case 'password':
                 return '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!';
             case 'checkPass':
@@ -74,6 +85,23 @@ const RenderMoverSignUpForm = props => {
             default:
                 return '';
         }
+    };
+
+    const [isReadOnly, setIsReadOnly] = useState(false);
+    const checkValidPartner = async () => {
+        setIsReadOnly(true);
+        // try {
+        //     const response = await axios.get('your-api-endpoint-here');
+
+        //     const dataFromApi = response.data;
+
+        //     const dataExistsInApi = dataFromApi.some(item => item.registname === formData.registname && item.registceo === formData.registceo && item.registnumber === formData.registnumber);
+
+        //     setIsReadOnly(dataExistsInApi);
+        // } catch (error) {
+        //     setIsReadOnly(false);
+        //     console.error('Error getting data from API:', error);
+        // }
     };
 
     const moveToHome = useNavigate();
@@ -136,21 +164,31 @@ const RenderMoverSignUpForm = props => {
         // 넣어라 api call login here
     };
 
-    const RenderButton = <Buttons type='submit' text='가입완료' disabled={!(isValid.registnumber && isValid.email && isValid.telephone && isValid.password && isValid.checkPass)}></Buttons>;
+    const RenderButton = (
+        <Buttons
+            type='submit'
+            text='가입완료'
+            disabled={!(isValid.registname && isValid.registceo && isValid.registnumber && isValid.email && isValid.telephone && isValid.password && isValid.checkPass)}
+        ></Buttons>
+    );
 
     const RenderInputBox = (
         <div className='form'>
             <form onSubmit={submitHandler}>
-                <InputBox label='업체명' type='text' name='registname' placeholder='000-00-00000' required value={formData.registname} onChange={changeHandler}></InputBox>
-                {/* {messages.registnumber && <div className={`message ${isValid.registnumber ? 'success' : 'error'}`}>{messages.registnumber}</div>} */}
-                <InputBox label='대표자명' type='text' name='registceo' placeholder='000-00-00000' required value={formData.registnumber} onChange={changeHandler}>
-                    {/* {messages.registnumber && <div className={`message ${isValid.registnumber ? 'success' : 'error'}`}>{messages.registnumber}</div>} */}
+                <InputBox label='업체명' type='text' name='registname' placeholder='업체명' required value={formData.registname} onChange={changeHandler} readOnly={isReadOnly}>
+                    {messages.registname && <div className={`message ${isValid.registname ? 'success' : 'error'}`}>{messages.registname}</div>}
+                </InputBox>
+                <InputBox label='대표자명' type='text' name='registceo' placeholder='대표자명' required value={formData.registceo} onChange={changeHandler} readOnly={isReadOnly}>
+                    {messages.registceo && <div className={`message ${isValid.registceo ? 'success' : 'error'}`}>{messages.registceo}</div>}
                 </InputBox>
 
-                <InputBox label='사업자등록번호' type='text' name='regist-number' placeholder='000-00-00000' required value={formData.registnumber} onChange={changeHandler}>
+                <InputBox label='사업자등록번호' type='text' name='registnumber' placeholder='000-00-00000' required value={formData.registnumber} onChange={changeHandler} readOnly={isReadOnly}>
                     {messages.registnumber && <div className={`message ${isValid.registnumber ? 'success' : 'error'}`}>{messages.registnumber}</div>}
                 </InputBox>
 
+                <button type='button' value='사업자 체크' onClick={checkValidPartner}>
+                    사업자 체크 버튼
+                </button>
                 <InputBox label='휴대폰번호' type='text' name='telephone' placeholder='010-0000-0000' required value={formData.telephone} onChange={changeHandler}>
                     {messages.telephone && <div className={`message ${isValid.telephone ? 'success' : 'error'}`}>{messages.telephone}</div>}
                 </InputBox>
