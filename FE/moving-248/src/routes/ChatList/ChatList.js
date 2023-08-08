@@ -101,7 +101,7 @@ export default function ChatList() {
                                     <p className='sub date'>2020.02.02</p>
                                 </div>
 
-                                <div className='message'>
+                                <div className='chat__message'>
                                     <div className='lastMassage paragraph'>{text.length > 25 ? `${text.slice(0, 25)}...` : text}</div>
                                     <div className='dot' style={{ width: '15px', height: '15px' }}></div>
                                 </div>
