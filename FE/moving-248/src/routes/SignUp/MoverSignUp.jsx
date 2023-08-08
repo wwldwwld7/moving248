@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-// import ReactDom from 'react-dom';
+import ImgBox from '../../components/ImgBox/ImgBox';
 import RenderMoverSignUpForm from '../../components/SignUp/RenderMoverSignUpForm';
 
 const MoverSignUp = props => {
     return (
         <div>
-            <h1>무버 회원가입 페이지</h1>
-            <h1>--------</h1>
+            <ImgBox imgSrc='fam2' imgTitle='신규 회원가입' />
             <RenderMoverSignUpForm />
         </div>
     );

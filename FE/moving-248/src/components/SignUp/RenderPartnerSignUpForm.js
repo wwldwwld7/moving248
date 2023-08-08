@@ -141,7 +141,13 @@ const RenderMoverSignUpForm = props => {
     const RenderInputBox = (
         <div className='form'>
             <form onSubmit={submitHandler}>
-                <InputBox label='사업자등록번호' type='text' name='registnumber' placeholder='000-00-00000' required value={formData.registnumber} onChange={changeHandler}>
+                <InputBox label='업체명' type='text' name='registname' placeholder='000-00-00000' required value={formData.registname} onChange={changeHandler}></InputBox>
+                {/* {messages.registnumber && <div className={`message ${isValid.registnumber ? 'success' : 'error'}`}>{messages.registnumber}</div>} */}
+                <InputBox label='대표자명' type='text' name='registceo' placeholder='000-00-00000' required value={formData.registnumber} onChange={changeHandler}>
+                    {/* {messages.registnumber && <div className={`message ${isValid.registnumber ? 'success' : 'error'}`}>{messages.registnumber}</div>} */}
+                </InputBox>
+
+                <InputBox label='사업자등록번호' type='text' name='regist-number' placeholder='000-00-00000' required value={formData.registnumber} onChange={changeHandler}>
                     {messages.registnumber && <div className={`message ${isValid.registnumber ? 'success' : 'error'}`}>{messages.registnumber}</div>}
                 </InputBox>
 
@@ -166,10 +172,16 @@ const RenderMoverSignUpForm = props => {
     );
 
     return (
-        <Card>
-            <div className='title'>파트너 회원가입</div>
-            <div>{RenderInputBox}</div>
-        </Card>
+        <div className='margin-box one-section'>
+            <div className='sec-one-half-container'>
+                <div className='login-logo'>
+                    <img src={process.env.PUBLIC_URL + '/logo-rect.png'} alt='logo' />
+                </div>
+                <h1 className='center-align'>Welcome to 248</h1>
+                <p className='center-align'>여러분의 행복한 이사에 함께합니다.</p>
+                <div>{RenderInputBox}</div>
+            </div>
+        </div>
     );
 };
 

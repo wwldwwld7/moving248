@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-// import ReactDom from 'react-dom';
 import RenderPartnerSignUpForm from '../../components/SignUp/RenderPartnerSignUpForm';
+import ImgBox from '../../components/ImgBox/ImgBox';
 
 const PartnerSignUp = props => {
     return (
         <div>
-            <h1>파트너 회원가입 페이지</h1>
-            <h1>--------</h1>
+            <ImgBox imgSrc='fam2' imgTitle='신규 회원가입' />
             <RenderPartnerSignUpForm />
         </div>
     );

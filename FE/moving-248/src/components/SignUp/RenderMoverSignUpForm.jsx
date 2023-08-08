@@ -140,10 +140,16 @@ const RenderMoverSignUpForm = props => {
     );
 
     return (
-        <Card>
-            <h1 className='center-align'>회원가입</h1>
-            <div>{RenderInputBox}</div>
-        </Card>
+        <div className='margin-box one-section'>
+            <div className='sec-one-half-container'>
+                <div className='login-logo'>
+                    <img src={process.env.PUBLIC_URL + '/logo-rect.png'} alt='logo' />
+                </div>
+                <h1 className='center-align'>Welcome to 248</h1>
+                <p className='center-align'>여러분의 행복한 이사에 함께합니다.</p>
+                <div>{RenderInputBox}</div>
+            </div>
+        </div>
     );
 };
 
