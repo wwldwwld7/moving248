@@ -79,3 +79,7 @@ spring:
     activate:
       on-profile: "development"
   file-dir: /home/ubuntu/fileupload/
+
+jasypt:
+  encryptor:
+  password: ${ENCODE_KEY}

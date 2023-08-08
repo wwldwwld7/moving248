@@ -143,7 +143,7 @@ public class ApplyFormRepository {
 
 
         if (!sido.equals("0")) {
-            jpql += " And or a.fDepSido = :sido or a.fArrSido = :sido ";
+            jpql += " And  a.fDepSido = :sido or a.fArrSido = :sido ";
             parameters.put("sido", sido);
         }
 
