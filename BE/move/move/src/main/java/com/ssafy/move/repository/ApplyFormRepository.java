@@ -23,6 +23,19 @@ public class ApplyFormRepository {
     @PersistenceContext
     private final EntityManager em;
 
+
+
+    // 신청서 상태 관련 전체조회
+    public List<ApplyForm> findAllApplyForm(){
+
+        String jpql = "select a from ApplyForm a";
+
+        List<ApplyForm> resultList = em.createQuery(jpql, ApplyForm.class).getResultList();
+
+        return resultList;
+    }
+
+
     // 신청서 유무
     public List<ApplyForm> existForm(int uId){
 
@@ -68,7 +81,7 @@ public class ApplyFormRepository {
     public void updateFormStatus(int fId){
 
         ApplyForm applyForm = em.find(ApplyForm.class, fId);
-        applyForm.setFStatus('2');
+        applyForm.setFStatus('3');
         em.merge(applyForm);
     }
 
@@ -77,14 +90,20 @@ public class ApplyFormRepository {
         // 삭제
         em.remove(findApplyFormById(id));
     }
+
     
     // 신청서 전체 조회
     public List<Tuple> findAll(){
 
 
-        String jpql = "SELECT a, c from ApplyForm a, MoveCategory c " +
-                "where a.fCategory = c.categoryCode " +
-                "order by a.fDate asc";
+        String jpql = "SELECT a, c, s.sidoName, g.guName, s2.sidoName, g2.guName " +
+                "FROM ApplyForm a " +
+                "JOIN MoveCategory c ON a.fCategory = c.categoryCode " +
+                "JOIN Sido s ON a.fDepSido = s.sidoCode " +
+                "JOIN Gu g ON a.fDepSido = g.sido.sidoCode AND a.fDepGungu = g.guCode " +
+                "JOIN Sido s2 ON a.fArrSido = s2.sidoCode " +
+                "JOIN Gu g2 ON a.fArrSido = g2.sido.sidoCode AND a.fArrGungu = g2.guCode " +
+                "order by a.fModifyTime desc";
 
         List<Tuple> resultList = em.createQuery(jpql, Tuple.class).getResultList();
 
@@ -94,12 +113,20 @@ public class ApplyFormRepository {
 
     // 주소별 카테고리별 조회
     public List<Tuple> findByOption(String sido, String gungu, int category, int pId) {
-        String jpql = "SELECT a, c FROM ApplyForm a, MoveCategory c WHERE a.fCategory = c.categoryCode ";
+        String jpql = "SELECT a, c, s.sidoName, g.guName, s2.sidoName, g2.guName " +
+                "FROM ApplyForm a " +
+                "JOIN MoveCategory c ON a.fCategory = c.categoryCode " +
+                "JOIN Sido s ON a.fDepSido = s.sidoCode " +
+                "JOIN Gu g ON a.fDepSido = g.sido.sidoCode AND a.fDepGungu = g.guCode " +
+                "JOIN Sido s2 ON a.fArrSido = s2.sidoCode " +
+                "JOIN Gu g2 ON a.fArrSido = g2.sido.sidoCode AND a.fArrGungu = g2.guCode ";
+
         Map<String, Object> parameters = new HashMap<>();
 
+        // 전체
         // 참여, 미참여, 확정
         if (category == 2 || category == 3 || category == 4) {
-            jpql += " AND a.pId.id ";
+            jpql += " Where a.pId.id ";
             // 참여
             if (category == 2) {
                 jpql += "= :pId ";
@@ -114,7 +141,7 @@ public class ApplyFormRepository {
             }
         }
 
-        // 시도에서 전국
+
         if (!sido.equals("0")) {
             jpql += " And or a.fDepSido = :sido or a.fArrSido = :sido ";
             parameters.put("sido", sido);
@@ -126,7 +153,7 @@ public class ApplyFormRepository {
             parameters.put("gungu", gungu);
         }
 
-        jpql += " ORDER BY a.fModifyTime DESC";
+        jpql += "ORDER BY a.fModifyTime DESC";
 
         TypedQuery<Tuple> query = em.createQuery(jpql, Tuple.class);
 
@@ -143,8 +170,13 @@ public class ApplyFormRepository {
 
 
 
-        String jpql = "select a,c from ApplyForm a, MoveCategory c " +
-                "where a.id = :fId  and  a.fCategory = c.categoryCode";
+        String jpql = "select a,c, s.sidoName, g.guName, s2.sidoName, g2.guName from ApplyForm a " +
+                "JOIN MoveCategory c ON a.fCategory = c.categoryCode " +
+                "JOIN Sido s ON a.fDepSido = s.sidoCode " +
+                "JOIN Gu g ON a.fDepSido = g.sido.sidoCode AND a.fDepGungu = g.guCode " +
+                "JOIN Sido s2 ON a.fArrSido = s2.sidoCode " +
+                "JOIN Gu g2 ON a.fArrSido = g2.sido.sidoCode AND a.fArrGungu = g2.guCode " +
+                "where a.id = :fId ";
 
         List<Tuple> resultList = em.createQuery(jpql, Tuple.class)
                 .setParameter("fId", fId)

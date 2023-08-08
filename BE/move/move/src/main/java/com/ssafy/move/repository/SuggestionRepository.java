@@ -68,33 +68,33 @@ public class SuggestionRepository {
 
     }
     
-//    // 견적서 가격순을 최저가로 조회
-//    public List<Suggestion> suggestionSortByPrice(int fId) {
-//
-//        String jpql = "select s from Suggestion s " +
-//                "where s.fId.id = :fId order by s.sMoney asc";
-//
-//        List<Suggestion> suggestionList = em.createQuery(jpql, Suggestion.class)
-//                .setParameter("fId", fId)
-//                .getResultList();
-//
-//        return suggestionList;
-//    }
-//
-//
-//
-//    // 견적서 이사이동횟수 내림차순으로 조회
-//    public List<Suggestion> suggestionSortByMoveCnt(int fId) {
-//
-//        String jpql = "select s from Suggestion s " +
-//                "where s.fId.id = :fId order by s.pId.pMoveCnt desc";
-//
-//        List<Suggestion> suggestionList = em.createQuery(jpql, Suggestion.class)
-//                .setParameter("fId", fId)
-//                .getResultList();
-//
-//        return suggestionList;
-//    }
+    // 견적서 가격순을 최저가로 조회
+    public List<Suggestion> suggestionSortByPrice(int fId) {
+
+        String jpql = "select s from Suggestion s " +
+                "where s.fId.id = :fId order by s.sMoney asc";
+
+        List<Suggestion> suggestionList = em.createQuery(jpql, Suggestion.class)
+                .setParameter("fId", fId)
+                .getResultList();
+
+        return suggestionList;
+    }
+
+
+
+    // 견적서 이사이동횟수 내림차순으로 조회
+    public List<Suggestion> suggestionSortByMoveCnt(int fId) {
+
+        String jpql = "select s from Suggestion s " +
+                "where s.fId.id = :fId order by s.pId.pMoveCnt desc";
+
+        List<Suggestion> suggestionList = em.createQuery(jpql, Suggestion.class)
+                .setParameter("fId", fId)
+                .getResultList();
+
+        return suggestionList;
+    }
 
 
 
