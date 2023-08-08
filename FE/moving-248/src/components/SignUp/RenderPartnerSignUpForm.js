@@ -81,53 +81,52 @@ const RenderMoverSignUpForm = props => {
         e.preventDefault();
 
         const data = {
-            name: "업체명",
+            name: '업체명',
             p_code: formData.registnumber,
-            p_ceo: "대표자명",
+            p_ceo: '대표자명',
             phone: formData.telephone,
             email: formData.email,
-            p_exp: "20130601",
-            password: formData.password
+            p_exp: '20130601',
+            password: formData.password,
         };
 
-        const registnumberEdit = formData.registnumber.substring(0,3)+formData.registnumber.substring(4,6)+formData.registnumber.substring(7);
+        const registnumberEdit = formData.registnumber.substring(0, 3) + formData.registnumber.substring(4, 6) + formData.registnumber.substring(7);
         console.log(registnumberEdit);
         const check = {
-            "businesses":[
+            businesses: [
                 {
-                "b_no": registnumberEdit,
-                "start_dt": "20130601",
-                "p_nm": "유재호",
-                // "b_adr": "주소"
-                }
-            ]
+                    b_no: registnumberEdit,
+                    start_dt: '20130601',
+                    p_nm: '유재호',
+                    // "b_adr": "주소"
+                },
+            ],
         };
 
-        axios.post('https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=3CKGYBOtgVvihLDVCJvG8yR2pdfk2hFo9nQbjJlKqk%2FHMCDYkKWk6tIisWU6mVT3fXwIbQRk6vYZAi6Sc7r81g%3D%3D'
-        ,check)
-        .then((res)=>{
-            console.log(res.data.data[`0`].valid);
-            if(res.data.data[`0`].valid === "01"){
-                axios.post('/member/partner', data)
-                .then((res) => {
-                    if(res.request.statusText=="Created"){
-                        alert("회원가입 완료");
-                        moveToHome('/');
-                    }
-                    // console.log(res);
-                })
-                .catch((err) => {
-                    if(err.response.status==500){
-                        alert("이미 존재하는 이메일 입니다.");
-                    }
-                });
-
-            }
-        })
-        .catch((err)=>{
-            alert("검정되지 않은 업체입니다.");
-        });
-
+        axios
+            .post('https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=3CKGYBOtgVvihLDVCJvG8yR2pdfk2hFo9nQbjJlKqk%2FHMCDYkKWk6tIisWU6mVT3fXwIbQRk6vYZAi6Sc7r81g%3D%3D', check)
+            .then(res => {
+                console.log(res.data.data[`0`].valid);
+                if (res.data.data[`0`].valid === '01') {
+                    axios
+                        .post('/member/partner', data)
+                        .then(res => {
+                            if (res.request.statusText == 'Created') {
+                                alert('회원가입 완료');
+                                moveToHome('/');
+                            }
+                            // console.log(res);
+                        })
+                        .catch(err => {
+                            if (err.response.status == 500) {
+                                alert('이미 존재하는 이메일 입니다.');
+                            }
+                        });
+                }
+            })
+            .catch(err => {
+                alert('검정되지 않은 업체입니다.');
+            });
 
         // Validation check
         // if (isValid.registnumber && isValid.email && isValid.telephone && isValid.password && isValid.checkPass) {
@@ -137,7 +136,7 @@ const RenderMoverSignUpForm = props => {
         // 넣어라 api call login here
     };
 
-    const RenderButton = <Buttons type='submit' text='회원가입' disabled={!(isValid.registnumber && isValid.email && isValid.telephone && isValid.password && isValid.checkPass)}></Buttons>;
+    const RenderButton = <Buttons type='submit' text='가입완료' disabled={!(isValid.registnumber && isValid.email && isValid.telephone && isValid.password && isValid.checkPass)}></Buttons>;
 
     const RenderInputBox = (
         <div className='form'>

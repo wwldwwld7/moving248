@@ -24,8 +24,8 @@ spring:
   jwt:
     key: move248_secret_key_slakflkajlskjdflkjalksjdlfkjasjdlkfjlasjdlfjalsjfjasdfkjl
     live:
-#      atk: 1800000 #30분
-      atk: 30000
+      atk: 1800000 #30분
+#      atk: 30000
       rtk: 7200000 #2시간
 
   redis:

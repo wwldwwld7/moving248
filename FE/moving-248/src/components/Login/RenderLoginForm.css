@@ -8,7 +8,7 @@
 }
 
 .title {
-    font-size: 25px;
+    font-size: 30px;
     margin-bottom: 30px;
     text-align: center;
 }
@@ -34,6 +34,23 @@
 .register-divider {
     padding: 0 15px; /* Add padding to create space for the divider */
 }
+
+.login-logo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.form{
+    margin-top: 50px;
+}
+
+img{
+    width: 200px;
+}
+
+
 
 /* input[type='text'],
 input[type='password'] {
