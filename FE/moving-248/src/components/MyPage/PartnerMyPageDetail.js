@@ -259,3 +259,4 @@ const PartnerMyPageDetail = props => {
 };
 
 export default PartnerMyPageDetail;
+//ㅎㅎ
