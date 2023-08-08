@@ -72,7 +72,7 @@
 .date {
     display: inline;
 }
-.message {
+.chat__message {
     display: flex;
     /* position: relative; */
     gap: 20%;

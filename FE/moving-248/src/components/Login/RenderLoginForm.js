@@ -155,16 +155,16 @@ export default function RenderForm() {
     );
 
     return (
-        <Card className='login-form'>
-            <div>
+        <div className='margin-box one-section'>
+            <div className='sec-one-half-container'>
                 <div className='login-logo'>
                     <img src={process.env.PUBLIC_URL + '/logo-rect.png'} alt='logo' />
                 </div>
                 <h1 className='center-align'>Welcome to 248</h1>
-                {/* <p className='center-align'>여러분의 행복한 이사에 함께합니다.</p> */}
+                <p className='center-align'>여러분의 행복한 이사에 함께합니다.</p>
                 {renderForm}
                 <Modal show={showModal} onClose={closeModalHandler} message={loginResult} />
             </div>
-        </Card>
+        </div>
     );
 }

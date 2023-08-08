@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import Footer from '../../components/Footer/Footer';
-import Header from '../../components/header/Header';
 import ImgBox from '../../components/ImgBox/ImgBox';
 import './ApplyDetail.css';
 
@@ -132,7 +130,6 @@ export default function ApplyDetail() {
 
     return (
         <div className='apply-detail'>
-            <Header />
             <ImgBox imgSrc='moving-box' imgTitle='신청서 상세' />
 
             <section className='max-container section'>
@@ -214,8 +211,6 @@ export default function ApplyDetail() {
                     {renderSuggestionForm()}
                 </div>
             </section>
-
-            <Footer />
         </div>
     );
 }

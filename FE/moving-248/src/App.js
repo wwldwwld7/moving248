@@ -10,10 +10,13 @@ import MoverSignUp from './routes/SignUp/MoverSignUp';
 import PartnerSignUp from './routes/SignUp/PartnerSignUp';
 import ApplyList from './routes/ApplyList/ApplyList';
 import ApplyDetail from './routes/ApplyDetail/ApplyDetail';
+import Header from './components/header/Header';
+import Footer from './components/Footer/Footer';
 
 function App() {
     return (
         <BrowserRouter>
+            <Header />
             <Routes>
                 {/* 정적 url 사용 */}
                 <Route path='/' element={<Home />} />
@@ -28,6 +31,7 @@ function App() {
                 {/* 동적 url 사용 */}
                 {/* <Route path='/movie/:id' element={<Detail />} /> */}
             </Routes>
+            <Footer />
         </BrowserRouter>
     );
 }
