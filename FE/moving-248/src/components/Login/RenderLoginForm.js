@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './RenderLoginForm.css';
-import {useNavigate} from "react-router-dom";
-import {useCookies} from "react-cookie"
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 import Card from '../UI/Card';
 import InputBox from '../UI/InputBox';
 import Buttons from '../UI/Buttons';
 import Modal from '../UI/Modal';
 import axios from 'axios';
-
 
 export default function RenderForm() {
     const database = [
@@ -64,41 +63,41 @@ export default function RenderForm() {
     const getErrorMessage = fieldName => {
         switch (fieldName) {
             case 'email':
-                return '이메일 제대로 써주겠니?';
+                return '올바른 이메일 형식이 아닙니다.';
             case 'password':
-                return '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!';
+                return '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요.';
             default:
                 return '';
         }
     };
-    
-    const [cookies, setCookie] = useCookies(["refreshToken"]);
+
+    const [cookies, setCookie] = useCookies(['refreshToken']);
     const moveToHome = useNavigate();
     const submitHandler = e => {
         e.preventDefault();
 
-
         const data = {
             email: formData.email,
-            password: formData.password
+            password: formData.password,
         };
 
-        axios.post('/member/login', data)
-        .then((res) => {
-            //res.data에 토큰 들어있음
-            //local storage에 저장해서 모든 request의 header에 "Authorizatoin" 이름으로 박아야 함.!!!!!!!!!!!!!!!
-            // console.log(res.data);
-            localStorage.setItem("accessToken", res.data.accessToken);
-            setCookie("refreshToken", res.data.refreshToken);
-            console.log(localStorage.getItem("refeshToken"));
-            //메인페이지로 이동
-            moveToHome('/');
-        })
-        .catch((err) => {
-            if(err.response.status===500){
-                alert("이메일 또는 비밀번호를 잘못 입력했습니다.");
-            }
-        });
+        axios
+            .post('/member/login', data)
+            .then(res => {
+                //res.data에 토큰 들어있음
+                //local storage에 저장해서 모든 request의 header에 "Authorizatoin" 이름으로 박아야 함.!!!!!!!!!!!!!!!
+                // console.log(res.data);
+                localStorage.setItem('accessToken', res.data.accessToken);
+                setCookie('refreshToken', res.data.refreshToken);
+                console.log(localStorage.getItem('refeshToken'));
+                //메인페이지로 이동
+                moveToHome('/');
+            })
+            .catch(err => {
+                if (err.response.status === 500) {
+                    alert('이메일 또는 비밀번호를 잘못 입력했습니다.');
+                }
+            });
 
         // Validation check
         // if (isValid.email && isValid.password) {
@@ -122,10 +121,10 @@ export default function RenderForm() {
                 <InputBox label='이메일' type='text' name='email' placeholder='example@ssafy.com' required value={formData.username} onChange={changeHandler}>
                     {messages.email && <div className={`message ${isValid.email ? 'success' : 'error'}`}>{messages.email}</div>}
                 </InputBox>
-                <InputBox label='비밀번호' type='password' name='password' placeholder='비밀번호를 입력해주세요' required value={formData.password} onChange={changeHandler}>
+                <InputBox label='비밀번호' type='password' name='password' placeholder='비밀번호' required value={formData.password} onChange={changeHandler}>
                     {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
                 </InputBox>
-                <Buttons type='submit' text='이메일로 로그인하기' />
+                <Buttons type='submit' text='로그인' />
             </form>
             <div className='register-section'>
                 <Link to={'/'}>비밀번호 찾기</Link>
@@ -136,16 +135,20 @@ export default function RenderForm() {
                 <Link to={'/partner-sign-up'}>파트너 등록이 필요하신가요? </Link>
             </div>
 
-            <Buttons type='button' text='카카오로 시작' />
+            {/* <Buttons type='button' text='카카오로 시작' />
             <Buttons type='button' text='네이버로 시작' />
-            <Buttons type='button' text='구글로 시작' />
+            <Buttons type='button' text='구글로 시작' /> */}
         </div>
     );
 
     return (
         <Card className='login-form'>
             <div>
-                <div className='title'>로그인</div>
+                <div className='login-logo'>
+                    <img src={process.env.PUBLIC_URL + '/logo-rect.png'} alt='logo' />
+                </div>
+                <h1 className='center-align'>Welcome to 248</h1>
+                {/* <p className='center-align'>여러분의 행복한 이사에 함께합니다.</p> */}
                 {renderForm}
                 <Modal show={showModal} onClose={closeModalHandler} message={loginResult} />
             </div>
