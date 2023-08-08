@@ -9,13 +9,15 @@ import InputBox from '../UI/InputBox';
 import Buttons from '../UI/Buttons';
 import Modal from '../UI/Modal';
 import axios from 'axios';
+import { useSetRecoilState } from 'recoil';
+import { memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
 
 export default function RenderForm() {
-    const database = [
-        { id: 1, email: '1@123.123', password: '111!!!aaa' },
-        { id: 2, email: '2@123.123', password: '222@@@bbb' },
-        { id: 3, email: '3@123.123', password: '333###ccc' },
-    ];
+    const settermemberName = useSetRecoilState(memberNameAtom); // react setState와 동일하게 동작함
+    const settermemberEmail = useSetRecoilState(memberEmailAtom); // react setState와 동일하게 동작함
+    const settermemberType = useSetRecoilState(memberTypeAtom); // react setState와 동일하게 동작함
+    const settermemberId = useSetRecoilState(memberIdAtom); // react setState와 동일하게 동작함
+
     const [showModal, setShowModal] = useState(false);
     const closeModalHandler = () => {
         setShowModal(false);
@@ -73,6 +75,15 @@ export default function RenderForm() {
 
     const [cookies, setCookie] = useCookies(['refreshToken']);
     const moveToHome = useNavigate();
+
+    // 전역 변수 값 지정
+    const modifyGlobalVar = data => {
+        settermemberName(data.name);
+        settermemberEmail(data.email);
+        settermemberType(data.memberType);
+        settermemberId(data.m_id);
+    };
+
     const submitHandler = e => {
         e.preventDefault();
 
@@ -84,13 +95,15 @@ export default function RenderForm() {
         axios
             .post('/member/login', data)
             .then(res => {
-                //res.data에 토큰 들어있음
-                //local storage에 저장해서 모든 request의 header에 "Authorizatoin" 이름으로 박아야 함.!!!!!!!!!!!!!!!
-                // console.log(res.data);
+                // res.data에 토큰 들어있음
+                // local storage에 저장해서 모든 request의 header에 "Authorizatoin" 이름으로 박아야 함.!!!!!!!!!!!!!!!
                 localStorage.setItem('accessToken', res.data.accessToken);
                 setCookie('refreshToken', res.data.refreshToken);
-                console.log(localStorage.getItem('refeshToken'));
-                //메인페이지로 이동
+
+                // 전역 변수 값 수정
+                modifyGlobalVar(res.data);
+
+                // 메인페이지로 이동
                 moveToHome('/');
             })
             .catch(err => {
