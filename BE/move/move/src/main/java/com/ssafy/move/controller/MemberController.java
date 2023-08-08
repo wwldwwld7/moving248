@@ -106,6 +106,8 @@ public class MemberController {
     @PutMapping("/partner/{m_id}")
     public ResponseEntity<String> updatePartner(@PathVariable int m_id, @RequestPart(name = "data") UpdatePartnerRequest updatePartnerRequest,
                                                 @RequestPart(name = "file") MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+
+
         memberService.updatePartner(m_id, updatePartnerRequest, multipartFile, request);
 
         return new ResponseEntity<>("수정 완료", HttpStatus.OK);

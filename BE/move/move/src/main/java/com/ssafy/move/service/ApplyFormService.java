@@ -6,12 +6,15 @@ import com.ssafy.move.dto.response.*;
 import com.ssafy.move.repository.ApplyFormRepository;
 import com.ssafy.move.repository.SuggestionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Tuple;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,11 +22,35 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@EnableScheduling
 public class ApplyFormService {
 
     private final ApplyFormRepository applyFormRepository;
     private final SuggestionRepository suggestionRepository;
     private final S3UploaderService s3UploaderService;
+
+    // 이사날짜 지나면 자동으로 신청서 상태 이사완료로 변경
+    @Scheduled(cron = "0 0 0 * * *") // 새벽12시 되자마자 실행
+    @Transactional
+    public void updateFormStatusAutomatically() throws ParseException {
+        List<ApplyForm> applyForms = applyFormRepository.findAllApplyForm(); // 모든 신청서 조회
+
+        Date currentDate = new Date();
+
+        for (ApplyForm applyForm : applyForms) {
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            String dateString = applyForm.getFDate();
+
+            Date fDate = sdf.parse(dateString);
+
+            if (currentDate.after(fDate)) {
+                applyFormRepository.updateFormStatus(applyForm.getId());
+            }
+        }
+    }
+
 
     // 신청서 유무
     @Transactional
@@ -122,14 +149,27 @@ public class ApplyFormService {
            //FormStatus formStatus = af.get(1, FormStatus.class);
             MoveCategory moveCategory = af.get(1, MoveCategory.class);
 
+            String depSido = af.get(2, String.class);
+            String depGu = af.get(3, String.class);
+            String arrSido = af.get(4, String.class);
+            String arrGu = af.get(5, String.class);
 
             applyFormResponseDto.setF_id(applyForm.getId());
+            applyFormResponseDto.setU_id(applyForm.getUId().getId());
+
+            if (applyForm.getPId() == null)
+                applyFormResponseDto.setP_id(0);
+            else
+                applyFormResponseDto.setP_id(applyForm.getPId().getId());
+
             applyFormResponseDto.setF_status(applyForm.getFStatus()-'0');
             applyFormResponseDto.setF_date(applyForm.getFDate());
-            applyFormResponseDto.setF_dep_sido(applyForm.getFDepSido());
-            applyFormResponseDto.setF_dep_gungu(applyForm.getFDepGungu());
-            applyFormResponseDto. setF_arr_sido(applyForm.getFArrSido());
-            applyFormResponseDto.setF_arr_gungu(applyForm.getFArrGungu());
+
+            applyFormResponseDto.setF_dep_sido(depSido);
+            applyFormResponseDto.setF_dep_gungu(depGu);
+            applyFormResponseDto. setF_arr_sido(arrSido);
+            applyFormResponseDto.setF_arr_gungu(arrGu);
+
             applyFormResponseDto.setF_category(moveCategory.getCategoryName());
 
             list.add(applyFormResponseDto);
@@ -153,13 +193,45 @@ public class ApplyFormService {
             //FormStatus formStatus = af.get(1, FormStatus.class);
             MoveCategory moveCategory = af.get(1, MoveCategory.class);
 
+            String depSido = af.get(2, String.class);
+            String depGu = af.get(3, String.class);
+            String arrSido = af.get(4, String.class);
+            String arrGu = af.get(5, String.class);
 
-            ApplyFormResponseDto applyFormResponseDto = new ApplyFormResponseDto(
 
-                    applyForm.getId(), (applyForm.getFStatus()-'0'), applyForm.getFDate(),
-                    applyForm.getFDepSido(), applyForm.getFDepGungu(), applyForm.getFArrSido(),
-                    applyForm.getFArrGungu(), moveCategory.getCategoryName()
-            );
+
+            ApplyFormResponseDto applyFormResponseDto = new ApplyFormResponseDto();
+
+            applyFormResponseDto.setF_id(applyForm.getId());
+            applyFormResponseDto.setU_id(applyForm.getUId().getId());
+
+            if (applyForm.getPId() == null)
+                applyFormResponseDto.setP_id(0);
+            else
+                applyFormResponseDto.setP_id(applyForm.getPId().getId());
+
+
+            applyFormResponseDto.setF_status(applyForm.getFStatus()-'0');
+            
+            int status = applyForm.getFStatus()-'0';
+
+
+            // 입찰중
+            if (status == 1){
+                applyFormResponseDto.setF_status_name("입찰중");
+            } else if (status == 2) {
+                applyFormResponseDto.setF_status_name("확정");
+            } else{
+                applyFormResponseDto.setF_status_name("완료");
+            }
+
+            applyFormResponseDto.setF_date(applyForm.getFDate());
+            applyFormResponseDto.setF_dep_sido(depSido);
+            applyFormResponseDto.setF_dep_gungu(depGu);
+            applyFormResponseDto.setF_arr_sido(arrSido);
+            applyFormResponseDto.setF_arr_gungu(arrGu);
+            applyFormResponseDto.setF_category(moveCategory.getCategoryName());
+
             list.add(applyFormResponseDto);
         }
         return list;
@@ -181,6 +253,12 @@ public class ApplyFormService {
             //FormStatus formStatus = af.get(1, FormStatus.class);
             MoveCategory moveCategory = af.get(1, MoveCategory.class);
 
+            String depSido = af.get(2, String.class);
+            String depGu = af.get(3, String.class);
+            String arrSido = af.get(4, String.class);
+            String arrGu = af.get(5, String.class);
+
+
             detailApply.setF_id(applyForm.getId());
             detailApply.setU_id(applyForm.getUId().getId());
             if (applyForm.getPId() != null)
@@ -190,12 +268,12 @@ public class ApplyFormService {
             detailApply.setUserName(applyForm.getUId().getName());
             detailApply.setF_category(moveCategory.getCategoryName());
             detailApply.setF_date(applyForm.getFDate());
-            detailApply.setF_dep_sido(applyForm.getFDepSido());
-            detailApply.setF_dep_gungu(applyForm.getFDepGungu());
+            detailApply.setF_dep_sido(depSido);
+            detailApply.setF_dep_gungu(depGu);
             detailApply.setF_dep_ev(applyForm.getFDepEv());
             detailApply.setF_dep_ladder(applyForm.getFDepLadder());
-            detailApply.setF_arr_sido(applyForm.getFArrSido());
-            detailApply.setF_arr_gungu(applyForm.getFArrGungu());
+            detailApply.setF_arr_sido(arrSido);
+            detailApply.setF_arr_gungu(arrGu);
             detailApply.setF_arr_ev(applyForm.getFArrEv());
             detailApply.setF_arr_ladder(applyForm.getFArrLadder());
             detailApply.setF_room_video_url(applyForm.getFRoomVideoUrl());

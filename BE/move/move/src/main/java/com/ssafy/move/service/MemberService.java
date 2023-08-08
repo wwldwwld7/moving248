@@ -114,11 +114,12 @@ public class MemberService {
         Members member = memberRepository.findById(id)
                 .orElseThrow(()->new BadRequestException("유저가 존재하지 않습니다."));
 
-        Token tk = jwtProvider.getToken(request.getHeader("Authorization"));
 
-        if(!tk.getEmail().equals(member.getEmail())) throw new BadRequestException("토큰 정보가 다릅니다.");
+//        Token tk = jwtProvider.getToken(request.getHeader("Authorization"));
+//
+//        if(!tk.getEmail().equals(member.getEmail())) throw new BadRequestException("토큰 정보가 다릅니다.");
 
-        String profileUrl = s3UploaderService.uploadFileByClient(multipartFile, "yeonybucket", "file");
+
 
         member.setName(updatePartnerRequest.getName());
         member.setPCeo(updatePartnerRequest.getPCeo());
@@ -129,7 +130,17 @@ public class MemberService {
         member.setPEndTime(updatePartnerRequest.getPEndTime());
         member.setPDesc(updatePartnerRequest.getPDesc());
         member.setPLocation(updatePartnerRequest.getPLocation());
-        member.setProfileUrl(profileUrl);
+
+        // 만약 정보수정할 때 이미지 업로드 안 할 경우
+
+        
+        if (!multipartFile.isEmpty()) {
+            String profileUrl = s3UploaderService.uploadFileByClient(multipartFile, "yeonybucket", "file");
+            member.setProfileUrl(profileUrl);
+        } else {
+            member.setProfileUrl(updatePartnerRequest.getProfileUrl());
+        }
+
 
         String encodedPassword = passwordEncoder.encode(updatePartnerRequest.getPassword());
         member.setPassword(encodedPassword);
