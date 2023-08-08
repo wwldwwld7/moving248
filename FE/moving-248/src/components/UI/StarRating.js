@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from './StarRating.module.css'; // 위에서 정의한 CSS 클래스를 가져옵니다.
+import classes from './StarRating.module.css';
 
 const StarRating = ({ rating }) => {
     const stars = [];

@@ -10,8 +10,17 @@ const InputBox = props => {
 
     return (
         <div className={`${classes.input_box}`}>
-            <label>{label}</label>
-            <input className={`${classes.input_field} ${!isValid ? classes.invalid : ''}`} type={type} name={name} placeholder={placeholder} required={required} value={value} onChange={onChange} />
+            {/* <label>{label}</label> */}
+            <input
+                label={label}
+                className={`${classes.input_field} ${!isValid ? classes.invalid : ''}`}
+                type={type}
+                name={name}
+                placeholder={placeholder}
+                required={required}
+                value={value}
+                onChange={onChange}
+            />
             {/* Optionally, you can display the error message here for better placement */}
             {props.children}
         </div>

@@ -5,23 +5,39 @@ import StarRating from '../UI/StarRating';
 
 const MoverMyPageHistory = props => {
     const [historyList, setHistoryList] = useState([
-
         {
-        f_id: 'P00421512',
-        f_date: '2023.08.04',
-        f_partnername: '승용이사',
-        f_cost: '500,000',
-        f_rate: '3',
-        f_content: 'zz',},
+            f_id: 'P00421512',
+            f_date: '2023.08.04',
+            f_partnername: '승용이사',
+            f_cost: '500,000',
+            f_rate: '3',
+            f_content: 'zz',
+        },
         {
             f_id: 'P004212525',
             f_date: '2023.09.10',
             f_partnername: '현중이사',
             f_cost: '100,000',
             f_rate: '4',
-            f_content: '굿',},
-
-        ]);
+            f_content: '굿',
+        },
+        {
+            f_id: 'P004212525',
+            f_date: '2023.09.10',
+            f_partnername: '현중이사',
+            f_cost: '100,000',
+            f_rate: '4',
+            f_content: '굿',
+        },
+        {
+            f_id: 'P004212525',
+            f_date: '2023.09.10',
+            f_partnername: '현중이사',
+            f_cost: '100,000',
+            f_rate: '4',
+            f_content: '굿',
+        },
+    ]);
     // const [editingContent, setEditingContent] = useState(historyInfo.f_content);
     // const [editingRate, setEditingRate] = useState(historyInfo.f_rate);
 
@@ -70,7 +86,7 @@ const MoverMyPageHistory = props => {
     // };
 
     return (
-        <div className='sec-two-two-container inner__section'>
+        <div className='sec-two-two-container inner__section hb-scroll'>
             <h2>지난 이사</h2>
             {historyList.map((history, index) => (
                 <div key={index} className='applyform-block'>
@@ -91,14 +107,7 @@ const MoverMyPageHistory = props => {
                         <div className='star-rating'>
                             <b>평점 ({history.f_rate}.0/5.0)</b>
                             {history.isEditing ? (
-                                <input
-                                    type='number'
-                                    value={history.f_rate}
-                                    min='1'
-                                    max='5'
-                                    onChange={event => handleRateChange(event, index)}
-                                    className='rate-input'
-                                />
+                                <input type='number' value={history.f_rate} min='1' max='5' onChange={event => handleRateChange(event, index)} className='rate-input' />
                             ) : (
                                 <StarRating rating={history.f_rate} />
                             )}
@@ -107,7 +116,7 @@ const MoverMyPageHistory = props => {
                             <b>후기</b>
                             {history.isEditing ? (
                                 <>
-                                    <textarea className='textarea-editing' value={history.f_content} onChange={event => handleContentChange(event, index)} />
+                                    <textarea className='textarea-editing-hb' value={history.f_content} onChange={event => handleContentChange(event, index)} />
                                     <button className='review-button' onClick={() => handleSaveClick(index)}>
                                         저장
                                     </button>

@@ -53,54 +53,61 @@ const MoverMyPageDetail = props => {
 
     return (
         <div className='sec-two-one-container inner__section  overlap-imgbox'>
-                    <div className='mypage-detail-flexbox'>
-                        <h1 className='sec-two-container__h2'>마이페이지</h1>
-                    </div>
-                    <div className='mypage-detail-flexbox vertical-align-center'>
-                        <div className='vertical-center'>
-                            <h2>{isEditing ? 
-                            (
-                            <>이름 :
-                            <input className='textarea-editing'  name='username' value={userInfo.username} onChange={handleUserInfoChange} /> 
-                            </>
-                            )
-                            : userInfo.username}</h2>
-                        </div>
-                        <div className='vertical-center'>
-                        <h3>연락처 : {isEditing ? <input className='textarea-editing'  name='phone' value={userInfo.phone} onChange={handleUserInfoChange} /> : userInfo.phone}</h3>
-                        </div>
-                        <div className='vertical-center'>
-                        <h3>이메일 : {isEditing ? <input type='text' name='email' value={userInfo.email} onChange={handleUserInfoChange} /> : userInfo.email}</h3>
-                        </div>
-                        <div>
+            <div className='mypage-detail-flexbox'>
+                <h1 className='sec-two-container__h2'>마이페이지</h1>
+            </div>
+            <div className='mypage-detail-flexbox vertical-align-center'>
+                <div className='vertical-center'>
+                    <h2>
                         {isEditing ? (
                             <>
-                                <h3>이미지 URL :</h3>
-                                <textarea className='textarea-editing' name='profile_url' value={userInfo.profile_url} onChange={handleUserInfoChange} />
-                            </>
-                            ) : (
-                                <img className='vertical-center-image' src={userInfo.profile_url} alt='Profile' />
-                            )}
-                        </div>
-                    </div>
-
-                    <div className='mypage-detail-button-align'>
-                    {isEditing ? (
-                            <>
-                                <Buttons type='button' text='저장' small={true} onClick={handleSaveClick} />
-                                <Buttons type='button' text='취소' small={true} onClick={() => setIsEditing(false)} />
+                                이름 : <input className='textarea-editing' name='username' value={userInfo.username} onChange={handleUserInfoChange} />
                             </>
                         ) : (
-                            <Buttons type='button' text='정보 수정' small={true} onClick={handleEditClick} />
+                            userInfo.username
                         )}
-                        <Buttons type='button' text='회원 탈퇴' small={true} delete={true} onClick={handleDeleteClick} />
-                    </div>
-                    <Modal
-                        show={showModal}
-                        onClose={handleModalClose}
-                        message='정말로 회원 탈퇴하시겠습니까?' // Modal에 표시할 메시지
-                        onConfirm={handleConfirmDelete} // "예" 버튼 클릭 시 동작
-                    />
+                    </h2>
+                </div>
+                <div className='vertical-center'>
+                    <h3>연락처 : {isEditing ? <input className='textarea-editing' name='phone' value={userInfo.phone} onChange={handleUserInfoChange} /> : userInfo.phone}</h3>
+                </div>
+                <div className='vertical-center'>
+                    <h3>이메일 : {isEditing ? <input className='textarea-editing' type='text' name='email' value={userInfo.email} onChange={handleUserInfoChange} /> : userInfo.email}</h3>
+                </div>
+                <div>
+                    {isEditing ? (
+                        <>
+                            <h3>프로필 이미지</h3>
+                            <input type='file' name='file' />
+                            {/* <textarea className='textarea-editing' name='profile_url' value={userInfo.profile_url} onChange={handleUserInfoChange} /> */}
+                        </>
+                    ) : (
+                        <img className='vertical-center-image' src={userInfo.profile_url} alt='Profile' />
+                    )}
+                </div>
+            </div>
+
+            <div className='mypage-detail-button-align'>
+                {isEditing ? (
+                    <>
+                        <input className='button-modify' type='button' value={'저장'} onClick={handleSaveClick} />
+                        <input className='button-modify' type='button' value={'취소'} onClick={() => setIsEditing(false)} />
+                        {/* <Buttons type='button' text='저장' small={true} onClick={handleSaveClick} />
+                            <Buttons type='button' text='취소' small={true} onClick={() => setIsEditing(false)} /> */}
+                    </>
+                ) : (
+                    <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
+                    // <Buttons type='button' text='정보 수정' small={true} onClick={handleEditClick} />
+                )}
+                <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDeleteClick} />
+                {/* <Buttons type='button' text='회원 탈퇴' small={true} delete={true} onClick={handleDeleteClick} /> */}
+            </div>
+            <Modal
+                show={showModal}
+                onClose={handleModalClose}
+                message='정말로 회원 탈퇴하시겠습니까?' // Modal에 표시할 메시지
+                onConfirm={handleConfirmDelete} // "예" 버튼 클릭 시 동작
+            />
         </div>
     );
 };

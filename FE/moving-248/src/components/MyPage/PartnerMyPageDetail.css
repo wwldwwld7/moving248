@@ -1,6 +1,54 @@
 .mypage-detail-button-align {
     display: flex;
-    flex-direction: row; /* 수평(행) 방향으로 정렬 */
+    flex-direction: row;
+    justify-content: center; /* 수평(행) 방향으로 정렬 */
+}
+
+.button-modify {
+    background-color: #9b8d78;
+    color: white;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    border: 0px;
+    border-radius: 4px;
+    width: 30%;
+    padding: 12px;
+}
+
+.button-modify:hover {
+    background-color: #3a2c2b;
+}
+.button-send {
+    background-color: #9b8d78;
+    color: white;
+    font-size: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 0px;
+    border-radius: 4px;
+    width: 100%;
+    padding: 12px;
+}
+
+.button-send:hover {
+    background-color: #3a2c2b;
+}
+
+.button-delete {
+    background-color: grey;
+    color: white;
+    font-size: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 0px;
+    border-radius: 4px;
+    width: 30%;
+    padding: 12px;
+}
+
+.button-delete:hover {
+    background-color: red;
 }
 
 .partner-outerbox {
@@ -63,7 +111,8 @@ h3 {
     width: 5rem;
     height: 2rem;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 0px;
+    background-color: #e9e7e7;
     border-radius: 4px;
     resize: vertical;
     font-size: 1rem;
@@ -74,9 +123,27 @@ h3 {
     width: 50%;
     height: 150px;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 0px;
+    background-color: #e9e7e7;
     border-radius: 4px;
-    resize: vertical;
+    resize: none;
     font-size: 1rem;
+    font-weight: bold;
     line-height: 1.5;
+}
+
+table {
+    display: inline;
+}
+th {
+    text-align: left;
+    font-size: 1.2rem;
+    padding-right: 10px;
+}
+td {
+    font-size: 1rem;
+    padding-right: 100px;
+}
+.messagebutton {
+    text-align: right;
 }
