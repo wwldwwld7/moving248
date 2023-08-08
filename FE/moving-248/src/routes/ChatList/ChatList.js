@@ -46,10 +46,10 @@ export default function ChatList() {
     // }
 
     return (
-        <div className='root'>
+        <div className='rot'>
             {/* <Header /> */}
             {/* <FontAwesomeIcon icon={faSearch} className='search' /> */}
-            <h2 className='header'>248 메신저</h2>
+            <h2 className='head'>248 메신저</h2>
             {/* <LineDrawing></LineDrawing> */}
 
             {/* <div className=''>
@@ -91,17 +91,17 @@ export default function ChatList() {
                             key={index}
                             className='profileList'
                             onClick={() => {
-                                window.open(`chat-list/chat-detail/`, '_blank', 'width=500, height=600');
+                                window.open(`/chat-list/chat-detail`, '_blank', 'width=500, height=800');
                             }}
                         >
-                            <img src='apple.jpg' className='profile_img' alt='profile_img' style={{ width: '100px', height: '100px' }}></img>
+                            <img src='/apple.jpg' className='profile_img' alt='profile_img' style={{ width: '100px', height: '100px' }}></img>
                             <div className='profile'>
                                 <div className='nameDate'>
                                     <div className='name'>{name.length > 5 ? `${name.slice(0, 5)}...` : name}</div>
                                     <p className='sub date'>2020.02.02</p>
                                 </div>
 
-                                <div className='message'>
+                                <div className='chat__message'>
                                     <div className='lastMassage paragraph'>{text.length > 25 ? `${text.slice(0, 25)}...` : text}</div>
                                     <div className='dot' style={{ width: '15px', height: '15px' }}></div>
                                 </div>

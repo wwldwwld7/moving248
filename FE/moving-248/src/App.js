@@ -12,10 +12,13 @@ import ApplyList from './routes/ApplyList/ApplyList';
 import ApplyDetail from './routes/ApplyDetail/ApplyDetail';
 import MoverMyPage from './routes/MyPage/MoverMyPage';
 import PartnerMyPage from './routes/MyPage/PartnerMyPage';
+import Header from './components/header/Header';
+import Footer from './components/Footer/Footer';
 
 function App() {
     return (
         <BrowserRouter>
+            <Header />
             <Routes>
                 {/* 정적 url 사용 */}
                 <Route path='/' element={<Home />} />
@@ -33,6 +36,7 @@ function App() {
                 {/* 동적 url 사용 */}
                 {/* <Route path='/movie/:id' element={<Detail />} /> */}
             </Routes>
+            <Footer />
         </BrowserRouter>
     );
 }

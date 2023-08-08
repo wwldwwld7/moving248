@@ -12,8 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +24,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    private final S3UploaderService s3UploaderService;
 
     //유저 회원가입
     @Transactional
@@ -61,6 +64,8 @@ public class MemberService {
         member.setPassword(encodedPassword);
         member.setPCode(signUpPartnerRequest.getP_code());
         member.setPCeo(signUpPartnerRequest.getP_ceo());
+        int exp = 2023-Integer.parseInt(signUpPartnerRequest.getP_exp().substring(0,4));
+        member.setPExp(exp);
         member.setPLocation(signUpPartnerRequest.getP_location());
         member.setProfileUrl(signUpPartnerRequest.getProfile_url());
 
@@ -105,13 +110,15 @@ public class MemberService {
     }
 
     @Transactional
-    public void updatePartner(int id, UpdatePartnerRequest updatePartnerRequest, HttpServletRequest request) throws JsonProcessingException {
+    public void updatePartner(int id, UpdatePartnerRequest updatePartnerRequest, MultipartFile multipartFile, HttpServletRequest request) throws IOException {
         Members member = memberRepository.findById(id)
                 .orElseThrow(()->new BadRequestException("유저가 존재하지 않습니다."));
 
         Token tk = jwtProvider.getToken(request.getHeader("Authorization"));
 
         if(!tk.getEmail().equals(member.getEmail())) throw new BadRequestException("토큰 정보가 다릅니다.");
+
+        String profileUrl = s3UploaderService.uploadFileByClient(multipartFile, "yeonybucket", "file");
 
         member.setName(updatePartnerRequest.getName());
         member.setPCeo(updatePartnerRequest.getPCeo());
@@ -122,7 +129,7 @@ public class MemberService {
         member.setPEndTime(updatePartnerRequest.getPEndTime());
         member.setPDesc(updatePartnerRequest.getPDesc());
         member.setPLocation(updatePartnerRequest.getPLocation());
-        member.setProfileUrl(updatePartnerRequest.getProfileUrl());
+        member.setProfileUrl(profileUrl);
 
         String encodedPassword = passwordEncoder.encode(updatePartnerRequest.getPassword());
         member.setPassword(encodedPassword);

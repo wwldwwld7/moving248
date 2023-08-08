@@ -1,0 +1,57 @@
+.sub {
+    color: gray;
+}
+
+.apply-detail__location-div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-self: flex-end;
+    /* 태그들을 양옆으로 붙이고 자동 간격 */
+}
+
+.apply-detail__icon {
+    width: auto;
+    height: 2.2rem;
+    padding-left: 1rem;
+
+    /* padding-right: 1rem; */
+    /* padding-bottom: 2rem; */
+}
+
+.sec-two-container__paragraph-with-icon {
+    padding-top: 15px;
+}
+
+.suggestion-block {
+    background-color: white;
+    border: 2px solid var(--color-primary-variant);
+    border-radius: 5px;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    padding: 2rem;
+    position: relative;
+    padding-top: 3rem;
+    padding-bottom: 4rem;
+}
+
+.suggestion-block__image {
+    border: 1px solid var(--color-primary-variant);
+    width: 8rem;
+    height: 8rem;
+    margin-right: 2rem;
+}
+
+.sec-two-container__paragraph {
+    padding-bottom: 0.5rem;
+}
+
+.suggestion-block__inner {
+    width: 100%;
+}
+
+.suggestion-block__h5 {
+    margin-top: 1rem;
+    margin-bottom: 5px;
+}

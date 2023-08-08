@@ -54,9 +54,9 @@ public class JwtProvider {
         String refreshToken = createToken(rtk, rtkLive);
         
         //redis에 refreshtoken저장
-        redisService.setValue(memberResponse.getEmail(), refreshToken, Duration.ofMillis(rtkLive));
+        // redisService.setValue(memberResponse.getEmail(), refreshToken, Duration.ofMillis(rtkLive));
 
-        return new TokenResponse(accessToken, refreshToken);
+        return new TokenResponse(accessToken, refreshToken, memberResponse.getM_id(), memberResponse.getEmail(), memberResponse.getMemberType(), memberResponse.getName());
     }
 
     public String createToken(Token token, Long tokenLive) throws JsonProcessingException {
@@ -78,17 +78,17 @@ public class JwtProvider {
     //accesstoken 재발급
     public TokenResponse reissueAtk(MemberResponse memberResponse) throws JsonProcessingException {
         String rtkInRedis = redisService.getValues(memberResponse.getEmail());
-        System.out.println(rtkInRedis);
+//        System.out.println("레디스에서 가져옴"+rtkInRedis);
         if(Objects.isNull(rtkInRedis)) throw new BadRequestException("인증 정보가 만료되었습니다.");
 
         Token atk = Token.atk(
                 memberResponse.getEmail(),
                 memberResponse.getName()
         );
-
         String accessToken = createToken(atk, atkLive);
+//        System.out.println("토큰프로바이더"+accessToken);
 
-        return new TokenResponse(accessToken, null);
+        return new TokenResponse(accessToken, null, memberResponse.getM_id(), memberResponse.getEmail(), memberResponse.getMemberType(), memberResponse.getName());
     }
 
     //토큰의 권한 확인을 위한 요청이 들어오면

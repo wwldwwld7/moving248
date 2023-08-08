@@ -1,12 +1,9 @@
-import Footer from '../../components/Footer/Footer.jsx';
 import VideoBox from './VideoBox.jsx';
-import Header from '../../components/header/Header.jsx';
 import './Home.css';
 
 export default function Home() {
     return (
         <div>
-            <Header />
             <VideoBox />
 
             <section className='max-container section home__sec-two-container-outer'>
@@ -191,7 +188,6 @@ export default function Home() {
                 </div>
             </section> 
             */}
-            <Footer />
         </div>
     );
 }

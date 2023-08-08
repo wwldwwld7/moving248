@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `test2`.`members` (
   `member_type` CHAR(1) NOT NULL,
   `email` VARCHAR(30) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
-  `phone` VARCHAR(12) NOT NULL,
+  `phone` VARCHAR(13) NOT NULL,
   `name` VARCHAR(15) NOT NULL,
   `profile_url` VARCHAR(255) NULL DEFAULT NULL,
   `p_ceo` VARCHAR(15) NULL DEFAULT NULL,

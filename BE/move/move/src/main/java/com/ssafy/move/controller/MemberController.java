@@ -8,14 +8,17 @@ import com.ssafy.move.jwt.JwtProvider;
 import com.ssafy.move.jwt.RedisService;
 import com.ssafy.move.service.MemberDetails;
 import com.ssafy.move.service.MemberService;
+import com.ssafy.move.service.S3UploaderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.Objects;
 
 @RestController
@@ -79,7 +82,8 @@ public class MemberController {
 
     //accesstoken 재발급
     @GetMapping("/reissue")
-    public TokenResponse reissue(@AuthenticationPrincipal MemberDetails memberDetails) throws JsonProcessingException {
+    public TokenResponse reissue(@AuthenticationPrincipal MemberDetails memberDetails, HttpServletRequest request) throws JsonProcessingException {
+//        System.out.println("권한"+request.getHeader("Authorization"));
         MemberResponse memberResponse = MemberResponse.of(memberDetails.getMembers());
 
         return jwtProvider.reissueAtk(memberResponse);
@@ -100,8 +104,9 @@ public class MemberController {
 
     //파트너 정보 수정
     @PutMapping("/partner/{m_id}")
-    public ResponseEntity<String> updatePartner(@PathVariable int m_id, @RequestBody UpdatePartnerRequest updatePartnerRequest, HttpServletRequest request) throws JsonProcessingException {
-        memberService.updatePartner(m_id, updatePartnerRequest, request);
+    public ResponseEntity<String> updatePartner(@PathVariable int m_id, @RequestPart(name = "data") UpdatePartnerRequest updatePartnerRequest,
+                                                @RequestPart(name = "file") MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+        memberService.updatePartner(m_id, updatePartnerRequest, multipartFile, request);
 
         return new ResponseEntity<>("수정 완료", HttpStatus.OK);
     }

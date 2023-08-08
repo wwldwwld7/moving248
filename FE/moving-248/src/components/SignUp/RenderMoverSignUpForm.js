@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Card from '../UI/Card';
 import InputBox from '../UI/InputBox';
 import Buttons from '../UI/Buttons';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const RenderMoverSignUpForm = props => {
     const [formData, setFormData] = useState({
@@ -62,30 +64,53 @@ const RenderMoverSignUpForm = props => {
             case 'username':
                 return '2글자 이상 5글자 미만으로 입력해주세요.';
             case 'email':
-                return '이메일 제대로 써주겠니?';
+                return '올바른 이메일 형식이 아닙니다.';
             case 'telephone':
-                return '폰번호 제대로 써주세요';
+                return '-를 추가해주세요';
             case 'password':
                 return '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!';
             case 'checkPass':
-                return '입력한 비밀번호와 맞지 않아요. 확인부탁 ㅜ ㅜ';
+                return '비밀번호가 일치하지 않습니다.';
             default:
                 return '';
         }
     };
 
+    const moveToHome = useNavigate();
     const submitHandler = e => {
         e.preventDefault();
 
+        const data = {
+            name: formData.username,
+            phone: formData.telephone,
+            email: formData.email,
+            password: formData.password,
+        };
+
+        axios
+            .post('/member/user', data)
+            .then(res => {
+                if (res.request.statusText == 'Created') {
+                    alert('회원가입 완료');
+                    moveToHome('/');
+                }
+                // console.log(res);
+            })
+            .catch(err => {
+                if (err.response.status == 500) {
+                    alert('이미 존재하는 이메일 입니다.');
+                }
+            });
+
         // Validation check
-        if (isValid.username && isValid.email && isValid.telephone && isValid.password && isValid.checkPass) {
-            console.log('Form submitted successfully!');
-        }
+        // if (isValid.username && isValid.email && isValid.telephone && isValid.password && isValid.checkPass) {
+        //     console.log('Form submitted successfully!');
+        // }
 
         // 넣어라 api call login here
     };
 
-    const RenderButton = <Buttons type='submit' text='회원가입' disabled={!(isValid.username && isValid.email && isValid.telephone && isValid.password && isValid.checkPass)}></Buttons>;
+    const RenderButton = <Buttons type='submit' text='가입완료' disabled={!(isValid.username && isValid.email && isValid.telephone && isValid.password && isValid.checkPass)}></Buttons>;
 
     const RenderInputBox = (
         <div className='form'>
@@ -116,7 +141,7 @@ const RenderMoverSignUpForm = props => {
 
     return (
         <Card>
-            <div className='title'>회원가입</div>
+            <h1 className='center-align'>회원가입</h1>
             <div>{RenderInputBox}</div>
         </Card>
     );

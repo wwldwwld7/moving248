@@ -7,10 +7,10 @@
     color: #fff;
     width: 100%;
     padding: 12px;
+    border-radius: 3px;
 }
 
 .button_field:hover {
-    width: 100%;
     background: #3a2c2b;
 }
 

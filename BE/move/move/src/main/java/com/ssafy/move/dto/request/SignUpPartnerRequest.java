@@ -18,6 +18,8 @@ public class SignUpPartnerRequest {
 
     private final String p_ceo;
 
+    private final String p_exp;
+
     private final String p_location;
 
     private final String profile_url;

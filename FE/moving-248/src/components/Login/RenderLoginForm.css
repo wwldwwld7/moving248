@@ -7,12 +7,19 @@
     font-size: 12px;
 }
 
+.margin-box {
+    padding-top: 77px;
+}
+
 .title {
-    font-size: 25px;
+    font-size: 30px;
     margin-bottom: 30px;
     text-align: center;
 }
 
+.register-section {
+    padding-top: 10px;
+}
 .register-section,
 .register-section2 {
     display: flex;
@@ -33,6 +40,20 @@
 
 .register-divider {
     padding: 0 15px; /* Add padding to create space for the divider */
+}
+
+.login-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    margin-top: 50px;
+}
+
+img {
+    width: 200px;
 }
 
 /* input[type='text'],
