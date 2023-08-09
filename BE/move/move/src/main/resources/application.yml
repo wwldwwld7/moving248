@@ -62,8 +62,8 @@ cloud:
       auto: false
     credentials:
       instance-profile: true
-      access-key: ENC(99u7DxMINZ7D0Itv2rWmxX8dyk7lK5MNN5AmunY3uUM=)
-      secret-key: ENC(OkGTeq7fTfYIaZuj7OAgLQkXykF96i40SFr7hloSIz4lzoxul7pZ1YS4OiWz3I3Lo5SZfnWCuBk=)
+      access-key: ENC(ygiolVWr3vioSlXjufEa0N3yy14Motmb7E9tZ3ZlEFk=)
+      secret-key: ENC(3MsOma3EhOtToXCgljBugcQru5SqMgUbB3ESnjx6PEVt/WtqCvzJzB88MJmQd7ex+Ns6M6ghrSA=)
 
 ---
 # 로컬 환경

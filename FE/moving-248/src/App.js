@@ -14,10 +14,13 @@ import MoverMyPage from './routes/MyPage/MoverMyPage';
 import PartnerMyPage from './routes/MyPage/PartnerMyPage';
 import Header from './components/header/Header';
 import Footer from './components/Footer/Footer';
+import ScrollToTop from './routes/ScrollTop/ScrollTop';
 
 function App() {
     return (
         <BrowserRouter>
+            <ScrollToTop />
+
             <Header />
             <Routes>
                 {/* 정적 url 사용 */}

@@ -10,8 +10,8 @@ import { useNavigate } from 'react-router-dom';
 // import { defaultInstance as api } from '../../jwt/token';
 
 export default function Header() {
-    const memberName = useRecoilValue(memberNameAtom); // 값 가져오기
-    const memberEmail = useRecoilValue(memberEmailAtom);
+    // const memberName = useRecoilValue(memberNameAtom); // 값 가져오기
+    // const memberEmail = useRecoilValue(memberEmailAtom);
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
     const settermemberName = useSetRecoilState(memberNameAtom); // react setState와 동일하게 동작함
@@ -62,7 +62,7 @@ export default function Header() {
             setBtntxt('시작하기');
             setBtnUrl('/login');
         }
-    }, [memberId, isactiveApply]);
+    }, [memberId, isactiveApply, memberType]);
 
     const navigate = useNavigate();
 
@@ -71,12 +71,16 @@ export default function Header() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('accessToken');
-        document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        settermemberName('');
-        settermemberEmail('');
-        settermemberType('');
-        settermemberId('');
+        const confirmed = window.confirm('로그아웃 하시겠습니까?');
+        if (confirmed) {
+            // 확인 버튼을 눌렀을 때 수행할 작업
+            localStorage.removeItem('accessToken');
+            document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            settermemberName('');
+            settermemberEmail('');
+            settermemberType('');
+            settermemberId('');
+        }
     };
 
     return (

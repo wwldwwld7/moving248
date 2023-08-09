@@ -90,7 +90,7 @@ const RenderMoverSignUpForm = props => {
             .post('/member/user', data)
             .then(res => {
                 if (res.request.statusText === 'Created') {
-                    alert('회원가입 완료');
+                    alert('회원가입이 완료되었습니다.');
                     moveToHome('/');
                 }
             })
