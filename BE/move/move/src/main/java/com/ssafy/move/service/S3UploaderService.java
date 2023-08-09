@@ -67,7 +67,6 @@ public class S3UploaderService {
 
         String fileName = dirName + "/" + UUID.randomUUID() + uploadFile.getName(); // s3 에 저장될 이름
 
-        System.out.println(fileName);
 
         // s3에 업로드
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile)
