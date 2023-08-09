@@ -259,6 +259,9 @@ section {
     padding-top: var(--size-section-margin);
 }
 
+.display-none {
+    display: none;
+}
 /* 768 이하 */
 @media (max-width: 768px) {
     .sec-one-half-container {

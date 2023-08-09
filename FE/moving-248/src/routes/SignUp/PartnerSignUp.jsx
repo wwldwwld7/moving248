@@ -4,7 +4,7 @@ import ImgBox from '../../components/ImgBox/ImgBox';
 const PartnerSignUp = props => {
     return (
         <div>
-            <ImgBox imgSrc='fam2' imgTitle='신규 회원가입' />
+            <ImgBox imgSrc='partner' imgTitle='파트너 회원가입' />
             <RenderPartnerSignUpForm />
         </div>
     );

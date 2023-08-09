@@ -66,8 +66,8 @@ export default function RenderForm() {
         switch (fieldName) {
             case 'email':
                 return '올바른 이메일 형식이 아닙니다.';
-            case 'password':
-                return '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요.';
+            // case 'password':
+            //     return '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요.';
             default:
                 return '';
         }
