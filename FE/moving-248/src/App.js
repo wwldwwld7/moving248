@@ -32,11 +32,12 @@ function App() {
                 <Route path='/mover-sign-up' element={<MoverSignUp />} />
                 <Route path='/partner-sign-up' element={<PartnerSignUp />} />
                 <Route path='/apply-list' element={<ApplyList />} />
-                <Route path='/apply-detail' element={<ApplyDetail />} />
+
                 <Route path='/mover-my-page' element={<MoverMyPage />} />
                 <Route path='/partner-my-page' element={<PartnerMyPage />} />
 
                 {/* 동적 url 사용 */}
+                <Route path='/apply-detail/:id' element={<ApplyDetail />} />
                 {/* <Route path='/movie/:id' element={<Detail />} /> */}
             </Routes>
             <Footer />

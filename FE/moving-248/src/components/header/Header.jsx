@@ -5,19 +5,21 @@ import { faUser, faRightFromBracket, faEnvelopeOpenText } from '@fortawesome/fre
 import './Header.css';
 import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
+import { memberActiveApplyAtom, memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
 import { useNavigate } from 'react-router-dom';
-// import { defaultInstance as api } from '../../jwt/token';
 
 export default function Header() {
     // const memberName = useRecoilValue(memberNameAtom); // 값 가져오기
     // const memberEmail = useRecoilValue(memberEmailAtom);
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
+    const memberActiveApply = useRecoilValue(memberActiveApplyAtom);
+
     const settermemberName = useSetRecoilState(memberNameAtom); // react setState와 동일하게 동작함
     const settermemberEmail = useSetRecoilState(memberEmailAtom); // react setState와 동일하게 동작함
     const settermemberType = useSetRecoilState(memberTypeAtom); // react setState와 동일하게 동작함
     const settermemberId = useSetRecoilState(memberIdAtom); // react setState와 동일하게 동작함
+    const setterActiveApply = useSetRecoilState(memberActiveApplyAtom); // react setState와 동일하게 동작함
 
     // const [userId, setUserId] = useState('s'); // userId
     // const [userCategory, setUserCategory] = useState(''); // user 분류
@@ -30,16 +32,15 @@ export default function Header() {
         if (memberId !== '') {
             // 무버라면
             if (memberType === 'u') {
-                const formId = '';
-
                 axios.get('/form').then(res => {
-                    console.log(res.data.data);
-                    console.log(typeof res.data.data);
+                    // console.log(res.data.data);
+                    // console.log(typeof res.data.data);
                     // res.data는 받아온 데이터의 배열
                     res.data.data.forEach(item => {
                         if (item.f_status !== 3) {
                             setBtntxt('신청서 보기');
-                            setBtnUrl(`/apply-detail/${formId}`);
+                            setterActiveApply(item.f_id);
+                            setBtnUrl(`/apply-detail/${memberActiveApply}`);
                             setIsActiveApply('t');
                         }
                     });
@@ -67,6 +68,7 @@ export default function Header() {
     const navigate = useNavigate();
 
     const handleClick = () => {
+        // console.log('btn url = ' + btnUrl);
         navigate(btnUrl);
     };
 
