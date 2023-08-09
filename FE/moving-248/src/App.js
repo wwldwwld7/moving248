@@ -14,6 +14,7 @@ import MoverMyPage from './routes/MyPage/MoverMyPage';
 import PartnerMyPage from './routes/MyPage/PartnerMyPage';
 import Header from './components/header/Header';
 import Footer from './components/Footer/Footer';
+import ApplyForm from './routes/ApplyForm/ApplyForm';
 
 function App() {
     return (
@@ -32,6 +33,7 @@ function App() {
                 <Route path='/apply-detail' element={<ApplyDetail />} />
                 <Route path='/mover-my-page' element={<MoverMyPage />} />
                 <Route path='/partner-my-page' element={<PartnerMyPage />} />
+                <Route path='/apply-form' element={<ApplyForm />} />
 
                 {/* 동적 url 사용 */}
                 {/* <Route path='/movie/:id' element={<Detail />} /> */}

@@ -13,6 +13,7 @@ const Button = props => {
             type={props.type}
             value={props.text}
             onClick={props.onClick} // onClick 이벤트 추가
+            disabled={props.disabled}
         />
         // </div>
     );

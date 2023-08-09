@@ -1,0 +1,55 @@
+.apply-form-innerbox {
+    margin: 1rem 0 1rem 0;
+    /* border: 3px solid var(--color-primary-variant); */
+    border-radius: 5px;
+    border-bottom: 2px solid var(--color-primary-variant);
+}
+
+.apply-form-innerbox h3 {
+    margin-bottom: 1rem;
+}
+
+/* .apply-form-innerbox div {
+    margin-bottom: 0.3rem;
+} */
+
+.apply-form-innerbox-inline {
+    display: flex;
+}
+
+.apply-form-desc {
+    width: 100%;
+    height: 150px;
+    padding: 8px;
+    border: 0px;
+    background-color: #e9e7e7;
+    border-radius: 4px;
+    resize: none;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.form-submit-button {
+    background-color: var(--color-accent);
+    color: #fff;
+    font-size: large;
+    font-weight: bold;
+    border-radius: 1rem;
+    height: 3rem;
+}
+
+.form-submit-button:hover {
+    background-color: var(--color-accent-variant);
+}
+
+.form-error-message {
+    color: red;
+    text-align: center;
+}
+.thumbnail-image {
+    /* Define your styles here */
+    width: 100%;
+    height: 100%;
+    /* Add other styles as needed */
+}
