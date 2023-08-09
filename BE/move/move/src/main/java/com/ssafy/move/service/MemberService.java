@@ -122,14 +122,14 @@ public class MemberService {
 
 
         member.setName(updatePartnerRequest.getName());
-        member.setPCeo(updatePartnerRequest.getPCeo());
-        member.setPExp(updatePartnerRequest.getPExp());
+        member.setPCeo(updatePartnerRequest.getP_ceo());
+        member.setPExp(updatePartnerRequest.getP_exp());
         member.setPhone(updatePartnerRequest.getPhone());
-        member.setPEmpCnt(updatePartnerRequest.getPEmpCnt());
-        member.setPStartTime(updatePartnerRequest.getPStartTime());
-        member.setPEndTime(updatePartnerRequest.getPEndTime());
-        member.setPDesc(updatePartnerRequest.getPDesc());
-        member.setPLocation(updatePartnerRequest.getPLocation());
+        member.setPEmpCnt(updatePartnerRequest.getP_emp_cnt());
+        member.setPStartTime(updatePartnerRequest.getP_starttime());
+        member.setPEndTime(updatePartnerRequest.getP_endtime());
+        member.setPDesc(updatePartnerRequest.getP_desc());
+        member.setPLocation(updatePartnerRequest.getP_location());
 
         // 만약 정보수정할 때 이미지 업로드 안 할 경우
 

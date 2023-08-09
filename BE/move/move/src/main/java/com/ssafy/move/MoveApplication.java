@@ -21,9 +21,9 @@ public class MoveApplication {
 	private String fileDir;
 
 
-	public static final String APPLICATION_LOCATIONS = "spring.config.location=" +
-			"classpath:application.yml," +
-			"classpath:aws.yml";
+//	public static final String APPLICATION_LOCATIONS = "spring.config.location=" +
+//			"classpath:application.yml,";
+
 
 
 	
@@ -31,7 +31,6 @@ public class MoveApplication {
 
 
 		new SpringApplicationBuilder(MoveApplication.class)
-				.properties(APPLICATION_LOCATIONS)
 				.run(args);
 	}
 
