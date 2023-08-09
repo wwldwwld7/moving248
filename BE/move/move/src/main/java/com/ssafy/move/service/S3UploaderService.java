@@ -77,7 +77,7 @@ public class S3UploaderService {
         String uploadFileUrl = amazonS3Client.getUrl(bucket, fileName).toString();
 
         // 로컬에 저장된 이미지 지우기
-        //removeNewFile(uploadFile);
+        removeNewFile(uploadFile);
 
         return uploadFileUrl;
     }
