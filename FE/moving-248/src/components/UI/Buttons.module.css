@@ -47,6 +47,10 @@
     background: red;
 }
 
+.button_field[disabled]:hover {
+    cursor: not-allowed;
+}
+
 /* .col-12 {
     flex: 0 0 100%;
 } */
