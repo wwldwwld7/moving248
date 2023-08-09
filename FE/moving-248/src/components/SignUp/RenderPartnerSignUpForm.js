@@ -10,6 +10,7 @@ const RenderMoverSignUpForm = props => {
         registname: '',
         registceo: '',
         registnumber: '',
+        registdate: '',
         telephone: '',
         email: '',
         password: '',
@@ -20,6 +21,7 @@ const RenderMoverSignUpForm = props => {
         registname: '',
         registceo: '',
         registnumber: '',
+        registdate: '',
         telephone: '',
         email: '',
         password: '',
@@ -30,6 +32,7 @@ const RenderMoverSignUpForm = props => {
         registname: true,
         registceo: true,
         registnumber: false,
+        registdate: true,
         telephone: false,
         email: false,
         password: false,
@@ -48,6 +51,7 @@ const RenderMoverSignUpForm = props => {
             registname: value => value.trim() !== '',
             registceo: value => value.trim() !== '',
             registnumber: value => /^\d{3}-\d{2}-\d{5}$/.test(value),
+            registdate: value => value.trim() !== '',
             telephone: value => /^\d{3}-\d{4}-\d{4}$/.test(value),
             email: value => /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(value),
             password: value => /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/.test(value),
@@ -74,6 +78,8 @@ const RenderMoverSignUpForm = props => {
                 return '대표자명 입력해주세요.';
             case 'registnumber':
                 return '사업자 등록번호를 제대로 써주세요';
+            case 'registdate':
+                return '설립일을 입력해주세요.';
             case 'email':
                 return '올바른 이메일 형식이 아닙니다.';
             case 'telephone':
@@ -90,12 +96,38 @@ const RenderMoverSignUpForm = props => {
     const [isReadOnly, setIsReadOnly] = useState(false);
     const checkValidPartner = async () => {
         setIsReadOnly(true);
+
+        const registnumberEdit = formData.registnumber.substring(0, 3) + formData.registnumber.substring(4, 6) + formData.registnumber.substring(7);
+        console.log(registnumberEdit);
+        const check = {
+            businesses: [
+                {
+                    b_no: registnumberEdit,
+                    start_dt: formData.registdate,
+                    p_nm: formData.registceo,
+                },
+            ],
+        };
+
+        axios
+            .post('https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=3CKGYBOtgVvihLDVCJvG8yR2pdfk2hFo9nQbjJlKqk%2FHMCDYkKWk6tIisWU6mVT3fXwIbQRk6vYZAi6Sc7r81g%3D%3D', check)
+            .then(res => {
+                console.log(res.data.data[`0`].valid);
+                if (res.data.data[`0`].valid === '01') {
+                    //api확인 완료
+                    //확인되면 업체명, 대표자명, 사업자 등록번호, 설립일 readOnly로 변환
+                }
+            })
+            .catch(err => {
+                alert('검정되지 않은 업체입니다.');
+                //
+            });
         // try {
         //     const response = await axios.get('your-api-endpoint-here');
 
         //     const dataFromApi = response.data;
 
-        //     const dataExistsInApi = dataFromApi.some(item => item.registname === formData.registname && item.registceo === formData.registceo && item.registnumber === formData.registnumber);
+        //     const dataExistsInApi = dataFromApi.some(item => item.registname === formData.registname && item.registceo === formData.registceo && item.registnumber === formData.registnumber && item.registdate === formData.registdate);
 
         //     setIsReadOnly(dataExistsInApi);
         // } catch (error) {
@@ -109,57 +141,66 @@ const RenderMoverSignUpForm = props => {
         e.preventDefault();
 
         const data = {
-            name: '업체명',
+            name: formData.registname,
             p_code: formData.registnumber,
-            p_ceo: '대표자명',
+            p_ceo: formData.registceo,
             phone: formData.telephone,
             email: formData.email,
-            p_exp: '20130601',
+            p_exp: formData.registdate,
             password: formData.password,
         };
-
-        const registnumberEdit = formData.registnumber.substring(0, 3) + formData.registnumber.substring(4, 6) + formData.registnumber.substring(7);
-        console.log(registnumberEdit);
-        const check = {
-            businesses: [
-                {
-                    b_no: registnumberEdit,
-                    start_dt: '20130601',
-                    p_nm: '유재호',
-                    // "b_adr": "주소"
-                },
-            ],
-        };
-
         axios
-            .post('https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=3CKGYBOtgVvihLDVCJvG8yR2pdfk2hFo9nQbjJlKqk%2FHMCDYkKWk6tIisWU6mVT3fXwIbQRk6vYZAi6Sc7r81g%3D%3D', check)
+            .post('/member/partner', data)
             .then(res => {
-                console.log(res.data.data[`0`].valid);
-                if (res.data.data[`0`].valid === '01') {
-                    axios
-                        .post('/member/partner', data)
-                        .then(res => {
-                            if (res.request.statusText == 'Created') {
-                                alert('회원가입 완료');
-                                moveToHome('/');
-                            }
-                            // console.log(res);
-                        })
-                        .catch(err => {
-                            if (err.response.status == 500) {
-                                alert('이미 존재하는 이메일 입니다.');
-                            }
-                        });
+                if (res.request.statusText == 'Created') {
+                    alert('회원가입 완료');
+                    moveToHome('/');
                 }
+                // console.log(res);
             })
             .catch(err => {
-                alert('검정되지 않은 업체입니다.');
+                if (err.response.status == 500) {
+                    alert('이미 존재하는 이메일 입니다.');
+                }
             });
 
-        // Validation check
-        // if (isValid.registnumber && isValid.email && isValid.telephone && isValid.password && isValid.checkPass) {
-        //     console.log('Form submitted successfully!');
-        // }
+        // const registnumberEdit = formData.registnumber.substring(0, 3) + formData.registnumber.substring(4, 6) + formData.registnumber.substring(7);
+        // console.log(registnumberEdit);
+        // const check = {
+        //     businesses: [
+        //         {
+        //             b_no: registnumberEdit,
+        //             start_dt: '20130601',
+        //             p_nm: formData.registceo,
+        //             // "b_adr": "주소"
+        //         },
+        //     ],
+        // };
+
+        // axios
+        //     .post('https://api.odcloud.kr/api/nts-businessman/v1/validate?serviceKey=3CKGYBOtgVvihLDVCJvG8yR2pdfk2hFo9nQbjJlKqk%2FHMCDYkKWk6tIisWU6mVT3fXwIbQRk6vYZAi6Sc7r81g%3D%3D', check)
+        //     .then(res => {
+        //         console.log(res.data.data[`0`].valid);
+        //         if (res.data.data[`0`].valid === '01') {
+        //             axios
+        //                 .post('/member/partner', data)
+        //                 .then(res => {
+        //                     if (res.request.statusText == 'Created') {
+        //                         alert('회원가입 완료');
+        //                         moveToHome('/');
+        //                     }
+        //                     // console.log(res);
+        //                 })
+        //                 .catch(err => {
+        //                     if (err.response.status == 500) {
+        //                         alert('이미 존재하는 이메일 입니다.');
+        //                     }
+        //                 });
+        //         }
+        //     })
+        //     .catch(err => {
+        //         alert('검정되지 않은 업체입니다.');
+        //     });
 
         // 넣어라 api call login here
     };
@@ -185,7 +226,9 @@ const RenderMoverSignUpForm = props => {
                 <InputBox label='사업자등록번호' type='text' name='registnumber' placeholder='000-00-00000' required value={formData.registnumber} onChange={changeHandler} readOnly={isReadOnly}>
                     {messages.registnumber && <div className={`message ${isValid.registnumber ? 'success' : 'error'}`}>{messages.registnumber}</div>}
                 </InputBox>
-
+                <InputBox label='사업자설립일' type='text' name='registdate' placeholder='yyyymmdd' required value={formData.registdate} onChange={changeHandler} readOnly={isReadOnly}>
+                    {messages.registdate && <div className={`message ${isValid.registdate ? 'success' : 'error'}`}>{messages.registdate}</div>}
+                </InputBox>
                 <button type='button' value='사업자 체크' onClick={checkValidPartner}>
                     사업자 체크 버튼
                 </button>
