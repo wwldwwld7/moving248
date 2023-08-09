@@ -9,23 +9,23 @@ public class UpdatePartnerRequest {
 
     private String name;
 
-    private String pCeo;
+    private String p_ceo;
 
-    private int pExp;
+    private int p_exp;
 
     private String phone;
 
     private String password;
 
-    private int pEmpCnt;
+    private int p_emp_cnt;
 
-    private String pStartTime;
+    private String p_starttime;
 
-    private String pEndTime;
+    private String p_endtime;
 
-    private String pDesc;
+    private String p_desc;
 
-    private String pLocation;
+    private String p_location;
 
     private String profileUrl;
 

@@ -62,6 +62,8 @@ cloud:
       auto: false
     credentials:
       instance-profile: true
+      access-key: ENC(ygiolVWr3vioSlXjufEa0N3yy14Motmb7E9tZ3ZlEFk=)
+      secret-key: ENC(3MsOma3EhOtToXCgljBugcQru5SqMgUbB3ESnjx6PEVt/WtqCvzJzB88MJmQd7ex+Ns6M6ghrSA=)
 
 ---
 # 로컬 환경
@@ -79,7 +81,7 @@ spring:
     activate:
       on-profile: "development"
   file-dir: /home/ubuntu/fileupload/
-
+---
 jasypt:
   encryptor:
-  password: ${ENCODE_KEY}
+    password: ${ENCODE_KEY}

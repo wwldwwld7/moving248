@@ -1,0 +1,11 @@
+.sub {
+    font-size: 12px;
+    padding-top: 4px;
+    padding-bottom: 24px;
+}
+.sub-not {
+    color: red !important;
+}
+.sub-ok {
+    color: green !important;
+}
