@@ -146,73 +146,86 @@ const ApplyFormInput = props => {
         <>
             <section className='max-container section'>
                 <div className='sec-two-one-container inner__section  overlap-imgbox'>
+                    <h2 className='sec-two-container__h2'>이사 신청서</h2>
                     <div className='apply-form-innerbox'>
-                        <h3>이사 종류</h3>
+                        <h4 className='sec-two-container__h4'>이사 종류</h4>
                         <RadioButton options={radioOptions} selectedOption={selectedOption} onChange={handleRadioChange} />
                     </div>
+                    <div className='sec-two-container__divide'></div>
+
                     <div className='apply-form-innerbox'>
-                        <h3>날짜 선택</h3>
-                        <DatePicker
-                            dateFormat='yyyy-MM-dd' // 날짜 형태
-                            shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
-                            minDate={new Date()} // minDate 이전 날짜 선택 불가
-                            maxDate={new Date('2024-12-31')} // maxDate 이후 날짜 선택 불가
-                            selected={selectedDate}
-                            onChange={handleDateChange}
-                        />
+                        <h4 className='sec-two-container__h4'>날짜 선택</h4>
+                        <div className=' apply-form__padding'>
+                            <DatePicker
+                                dateFormat='yyyy-MM-dd' // 날짜 형태
+                                shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
+                                minDate={new Date()} // minDate 이전 날짜 선택 불가
+                                maxDate={new Date('2024-12-31')} // maxDate 이후 날짜 선택 불가
+                                selected={selectedDate}
+                                onChange={handleDateChange}
+                                className='date-picker'
+                            />
+                        </div>
                     </div>
+                    <div className='sec-two-container__divide'></div>
+
                     <div className='apply-form-innerbox'>
-                        <h3>기존 주소</h3>
+                        <h4 className='sec-two-container__h4'>기존 주소</h4>
                         <LocationDropdown label='출발' selectedSido={selectedDepSido} setSelectedSido={setSelectedDepSido} selectedGu={selectedDepGu} setSelectedGu={setSelectedDepGu} />
-                        <div>
+                        <div className='apply-form__padding'>
                             <Checkbox name='dep_ev' checked={isChecked.dep_ev} onChange={() => handleCheckboxChange('dep_ev')} onClick={() => handleCheckboxChange('dep_ev')} />
                             <label onClick={() => handleCheckboxChange('dep_ev')}>엘리베이터 사용</label>
                         </div>
-                        <div>
+                        <div className='apply-form__padding'>
                             <Checkbox name='dep_ladder' checked={isChecked.dep_ladder} onChange={() => handleCheckboxChange('dep_ladder')} onClick={() => handleCheckboxChange('dep_ladder')} />
                             <label onClick={() => handleCheckboxChange('dep_ladder')}>사다리차 사용</label>
                         </div>
                     </div>
+                    <div className='sec-two-container__divide'></div>
+
                     <div className='apply-form-innerbox'>
-                        <h3>변경 주소</h3>
+                        <h4 className='sec-two-container__h4'>변경 주소</h4>
                         <LocationDropdown label='도착' selectedSido={selectedArrSido} setSelectedSido={setSelectedArrSido} selectedGu={selectedArrGu} setSelectedGu={setSelectedArrGu} />
-                        <div>
+                        <div className='apply-form__padding'>
                             <Checkbox name='arr_ev' checked={isChecked.arr_ev} onChange={() => handleCheckboxChange('arr_ev')} onClick={() => handleCheckboxChange('arr_ev')} />
                             <label onClick={() => handleCheckboxChange('arr_ev')}>엘리베이터 사용</label>
                         </div>
-                        <div>
+                        <div className='apply-form__padding'>
                             <Checkbox name='arr_ladder' checked={isChecked.arr_ladder} onChange={() => handleCheckboxChange('arr_ladder')} onClick={() => handleCheckboxChange('arr_ladder')} />
                             <label onClick={() => handleCheckboxChange('arr_ladder')}>사다리차 사용</label>
                         </div>
                     </div>
-                    <div className='apply-form-innerbox'>
-                        <h3>방 정보</h3>
+                    <div className='sec-two-container__divide'></div>
 
+                    <h4 className='sec-two-container__h4'>방 정보</h4>
+                    <div className='apply-form-innerbox'>
                         {/* 파일 선택 폼 */}
-                        <div>
-                            <label>파일 선택:</label>
+                        <div className='apply-form__padding'>
                             <input type='file' onChange={handleFileChange} />
                         </div>
-                        {/* Conditionally render video or default thumbnail */}
-                        {imageSrc ? <video src={imageSrc} controls></video> : <img className='thumbnail-image' src={defaultThumbnailURL} alt='default-thumbnail' />}
+                        {imageSrc ? <video src={imageSrc} controls></video> : <div></div>}
 
                         {/* <div className='preview'>{imageSrc && <img src={imageSrc} alt='preview-img' />}</div> */}
                     </div>
+                    <div className='sec-two-container__divide'></div>
+
                     <div className='apply-form-innerbox'>
-                        <h3>상세 설명</h3>
+                        <h4 className='sec-two-container__h4'>상세 설명</h4>
                         <textarea
                             className='apply-form-desc'
                             type='textarea'
                             name='apply-form-desc'
                             value={textareaValue}
                             onChange={handleTextareaChange}
-                            placeholder='ex) 짐이 많아 직원이 더 필요합니다.'
+                            placeholder='ex) 함께 일하기 어렵습니다.'
                         ></textarea>
                     </div>
                     {/* </div> */}
                     <div className='apply-form-innerbox-e'>{errorMessage && <p className='form-error-message'>{errorMessage}</p>}</div>
                     {/* <div className='form-submit-button'> */}
-                    <button className='form-submit-button' type='button' onClick={handleSubmit}>
+                    <div className='sec-two-container__divide last-divide'></div>
+
+                    <button className='btn-static' type='button' onClick={handleSubmit}>
                         신청서 등록
                     </button>
                 </div>

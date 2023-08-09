@@ -1,36 +1,43 @@
+video {
+    height: auto;
+}
+
 .apply-form-innerbox {
-    margin: 1rem 0 1rem 0;
-    /* border: 3px solid var(--color-primary-variant); */
+    width: 100%;
     border-radius: 5px;
-    border-bottom: 2px solid var(--color-primary-variant);
 }
 
-.apply-form-innerbox h3 {
-    margin-bottom: 1rem;
+.apply-form__padding {
+    padding-bottom: 10px;
 }
 
+.react-datepicker-wrapper {
+    width: 100%;
+}
 /* .apply-form-innerbox div {
     margin-bottom: 0.3rem;
 } */
-
-.apply-form-innerbox-inline {
-    display: flex;
-}
 
 .apply-form-desc {
     width: 100%;
     height: 150px;
     padding: 8px;
     border: 0px;
-    background-color: #e9e7e7;
-    border-radius: 4px;
+    /* background-color: #eeeeee; */
+    border: 2px solid var(--color-primary);
+    border-radius: 3px;
     resize: none;
-    font-size: 1rem;
-    font-weight: bold;
+    /* font-size: 1rem; */
+    /* font-weight: bold; */
     line-height: 1.5;
 }
 
-.form-submit-button {
+.last-divide {
+    display: hidden;
+    border: 0px;
+}
+
+/* .form-submit-button {
     background-color: var(--color-accent);
     color: #fff;
     font-size: large;
@@ -41,7 +48,7 @@
 
 .form-submit-button:hover {
     background-color: var(--color-accent-variant);
-}
+} */
 
 .form-error-message {
     color: red;

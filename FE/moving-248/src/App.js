@@ -40,7 +40,6 @@ function App() {
 
                 {/* 동적 url 사용 */}
                 <Route path='/apply-detail/:id' element={<ApplyDetail />} />
-                {/* <Route path='/movie/:id' element={<Detail />} /> */}
             </Routes>
             <Footer />
         </BrowserRouter>
