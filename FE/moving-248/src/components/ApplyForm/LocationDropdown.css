@@ -1,0 +1,47 @@
+/* filter.css */
+
+.loc-filter-dropdown {
+    display: flex;
+    flex-direction: row; /* Display items vertically */
+
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.loc-filter-dropdown label {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+/* select {
+    background-color: #a6cf9c;
+} */
+
+.loc-filter-dropdown select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+    width: 150px;
+
+    /* 배경색 및 색상 설정 */
+    background: var(--color-accent); /* 배경색 */
+    color: #fff; /* 텍스트 색상 */
+}
+
+.loc-filter-dropdown select:hover {
+    border-color: var(--color-primary);
+    background: var(--color-accent);
+}
+
+.loc-filter-dropdown select:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 5px var(--color-accent);
+    background-color: var(--color-accent);
+}
+
+.loc-filter-dropdown select:active {
+    background-color: var(--color-accent);
+}
