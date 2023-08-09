@@ -161,7 +161,7 @@ const RenderMoverSignUpForm = props => {
             .post('/member/partner', data)
             .then(res => {
                 if (res.request.statusText === 'Created') {
-                    alert('회원가입 완료');
+                    alert('파트너 회원가입이 완료되었습니다.');
                     moveToHome('/');
                 }
                 // console.log(res);
