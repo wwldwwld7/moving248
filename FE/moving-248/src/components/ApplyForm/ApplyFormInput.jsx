@@ -63,14 +63,20 @@ const ApplyFormInput = props => {
     // };
 
     const [imageSrc, setImageSrc] = useState('');
-    const defaultThumbnailURL = 'video-thumbnail-default.png'; // Replace with the actual path
 
-    const handleFileChange = fileBlob => {
-        const selectedFile = fileBlob.target.files[0];
+    const handleFileChange = event => {
+        const selectedFile = event.target.files[0];
 
         // Check if a file was selected
         if (!selectedFile) {
             setFile(null);
+            setImageSrc('');
+            return;
+        }
+
+        // Check if the selected file is a video
+        if (!selectedFile.type.includes('video')) {
+            alert('허용되지 않는 파일 형식입니다.');
             setImageSrc('');
             return;
         }
@@ -146,78 +152,140 @@ const ApplyFormInput = props => {
         <>
             <section className='max-container section'>
                 <div className='sec-two-one-container inner__section  overlap-imgbox'>
+                    <h2 className='sec-two-container__h2'>이사 신청서</h2>
                     <div className='apply-form-innerbox'>
-                        <h3>이사 종류</h3>
+                        <h4 className='sec-two-container__h4'>이사 종류</h4>
                         <RadioButton options={radioOptions} selectedOption={selectedOption} onChange={handleRadioChange} />
                     </div>
-                    <div className='apply-form-innerbox'>
-                        <h3>날짜 선택</h3>
-                        <DatePicker
-                            dateFormat='yyyy-MM-dd' // 날짜 형태
-                            shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
-                            minDate={new Date()} // minDate 이전 날짜 선택 불가
-                            maxDate={new Date('2024-12-31')} // maxDate 이후 날짜 선택 불가
-                            selected={selectedDate}
-                            onChange={handleDateChange}
-                        />
-                    </div>
-                    <div className='apply-form-innerbox'>
-                        <h3>기존 주소</h3>
-                        <LocationDropdown label='출발' selectedSido={selectedDepSido} setSelectedSido={setSelectedDepSido} selectedGu={selectedDepGu} setSelectedGu={setSelectedDepGu} />
-                        <div>
-                            <Checkbox name='dep_ev' checked={isChecked.dep_ev} onChange={() => handleCheckboxChange('dep_ev')} onClick={() => handleCheckboxChange('dep_ev')} />
-                            <label onClick={() => handleCheckboxChange('dep_ev')}>엘리베이터 사용</label>
-                        </div>
-                        <div>
-                            <Checkbox name='dep_ladder' checked={isChecked.dep_ladder} onChange={() => handleCheckboxChange('dep_ladder')} onClick={() => handleCheckboxChange('dep_ladder')} />
-                            <label onClick={() => handleCheckboxChange('dep_ladder')}>사다리차 사용</label>
-                        </div>
-                    </div>
-                    <div className='apply-form-innerbox'>
-                        <h3>변경 주소</h3>
-                        <LocationDropdown label='도착' selectedSido={selectedArrSido} setSelectedSido={setSelectedArrSido} selectedGu={selectedArrGu} setSelectedGu={setSelectedArrGu} />
-                        <div>
-                            <Checkbox name='arr_ev' checked={isChecked.arr_ev} onChange={() => handleCheckboxChange('arr_ev')} onClick={() => handleCheckboxChange('arr_ev')} />
-                            <label onClick={() => handleCheckboxChange('arr_ev')}>엘리베이터 사용</label>
-                        </div>
-                        <div>
-                            <Checkbox name='arr_ladder' checked={isChecked.arr_ladder} onChange={() => handleCheckboxChange('arr_ladder')} onClick={() => handleCheckboxChange('arr_ladder')} />
-                            <label onClick={() => handleCheckboxChange('arr_ladder')}>사다리차 사용</label>
-                        </div>
-                    </div>
-                    <div className='apply-form-innerbox'>
-                        <h3>방 정보</h3>
+                    <div className='sec-two-container__divide'></div>
 
-                        {/* 파일 선택 폼 */}
-                        <div>
-                            <label>파일 선택:</label>
-                            <input type='file' onChange={handleFileChange} />
+                    <div className='apply-form-innerbox'>
+                        <h4 className='sec-two-container__h4'>날짜 선택</h4>
+                        <div className=' apply-form__padding'>
+                            <DatePicker
+                                dateFormat='yyyy-MM-dd' // 날짜 형태
+                                shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
+                                minDate={new Date()} // minDate 이전 날짜 선택 불가
+                                maxDate={new Date('2024-12-31')} // maxDate 이후 날짜 선택 불가
+                                selected={selectedDate}
+                                onChange={handleDateChange}
+                                className='date-picker'
+                            />
                         </div>
-                        {/* Conditionally render video or default thumbnail */}
-                        {imageSrc ? <video src={imageSrc} controls></video> : <img className='thumbnail-image' src={defaultThumbnailURL} alt='default-thumbnail' />}
+                    </div>
+                    <div className='sec-two-container__divide'></div>
+
+                    <div className='apply-form-innerbox'>
+                        <h4 className='sec-two-container__h4'>기존 주소</h4>
+                        <LocationDropdown label='출발' selectedSido={selectedDepSido} setSelectedSido={setSelectedDepSido} selectedGu={selectedDepGu} setSelectedGu={setSelectedDepGu} />
+                        <div className='apply-form__padding'>
+                            <Checkbox name='dep_ev' checked={isChecked.dep_ev} onChange={() => handleCheckboxChange('dep_ev')} onClick={() => handleCheckboxChange('dep_ev')} />
+                            <label className='paragraph' onClick={() => handleCheckboxChange('dep_ev')}>
+                                엘리베이터 사용
+                            </label>
+                        </div>
+                        <div className='apply-form__padding'>
+                            <Checkbox name='dep_ladder' checked={isChecked.dep_ladder} onChange={() => handleCheckboxChange('dep_ladder')} onClick={() => handleCheckboxChange('dep_ladder')} />
+                            <label className='paragraph' onClick={() => handleCheckboxChange('dep_ladder')}>
+                                사다리차 사용
+                            </label>
+                        </div>
+                    </div>
+                    <div className='sec-two-container__divide'></div>
+
+                    <div className='apply-form-innerbox'>
+                        <h4 className='sec-two-container__h4'>변경 주소</h4>
+                        <LocationDropdown label='도착' selectedSido={selectedArrSido} setSelectedSido={setSelectedArrSido} selectedGu={selectedArrGu} setSelectedGu={setSelectedArrGu} />
+                        <div className='apply-form__padding'>
+                            <Checkbox name='arr_ev' checked={isChecked.arr_ev} onChange={() => handleCheckboxChange('arr_ev')} onClick={() => handleCheckboxChange('arr_ev')} />
+                            <label className='paragraph' onClick={() => handleCheckboxChange('arr_ev')}>
+                                엘리베이터 사용
+                            </label>
+                        </div>
+                        <div className='apply-form__padding'>
+                            <Checkbox name='arr_ladder' checked={isChecked.arr_ladder} onChange={() => handleCheckboxChange('arr_ladder')} onClick={() => handleCheckboxChange('arr_ladder')} />
+                            <label className='paragraph' onClick={() => handleCheckboxChange('arr_ladder')}>
+                                사다리차 사용
+                            </label>
+                        </div>
+                    </div>
+                    <div className='sec-two-container__divide'></div>
+
+                    <h4 className='sec-two-container__h4'>방 정보</h4>
+                    <div className='apply-form-innerbox'>
+                        {/* 파일 선택 폼 */}
+                        <div className='apply-form__padding'>
+                            <input type='file' accept='video/*' onChange={handleFileChange} />
+                        </div>
+                        {imageSrc ? <video src={imageSrc} controls></video> : <div></div>}
 
                         {/* <div className='preview'>{imageSrc && <img src={imageSrc} alt='preview-img' />}</div> */}
                     </div>
+                    <div className='sec-two-container__divide'></div>
+
                     <div className='apply-form-innerbox'>
-                        <h3>상세 설명</h3>
+                        <h4 className='sec-two-container__h4'>상세 설명</h4>
                         <textarea
                             className='apply-form-desc'
                             type='textarea'
                             name='apply-form-desc'
                             value={textareaValue}
                             onChange={handleTextareaChange}
-                            placeholder='ex) 짐이 많아 직원이 더 필요합니다.'
+                            placeholder='ex) 함께 일하기 어렵습니다.'
                         ></textarea>
                     </div>
                     {/* </div> */}
-                    <div className='apply-form-innerbox-e'>{errorMessage && <p className='form-error-message'>{errorMessage}</p>}</div>
                     {/* <div className='form-submit-button'> */}
-                    <button className='form-submit-button' type='button' onClick={handleSubmit}>
+                    <div className='sec-two-container__divide last-divide'></div>
+
+                    <button className='btn-static' type='button' onClick={handleSubmit}>
                         신청서 등록
                     </button>
+                    <div className='apply-form-innerbox-e'>{errorMessage && <p className='form-error-message dynamic pad-top-05'>{errorMessage}</p>}</div>
                 </div>
 
-                <div className='sec-two-two-container inner__section'></div>
+                <div className='sec-two-two-container inner__section'>
+                    <div class='suggestion-block center-align'>
+                        <div>
+                            <h2 className='left-align faq'>FAQ</h2>
+                            <h5 className='left-align'>포상이사와 일반이사는 뭐가 다른가요?</h5>
+                            <p className='apply-form__right-inner-p left-align dynamic'>
+                                포장이사는 포장부터 운송, 짐 배치까지 파트너가 모두 도와주는 서비스입니다. <br />
+                                일반이사는 운송만 도와주고 포장, 짐 정리는 스스로 하는 서비스입니다.
+                                <br />
+                            </p>
+                            <h5 className='left-align'>상세 주소는 안 써도 되나요?</h5>
+                            <p className='apply-form__right-inner-p left-align dynamic'>
+                                네! 고객의 개인정보 보호를 위해 신청서 작성 시에는 상세 주소를 쓰지 않습니다.
+                                <br />
+                                후에 파트너 확정 후 상세 주소를 파트너에게 공유하면 됩니다.
+                                <br />
+                            </p>
+                            <h5 className='left-align'>동영상 꼭 찍어서 올려야 하나요?</h5>
+                            <p className='apply-form__right-inner-p left-align dynamic'>
+                                네! 저희 248 서비스는 직접 방문하는 대신 영상 속 정보를 통해 견적을 작성하기 때문에 영상정보가 꼭 필요합니다.
+                                <br />
+                            </p>
+                        </div>
+                    </div>
+                    <div className='sec-two-container__divide'></div>
+                    <h2 className='left-align'>동영상 촬영 가이드</h2>
+                    <video className='help-video' src={imageSrc} controls></video>
+                    <div class='suggestion-block center-align'>
+                        <div>
+                            <h5 className='left-align'>동영상 촬영 TIP</h5>
+                            <p className='movie-p left-align dynamic'>
+                                - 큰 가구들 위주로 보여주세요.
+                                <br />
+                            </p>
+                            <p className='movie-p left-align dynamic'>
+                                - 가구 안에 짐이 많다면 짐도 같이 보여주세요.
+                                <br />
+                            </p>
+                            <p className='movie-p left-align dynamic'>- 문의 크기와 창문의 크기가 잘 보이도록 촬영해 주세요.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
         </>
     );

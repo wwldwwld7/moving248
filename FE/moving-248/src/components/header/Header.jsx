@@ -49,7 +49,7 @@ export default function Header() {
                 if (isactiveApply === 'f') {
                     // 현재 진행중인 이사가 없다면
                     setBtntxt('신청서 작성');
-                    setBtnUrl('/');
+                    setBtnUrl('/apply-form');
                 }
             }
             // 파트너라면

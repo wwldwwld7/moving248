@@ -2,6 +2,7 @@
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
+    padding-top: 4px;
 }
 
 .checkbox-input {
@@ -9,8 +10,8 @@
 }
 
 .checkbox-custom {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border: 2px solid #ccc;
     border-radius: 4px;
     display: inline-block;
@@ -30,7 +31,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 18px;
+    font-size: 0.9rem;
     display: none;
 }
 
