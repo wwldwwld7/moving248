@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './RenderLoginForm.css';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
+import Card from '../UI/Card';
 import InputBox from '../UI/InputBox';
 import Buttons from '../UI/Buttons';
 import Modal from '../UI/Modal';
 import axios from 'axios';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
 
 export default function RenderForm() {
@@ -82,10 +83,6 @@ export default function RenderForm() {
         settermemberType(data.memberType);
         settermemberId(data.m_id);
     };
-    const memberId = useRecoilValue(memberIdAtom);
-    useEffect(() => {
-        console.log('mid', memberId);
-    }, [memberId]);
 
     const submitHandler = e => {
         e.preventDefault();

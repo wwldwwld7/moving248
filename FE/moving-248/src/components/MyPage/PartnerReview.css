@@ -8,20 +8,24 @@
 
 .partner-mypage-review-header {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     margin-bottom: 8px;
 }
 
 .partner-mypage-review-name {
+    padding-right: 3rem;
     font-weight: bold;
 }
 
 .partner-mypage-review-rating {
+    display: flex;
+    align-items: center;
     color: #ffa500; /* 오렌지색 */
 }
 
 .partner-mypage-review-date {
+    padding-left: 2rem;
     color: #777; /* 회색 */
     font-size: 0.8rem;
 }
@@ -29,4 +33,8 @@
 .partner-mypage-review-content {
     font-size: 1rem;
     line-height: 1.4;
+}
+
+.partner-mypage-review-rating-text {
+    align-items: center;
 }

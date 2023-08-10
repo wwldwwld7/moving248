@@ -1,20 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import ReactDom from 'react-dom';
 import './MoverMyPageDetail.css';
-import Buttons from '../UI/Buttons';
 import Modal from '../UI/Modal';
+import axios from 'axios';
 
 const MoverMyPageDetail = props => {
     const [userInfo, setUserInfo] = useState({
         m_id: 1,
-        username: '김현중',
+        name: '',
         password: '',
-        phone: '010-2402-2421',
-        email: '1234@naver.com',
-        profile_url: 'https://yeonybucket.s3.ap-northeast-2.amazonaws.com/image/9befd15a-ff15-4b4e-853e-d13e7aef09d00e351634-3ffe-4299-bf96-1daaaab119a2.jpg',
+        phone: '',
+        email: '',
+        profile_url: '',
+        list: [],
     });
+    const [passwordMatchError, setPasswordMatchError] = useState(false);
+    const [phoneFormatError, setPhoneFormatError] = useState(false);
+
+    const fetchUserInfo = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/member/user/1`);
+            setUserInfo(response.data.data);
+        } catch (error) {
+            console.error('사용자 정보 가져오기 에러:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserInfo();
+    }, []);
 
     const [showModal, setShowModal] = useState(false); // Modal 표시 여부 상태
+    const [showModalDelete, setShowModalDelete] = useState(false); // Modal 표시 여부 상태
+
     const [isEditing, setIsEditing] = useState(false); // 편집 모드 여부 상태
 
     const handleDeleteClick = () => {
@@ -25,10 +43,13 @@ const MoverMyPageDetail = props => {
         setShowModal(false); // Modal 닫기
     };
 
-    const handleConfirmDelete = () => {
-        // 여기에 "예" 버튼 클릭 시 동작을 추가
-
-        // Modal 닫기
+    const handleConfirmDelete = async () => {
+        try {
+            const response = await axios.delete(`http://localhost:8080/member/1`);
+            setShowModalDelete(true);
+        } catch (error) {
+            console.error('회원 삭제 에러:', error);
+        }
         setShowModal(false);
     };
 
@@ -36,20 +57,83 @@ const MoverMyPageDetail = props => {
         setIsEditing(true); // 정보 수정 버튼 클릭 시 편집 모드 활성화
     };
 
-    const handleSaveClick = () => {
-        // 여기에서 변경된 정보를 서버에 전송하고 편집 모드 비활성화
+    const handleSaveClick = async () => {
+        try {
+            const dataToUpdate = {
+                password: userInfo.password,
+                phone: userInfo.phone,
+            };
 
-        setIsEditing(false); // 편집 모드 비활성화
+            // Send the updated data to the server
+            const response = await axios.put('http://localhost:8080/member/user/1', dataToUpdate);
+
+            // Handle the response
+            console.log('정보 수정 성공:', response.data);
+
+            setIsEditing(false);
+            fetchUserInfo();
+        } catch (error) {
+            console.error('정보 수정 에러:', error);
+            // Handle the error
+        }
     };
 
-    const handleUserInfoChange = e => {
+    const handleUserInfoChange = async e => {
         const { name, value } = e.target;
 
         setUserInfo(prevUserInfo => ({
             ...prevUserInfo,
             [name]: value,
         }));
+        if (name === 'password') {
+            setUpdatedPassword(value); // 변경할 패스워드 업데이트
+            await checkPasswordMatch(); // 비밀번호 일치 검증
+
+            setUserInfo(prevUserInfo => ({
+                ...prevUserInfo,
+                [name]: value,
+            }));
+
+            await checkPasswordMatch();
+        } else if (name === 'phone') {
+            setUserInfo(prevUserInfo => ({
+                ...prevUserInfo,
+                [name]: value,
+            }));
+
+            checkPhoneFormat();
+        }
     };
+
+    const checkPasswordMatch = async () => {
+        if (userInfo.password !== userInfo.password_confirm) {
+            setPasswordMatchError(true);
+        } else {
+            setPasswordMatchError(false);
+        }
+    };
+    const checkPhoneFormat = () => {
+        const phonePattern = /^\d{3}-\d{4}-\d{4}$/;
+
+        if (!phonePattern.test(userInfo.phone)) {
+            setPhoneFormatError(true);
+        } else {
+            setPhoneFormatError(false);
+        }
+    };
+
+    const [updatedPassword, setUpdatedPassword] = useState('');
+
+    useEffect(() => {
+        checkPasswordMatch();
+    }, [updatedPassword, userInfo.password_confirm]); // updatedPassword로 변경
+
+    useEffect(() => {
+        checkPasswordMatch();
+    }, [userInfo.password, userInfo.password_confirm]);
+    useEffect(() => {
+        checkPhoneFormat();
+    }, [userInfo.phone]);
 
     return (
         <div className='sec-two-one-container inner__section  overlap-imgbox'>
@@ -58,31 +142,49 @@ const MoverMyPageDetail = props => {
             </div>
             <div className='mypage-detail-flexbox vertical-align-center'>
                 <div className='vertical-center'>
-                    <h2>
+                    <h3>
                         {isEditing ? (
                             <>
-                                이름 : <input className='textarea-editing' name='username' value={userInfo.username} onChange={handleUserInfoChange} />
+                                이름 : <input className='textarea-editing' name='name' value={userInfo.name} onChange={handleUserInfoChange} readOnly />
                             </>
                         ) : (
-                            userInfo.username
+                            userInfo.name
                         )}
-                    </h2>
+                    </h3>
                 </div>
                 <div className='vertical-center'>
-                    <h3>연락처 : {isEditing ? <input className='textarea-editing' name='phone' value={userInfo.phone} onChange={handleUserInfoChange} /> : userInfo.phone}</h3>
+                    <h3>이메일 : {isEditing ? <input className='textarea-editing' type='text' name='email' value={userInfo.email} onChange={handleUserInfoChange} readOnly /> : userInfo.email}</h3>
                 </div>
                 <div className='vertical-center'>
-                    <h3>이메일 : {isEditing ? <input className='textarea-editing' type='text' name='email' value={userInfo.email} onChange={handleUserInfoChange} /> : userInfo.email}</h3>
+                    <h3>연락처 :{isEditing ? <input className='textarea-editing' type='text' name='phone' value={userInfo.phone} onChange={handleUserInfoChange} /> : userInfo.phone}</h3>
                 </div>
+                <div>{phoneFormatError && <span className='partner-mypage-error'>(000-0000-0000 형식으로 입력하세요)</span>}</div>
+                {isEditing ? (
+                    <div className='vertical-center'>
+                        <h3>변경할 패스워드</h3>
+                        <input className='textarea-editing' type='password' name='password' onChange={handleUserInfoChange} />
+                    </div>
+                ) : (
+                    ''
+                )}
+                {isEditing ? (
+                    <div className='vertical-center'>
+                        <h3>한번 더 입력 </h3>
+                        <input className='textarea-editing' type='password' name='password_confirm' onChange={handleUserInfoChange} />
+                        <div>{passwordMatchError && <span className='partner-mypage-error'>패스워드가 일치하지 않습니다.</span>}</div>
+                    </div>
+                ) : (
+                    ''
+                )}
                 <div>
                     {isEditing ? (
                         <>
                             <h3>프로필 이미지</h3>
                             <input type='file' name='file' />
-                            {/* <textarea className='textarea-editing' name='profile_url' value={userInfo.profile_url} onChange={handleUserInfoChange} /> */}
+                            <div className='apply-form-innerbox-e'></div>
                         </>
                     ) : (
-                        <img className='vertical-center-image' src={userInfo.profile_url} alt='Profile' />
+                        <img className='vertical-center-image' src={userInfo.profile_url || '/default-profile-image.png'} alt='Profile' />
                     )}
                 </div>
             </div>
@@ -92,21 +194,25 @@ const MoverMyPageDetail = props => {
                     <>
                         <input className='button-modify' type='button' value={'저장'} onClick={handleSaveClick} />
                         <input className='button-modify' type='button' value={'취소'} onClick={() => setIsEditing(false)} />
-                        {/* <Buttons type='button' text='저장' small={true} onClick={handleSaveClick} />
-                            <Buttons type='button' text='취소' small={true} onClick={() => setIsEditing(false)} /> */}
                     </>
                 ) : (
                     <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
-                    // <Buttons type='button' text='정보 수정' small={true} onClick={handleEditClick} />
                 )}
                 <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDeleteClick} />
-                {/* <Buttons type='button' text='회원 탈퇴' small={true} delete={true} onClick={handleDeleteClick} /> */}
             </div>
             <Modal
                 show={showModal}
                 onClose={handleModalClose}
                 message='정말로 회원 탈퇴하시겠습니까?' // Modal에 표시할 메시지
                 onConfirm={handleConfirmDelete} // "예" 버튼 클릭 시 동작
+            />
+            <Modal
+                show={showModalDelete}
+                onClose={() => {
+                    setShowModalDelete(false);
+                    props.history.push('/home'); // Redirect to the home page after modal is closed
+                }}
+                message='계정이 성공적으로 삭제되었습니다.' // Message for success
             />
         </div>
     );
