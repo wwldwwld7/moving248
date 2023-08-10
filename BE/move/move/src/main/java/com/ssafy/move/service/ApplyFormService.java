@@ -57,6 +57,8 @@ public class ApplyFormService {
     public int existForm(int uId){
         List<ApplyForm> applyForms = applyFormRepository.existForm(uId);
 
+        System.out.println(applyForms.size());
+
         if (applyForms.size()==0)
             return 0;
         else

@@ -7,8 +7,13 @@ import Checkbox from './Checkbox';
 import './ApplyFormInput.css';
 import LocationDropdown from './LocationDropdown';
 import axios from 'axios';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { memberActiveApplyAtom, memberIdAtom } from '../../atom';
 
 const ApplyFormInput = props => {
+    const memberId = useRecoilValue(memberIdAtom);
+    const setterActiveApply = useSetRecoilState(memberActiveApplyAtom);
+
     const [isChecked, setIsChecked] = useState({
         dep_ev: false,
         dep_ladder: false,
@@ -113,10 +118,14 @@ const ApplyFormInput = props => {
         }
         setErrorMessage('');
 
+        // useEffect(() => {
+
+        // }, [])
+
         const formData = new FormData();
         formData.append('file', file);
         const jsonData = {
-            m_id: 1, //int
+            m_id: memberId, //int
             f_category: isMovingType, // string으로
             f_date: formatDate(selectedDate),
             f_dep_ev: isChecked.dep_ev ? 't' : 'f', // char T F
@@ -129,6 +138,7 @@ const ApplyFormInput = props => {
             f_arr_sido: selectedArrSido, //String  '2'
             f_arr_gungu: selectedArrGu, //String  '22'
         };
+
         formData.append(
             'data',
             new Blob([JSON.stringify(jsonData)], {
@@ -143,6 +153,9 @@ const ApplyFormInput = props => {
                 },
             });
             console.log('서버 응답:', response.data);
+            setterActiveApply('t');
+            alert('신청서 작성이 완료되었습니다.');
+            window.location.href = '/';
         } catch (error) {
             console.error('에러 발생:', error);
         }
@@ -245,7 +258,7 @@ const ApplyFormInput = props => {
                 </div>
 
                 <div className='sec-two-two-container inner__section'>
-                    <div class='suggestion-block center-align'>
+                    <div className='suggestion-block center-align'>
                         <div>
                             <h2 className='left-align faq'>FAQ</h2>
                             <h5 className='left-align'>포상이사와 일반이사는 뭐가 다른가요?</h5>
@@ -271,7 +284,7 @@ const ApplyFormInput = props => {
                     <div className='sec-two-container__divide'></div>
                     <h2 className='left-align'>동영상 촬영 가이드</h2>
                     <video className='help-video' src={imageSrc} controls></video>
-                    <div class='suggestion-block center-align'>
+                    <div className='suggestion-block center-align'>
                         <div>
                             <h5 className='left-align'>동영상 촬영 TIP</h5>
                             <p className='movie-p left-align dynamic'>

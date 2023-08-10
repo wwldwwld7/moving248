@@ -30,32 +30,47 @@ export default function Header() {
     useEffect(() => {
         // 로그인이 되어 있다면
         if (memberId !== '') {
+            console.log(memberId);
             // 무버라면
             if (memberType === 'u') {
-                axios.get('/form').then(res => {
+                axios.get(`/form/user/${memberId}`).then(res => {
                     // console.log(res.data.data);
                     // console.log(typeof res.data.data);
                     // res.data는 받아온 데이터의 배열
-                    res.data.data.forEach(item => {
-                        if (item.f_status !== 3) {
-                            setBtntxt('신청서 보기');
-                            setterActiveApply(item.f_id);
-                            setBtnUrl(`/apply-detail/${memberActiveApply}`);
-                            setIsActiveApply('t');
-                        }
-                    });
-                });
 
-                if (isactiveApply === 'f') {
-                    // 현재 진행중인 이사가 없다면
-                    setBtntxt('신청서 작성');
-                    setBtnUrl('/apply-form');
-                }
+                    console.log('--------------------', res.data.is_form_empty);
+
+                    console.log('[header] res.data.is_form_empty : ' + res.data.is_form_empty);
+                    console.log('[header] memberActiveApply : ' + memberActiveApply);
+
+                    if (memberActiveApply !== 0) {
+                        console.log('신청서 보기');
+
+                        setBtntxt('신청서 보기');
+                        setterActiveApply(res.data.is_form_empty);
+                        setBtnUrl(`/apply-detail/${memberActiveApply}`);
+                        setIsActiveApply('t');
+                    } else {
+                        console.log('신청서 작성');
+                        // 현재 진행중인 이사가 없다면
+                        setBtntxt('신청서 작성');
+                        setBtnUrl('/apply-form');
+                    }
+
+                    // res.data.data.forEach(item => {
+                    //     if (item.f_status !== 3) {
+                    //         setBtntxt('신청서 보기');
+                    //         setterActiveApply(item.f_id);
+                    //         setBtnUrl(`/apply-detail/${memberActiveApply}`);
+                    //         setIsActiveApply('t');
+                    //     }
+                    // });
+                });
             }
             // 파트너라면
             else {
                 setBtntxt('견적 리스트');
-                setBtnUrl('/');
+                setBtnUrl('/apply-list');
             }
         }
         // 로그인이 되어 있지 않다면
@@ -63,7 +78,7 @@ export default function Header() {
             setBtntxt('시작하기');
             setBtnUrl('/login');
         }
-    }, [memberId, isactiveApply, memberType]);
+    }, [memberId, isactiveApply, memberType, memberActiveApply, setterActiveApply]);
 
     const navigate = useNavigate();
 
@@ -82,6 +97,8 @@ export default function Header() {
             settermemberEmail('');
             settermemberType('');
             settermemberId('');
+
+            navigate('/');
         }
     };
 
