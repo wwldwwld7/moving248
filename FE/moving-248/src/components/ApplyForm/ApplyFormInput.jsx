@@ -8,12 +8,12 @@ import './ApplyFormInput.css';
 import LocationDropdown from './LocationDropdown';
 import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { memberActiveApplyAtom, memberIdAtom } from '../../atom';
+import { memberActiveApply, memberIdAtom } from '../../atom';
 import { useLocation } from 'react-router-dom';
 
 const ApplyFormInput = props => {
     const memberId = useRecoilValue(memberIdAtom);
-    const setterActiveApply = useSetRecoilState(memberActiveApplyAtom);
+    const setterActiveApply = useSetRecoilState(memberActiveApply);
     const location = useLocation();
     const isModify = location.state?.isModify;
 
