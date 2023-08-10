@@ -34,6 +34,9 @@ public class MemberController {
     @PostMapping("/user")
 //    public LogInResponse signUp(@RequestBody SignUpUserRequest signUpUserRequest){
     public ResponseEntity<String> signUpUser(@RequestBody SignUpUserRequest signUpUserRequest){
+
+        System.out.println("회원가입 들어와?????????");
+
         MemberResponse res = memberService.signUpUser(signUpUserRequest);
         if(signUpUserRequest.getEmail().equals(res.getEmail())){
             return new ResponseEntity<>(HttpStatus.CREATED);

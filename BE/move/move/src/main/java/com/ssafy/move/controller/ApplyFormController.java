@@ -32,13 +32,13 @@ public class ApplyFormController {
     @GetMapping("/user/{m_id}")
     public ResponseEntity<?> existForm(@PathVariable int m_id){
 
-        Map<String, Boolean> map = new HashMap<>();
+        Map<String, Integer> map = new HashMap<>();
 
-        boolean existForm = applyFormService.existForm(m_id);
+        int formId = applyFormService.existForm(m_id);
 
-        map.put("is_form_empty", existForm);
+        map.put("is_form_empty", formId);
 
-        return new ResponseEntity<Map<String, Boolean>>(map, HttpStatus.OK);
+        return new ResponseEntity<Map<String, Integer>>(map, HttpStatus.OK);
     }
 
 
