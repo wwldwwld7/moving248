@@ -14,6 +14,7 @@
 
     /* size */
     --size-max-width: 1200px;
+    --size-normal-width: 1000px;
     --size-half-width: 600px;
     --size-left-width: 60%;
     --size-right-width: 40%;
@@ -112,6 +113,15 @@ p {
 
 .max-container {
     max-width: var(--size-max-width);
+    margin: auto;
+}
+
+.sec-one-one-container {
+    width: var(--size-normal-width);
+    padding: 5rem;
+    background-color: white;
+    border: 2px solid var(--color-primary-variant);
+    border-radius: 5px;
     margin: auto;
 }
 
@@ -264,6 +274,9 @@ section {
 }
 /* 768 이하 */
 @media (max-width: 768px) {
+    .sec-one-container {
+        width: 100%;
+    }
     .sec-one-half-container {
         width: 100%;
     }

@@ -40,13 +40,13 @@ public class ApplyFormRepository {
     public List<ApplyForm> existForm(int uId){
 
         String jpql = "select a from ApplyForm a where a.uId.id = :uId " +
-                "and a.uId.memberType= 'u'";
+                "and a.uId.memberType= 'u' " +
+                "and a.fStatus !=3 " +
+                "order by a.fModifyTime desc ";
 
         List<ApplyForm> resultList = em.createQuery(jpql, ApplyForm.class)
                 .setParameter("uId", uId)
                 .getResultList();
-
-        System.out.println(resultList.toString());
 
         return resultList;
     }

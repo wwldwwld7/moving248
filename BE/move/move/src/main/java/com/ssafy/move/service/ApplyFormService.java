@@ -54,13 +54,18 @@ public class ApplyFormService {
 
     // 신청서 유무
     @Transactional
-    public boolean existForm(int uId){
+    public int existForm(int uId){
         List<ApplyForm> applyForms = applyFormRepository.existForm(uId);
 
+        System.out.println(applyForms.size());
+
         if (applyForms.size()==0)
-            return true;
+            return 0;
         else
-            return false;
+
+            System.out.println(applyForms.get(0).toString());
+
+            return applyForms.get(0).getId();
     }
 
     //신청서 작성

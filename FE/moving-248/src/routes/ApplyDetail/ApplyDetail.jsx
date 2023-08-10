@@ -104,8 +104,21 @@ export default function ApplyDetail() {
                 {/* 아이디가 파트너일 때만 작성 가능하도록 수정해야 함! */}
                 {
                     // 파트너인 경우
-                    memberType === 2 ? <SuggestionForm mySuggestion={mySuggestion} /> : null
+                    memberType === 'p' ? <SuggestionForm mySuggestion={mySuggestion} /> : null
                 }
+            </>
+        );
+    };
+
+    const renderSuggestionBtn = () => {
+        return (
+            <>
+                {memberType === 'u' ? (
+                    <div className='suggestion-block__btn-outer'>
+                        <button className='btn-dynamic suggestion-block__btn'>문의하기</button>
+                        <button className='btn-dynamic suggestion-block__btn'>확정하기</button>
+                    </div>
+                ) : null}
             </>
         );
     };
@@ -113,6 +126,7 @@ export default function ApplyDetail() {
     return (
         <div className='apply-detail'>
             {console.log(apply)}
+            {console.log(`type${memberTypeAtom}`)}
             <ImgBox imgSrc='moving-box' imgTitle='신청서 상세' />
 
             <section className='max-container section'>
@@ -181,6 +195,7 @@ export default function ApplyDetail() {
 
                     <h4 className='sec-two-container__h4'>무버 요청 사항</h4>
                     <p className='paragraph sec-two-container__paragraph'>{apply.f_req_desc}</p>
+                    {renderSuggestionBtn()}
                 </div>
 
                 {/* [S] 견적서 */}
