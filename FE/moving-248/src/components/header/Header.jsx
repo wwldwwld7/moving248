@@ -5,21 +5,20 @@ import { faUser, faRightFromBracket, faEnvelopeOpenText } from '@fortawesome/fre
 import './Header.css';
 import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { memberActiveApplyAtom, memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
+import { memberActiveApply, memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
 import { useNavigate } from 'react-router-dom';
+// import { defaultInstance as api } from '../../jwt/token';
 
 export default function Header() {
     // const memberName = useRecoilValue(memberNameAtom); // 값 가져오기
     // const memberEmail = useRecoilValue(memberEmailAtom);
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
-    const memberActiveApply = useRecoilValue(memberActiveApplyAtom);
-
     const settermemberName = useSetRecoilState(memberNameAtom); // react setState와 동일하게 동작함
     const settermemberEmail = useSetRecoilState(memberEmailAtom); // react setState와 동일하게 동작함
     const settermemberType = useSetRecoilState(memberTypeAtom); // react setState와 동일하게 동작함
     const settermemberId = useSetRecoilState(memberIdAtom); // react setState와 동일하게 동작함
-    const setterActiveApply = useSetRecoilState(memberActiveApplyAtom); // react setState와 동일하게 동작함
+    const setterActiveApply = useSetRecoilState(memberActiveApply);
 
     // const [userId, setUserId] = useState('s'); // userId
     // const [userCategory, setUserCategory] = useState(''); // user 분류
@@ -30,12 +29,13 @@ export default function Header() {
     useEffect(() => {
         // 로그인이 되어 있다면
         if (memberId !== '') {
-            console.log(memberId);
             // 무버라면
             if (memberType === 'u') {
-                axios.get(`/form/user/${memberId}`).then(res => {
-                    // console.log(res.data.data);
-                    // console.log(typeof res.data.data);
+                const formId = '';
+
+                axios.get('/form').then(res => {
+                    console.log(res.data.data);
+                    console.log(typeof res.data.data);
                     // res.data는 받아온 데이터의 배열
 
                     console.log('--------------------', res.data.is_form_empty);
@@ -66,11 +66,17 @@ export default function Header() {
                     //     }
                     // });
                 });
+
+                if (isactiveApply === 'f') {
+                    // 현재 진행중인 이사가 없다면
+                    setBtntxt('신청서 작성');
+                    setBtnUrl('/');
+                }
             }
             // 파트너라면
             else {
                 setBtntxt('견적 리스트');
-                setBtnUrl('/apply-list');
+                setBtnUrl('/');
             }
         }
         // 로그인이 되어 있지 않다면
@@ -78,12 +84,11 @@ export default function Header() {
             setBtntxt('시작하기');
             setBtnUrl('/login');
         }
-    }, [memberId, isactiveApply, memberType, memberActiveApply, setterActiveApply]);
+    }, [memberId, isactiveApply, memberType]);
 
     const navigate = useNavigate();
 
     const handleClick = () => {
-        // console.log('btn url = ' + btnUrl);
         navigate(btnUrl);
     };
 
@@ -97,8 +102,6 @@ export default function Header() {
             settermemberEmail('');
             settermemberType('');
             settermemberId('');
-
-            navigate('/');
         }
     };
 

@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+// import ReactDom from 'react-dom';
 import ImgBox from '../../components/ImgBox/ImgBox';
 import ApplyFormInput from '../../components/ApplyForm/ApplyFormInput';
 

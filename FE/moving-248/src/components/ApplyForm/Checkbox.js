@@ -1,4 +1,6 @@
-import './Checkbox.css';
+import React, { useState } from 'react';
+
+import './Checkbox.css'; // Checkbox에 대한 스타일을 정의한 CSS 파일을 임포트
 
 const Checkbox = ({ name, checked, onChange, onClick }) => {
     return (
