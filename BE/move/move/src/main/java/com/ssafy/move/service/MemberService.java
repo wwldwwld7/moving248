@@ -120,7 +120,6 @@ public class MemberService {
 //        if(!tk.getEmail().equals(member.getEmail())) throw new BadRequestException("토큰 정보가 다릅니다.");
 
 
-
         member.setName(updatePartnerRequest.getName());
         member.setPCeo(updatePartnerRequest.getP_ceo());
         member.setPExp(updatePartnerRequest.getP_exp());
@@ -138,7 +137,12 @@ public class MemberService {
             String profileUrl = s3UploaderService.uploadFileByClient(multipartFile, "yeonybucket", "file");
             member.setProfileUrl(profileUrl);
         } else {
-            member.setProfileUrl(updatePartnerRequest.getProfileUrl());
+            if (member.getProfileUrl() == null){
+                member.setProfileUrl(null);
+            } else {
+            member.setProfileUrl(member.getProfileUrl());
+            }
+
         }
 
 

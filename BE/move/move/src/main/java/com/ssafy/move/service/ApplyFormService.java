@@ -54,13 +54,13 @@ public class ApplyFormService {
 
     // 신청서 유무
     @Transactional
-    public boolean existForm(int uId){
+    public int existForm(int uId){
         List<ApplyForm> applyForms = applyFormRepository.existForm(uId);
 
         if (applyForms.size()==0)
-            return true;
+            return 0;
         else
-            return false;
+            return applyForms.get(0).getId();
     }
 
     //신청서 작성
@@ -136,7 +136,6 @@ public class ApplyFormService {
 
         List<ApplyFormResponseDto> list = new ArrayList<>();
 
-        //List<ApplyFormWithStatus> allForm = applyFormRepository.findAll();
 
         List<Tuple> allForm = applyFormRepository.findAll();
 
