@@ -45,3 +45,15 @@
 .loc-filter-dropdown select:active {
     background-color: var(--color-accent);
 }
+
+@media (min-width: 880px) and (max-width: 1026px) {
+    .loc-filter-dropdown select {
+        width: 100px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 879px) {
+    .loc-filter-dropdown select {
+        width: 72px;
+    }
+}

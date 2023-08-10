@@ -230,7 +230,38 @@ const ApplyFormInput = props => {
                     </button>
                 </div>
 
-                <div className='sec-two-two-container inner__section'></div>
+                <div className='sec-two-two-container inner__section'>
+                    <h2 className='left-align'>작성 요령</h2>
+                    <div class='suggestion-block center-align'>
+                        <div>
+                            <h5>이사 종류란?</h5>
+                            <p className='apply-form__right-inner-p'>
+                                - 안녕하세요
+                                <br />
+                                - 안녕하세요
+                                <br />
+                                - 안녕하세요
+                                <br />
+                                - 안녕하세요
+                                <br />
+                            </p>
+                            <h5>이사 종류란?</h5>
+                            <p className='apply-form__right-inner-p'>
+                                - 안녕하세요
+                                <br />
+                                - 안녕하세요
+                                <br />
+                                - 안녕하세요
+                                <br />
+                                - 안녕하세요
+                                <br />
+                            </p>
+                        </div>
+                    </div>
+                    <div className='sec-two-container__divide'></div>
+                    <h2 className='left-align'>동영상 촬영 가이드</h2>
+                    <video className='help-video' src={imageSrc} controls></video>
+                </div>
             </section>
         </>
     );
