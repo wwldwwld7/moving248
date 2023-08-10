@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ImgBox from '../../components/ImgBox/ImgBox';
 import './ApplyDetail.css';
+import { useNavigate } from 'react-router-dom';
 
 import SuggestionBlock from './SuggestionBlock';
 import SuggestionForm from './SuggestionForm';
@@ -8,13 +9,16 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { memberIdAtom, memberTypeAtom } from '../../atom';
+
 export default function ApplyDetail() {
+    const { id } = useParams();
+
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
     // const user_status = 2; // 전역으로 사용할 것임
     // const user_id = 4; // 전역으로 사용할 것임
 
-    const { id } = useParams();
+    const moveUrl = useNavigate();
 
     const [apply, setApply] = useState({
         f_id: 0,
@@ -101,7 +105,6 @@ export default function ApplyDetail() {
     const renderSuggestionForm = () => {
         return (
             <>
-                {/* 아이디가 파트너일 때만 작성 가능하도록 수정해야 함! */}
                 {
                     // 파트너인 경우
                     memberType === 'p' ? <SuggestionForm mySuggestion={mySuggestion} /> : null
@@ -110,13 +113,19 @@ export default function ApplyDetail() {
         );
     };
 
+    const moverModifyHandler = () => {
+        moveUrl('/apply-form', { state: { isModify: id } });
+    };
+
     const renderSuggestionBtn = () => {
         return (
             <>
                 {memberType === 'u' ? (
                     <div className='suggestion-block__btn-outer'>
-                        <button className='btn-dynamic suggestion-block__btn'>문의하기</button>
-                        <button className='btn-dynamic suggestion-block__btn'>확정하기</button>
+                        <button className='btn-dynamic suggestion-block__btn' onClick={moverModifyHandler}>
+                            수정하기
+                        </button>
+                        {/* <button className='btn-dynamic suggestion-block__btn' onClick={moverDeleteClickHandler}>삭제하기</button> */}
                     </div>
                 ) : null}
             </>

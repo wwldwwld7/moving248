@@ -43,7 +43,7 @@ export default function Header() {
                     console.log('[header] res.data.is_form_empty : ' + res.data.is_form_empty);
                     console.log('[header] memberActiveApply : ' + memberActiveApply);
 
-                    if (memberActiveApply !== 0) {
+                    if (res.data.is_form_empty !== 0) {
                         console.log('신청서 보기');
 
                         setBtntxt('신청서 보기');
