@@ -41,7 +41,6 @@ header {
 }
 
 .header__menu {
-    padding-top: 3px;
     display: flex;
     gap: 4px;
 }

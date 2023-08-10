@@ -12,7 +12,7 @@
     margin-right: 0.5rem;
     border: 0px;
     border-radius: 4px;
-    width: 30%;
+    /* width: 30%; */
     padding: 12px;
 }
 
@@ -22,9 +22,9 @@
 .button-send {
     background-color: #9b8d78;
     color: white;
-    font-size: 16px;
-    margin-left: 10px;
-    margin-right: 10px;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     border: 0px;
     border-radius: 4px;
     width: 100%;
@@ -38,12 +38,12 @@
 .button-delete {
     background-color: grey;
     color: white;
-    font-size: 16px;
-    margin-left: 10px;
-    margin-right: 10px;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     border: 0px;
     border-radius: 4px;
-    width: 30%;
+    /* width: 30%; */
     padding: 12px;
 }
 
@@ -79,6 +79,14 @@ h3 {
     display: flex;
     flex-direction: row; /* 수평(행) 방향으로 정렬 */
     justify-content: space-between;
+}
+.partner-innerbox-inline-pass {
+    display: flex;
+    flex-direction: row; /* 수평(행) 방향으로 정렬 */
+}
+
+.partner-innerbox-inline-pass div {
+    margin-right: 3rem;
 }
 
 .partner-innerbox-inline-align {
@@ -118,6 +126,18 @@ h3 {
     font-size: 1rem;
     line-height: 1.5;
 }
+.partner-mypage-input-password,
+.partner-mypage-input-phone {
+    width: 12rem;
+    height: 2rem;
+    padding: 8px;
+    border: 0px;
+    background-color: #e9e7e7;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 1rem;
+    line-height: 1.5;
+}
 
 .profile-mypage-desc {
     width: 50%;
@@ -146,4 +166,41 @@ td {
 }
 .messagebutton {
     text-align: right;
+}
+
+.partner-mypage-error {
+    color: red;
+}
+
+.partner-overlab {
+    height: 0;
+}
+
+.partner-innerbox-image {
+    background-color: white;
+    border-radius: 1rem;
+    width: 100%;
+    padding: 1.5rem;
+    margin: 1.5rem 0 1.5rem 0;
+}
+
+.partner-profile-image {
+    height: 200px;
+    width: 250px;
+    position: relative;
+    top: -200px;
+    z-index: 1;
+    border: 2px solid #fff; /* 흰색 테두리 추가 */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); /* 선택적으로 그림자 효과 추가 */
+}
+
+.profile-error {
+    color: red;
+    text-align: start;
+}
+
+@media (min-width: 768px) {
+    .partner-outerbox {
+        width: 75%;
+    }
 }

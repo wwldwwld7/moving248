@@ -113,8 +113,8 @@ const ApplyList = props => {
         <div>
             <Header />
             <ImgBox imgSrc='moving-box' imgTitle='신청서 목록' />
-            <section className='applylist-max-container section'>
-                <div className='applylist-sec-two-one-container inner__section  overlap-imgbox'>
+            <div className='margin-box one-section'>
+                <div className='sec-one-half-container'>
                     <div className='filter-container'>
                         <div className='filter-dropAndButton'>
                             <div className='filter-dropdown'>
@@ -187,8 +187,8 @@ const ApplyList = props => {
                                         {/* <td className='listTable-column-double'>{rowData.f_id}</td> */}
 
                                         <td className='listTable-column-double'>
-                                            <div className={`listTable-column ${rowData.f_status === 1 ? '확정' : rowData.f_status === 2 ? '입찰' : rowData.f_status === 3 ? '완료' : ''}`}>
-                                                {rowData.f_status === 1 ? '확정' : rowData.f_status === 2 ? '입찰' : rowData.f_status === 3 ? '완료' : ''}
+                                            <div className={`listTable-column ${rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}`}>
+                                                {rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}
                                             </div>
                                         </td>
                                         <td className='listTable-column-double'>
@@ -221,7 +221,7 @@ const ApplyList = props => {
                         <button onClick={moveNextPage}>&gt;</button>
                     </div>
                 </div>
-            </section>
+            </div>
             <Footer />
         </div>
     );
