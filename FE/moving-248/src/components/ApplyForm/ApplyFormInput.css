@@ -56,3 +56,15 @@ video {
 .apply-form__right-inner-p:last-child {
     margin-bottom: 0px;
 }
+
+.faq {
+    margin-bottom: 2rem;
+}
+
+.movie-p {
+    padding-top: 0.5rem;
+}
+
+.pad-top-05 {
+    padding-top: 0.5rem;
+}
