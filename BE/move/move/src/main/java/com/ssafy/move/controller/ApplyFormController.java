@@ -32,13 +32,9 @@ public class ApplyFormController {
     @GetMapping("/user/{m_id}")
     public ResponseEntity<?> existForm(@PathVariable int m_id){
 
-        System.out.println("프론트에서 ------ "+m_id);
-
         Map<String, Integer> map = new HashMap<>();
 
         int formId = applyFormService.existForm(m_id);
-
-        System.out.println(formId);
 
         map.put("is_form_empty", formId);
 

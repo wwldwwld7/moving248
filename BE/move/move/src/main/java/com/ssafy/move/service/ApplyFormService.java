@@ -62,9 +62,6 @@ public class ApplyFormService {
         if (applyForms.size()==0)
             return 0;
         else
-
-            System.out.println(applyForms.get(0).toString());
-
             return applyForms.get(0).getId();
     }
 
@@ -141,7 +138,6 @@ public class ApplyFormService {
 
         List<ApplyFormResponseDto> list = new ArrayList<>();
 
-        //List<ApplyFormWithStatus> allForm = applyFormRepository.findAll();
 
         List<Tuple> allForm = applyFormRepository.findAll();
 
