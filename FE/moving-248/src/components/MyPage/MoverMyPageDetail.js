@@ -1,34 +1,26 @@
 import React, { useState, useEffect } from 'react';
 // import ReactDom from 'react-dom';
 import './MoverMyPageDetail.css';
-import Modal from '../UI/Modal';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const MoverMyPageDetail = props => {
+    const moveToHome = useNavigate();
     const { id } = useParams();
+    const [userInfo, setUserInfo] = useState({});
+    const [originalUserInfo, setOriginalUserInfo] = useState({});
 
-    const [userInfo, setUserInfo] = useState({
-        m_id: 0,
-        name: '',
-        password: '',
-        phone: '',
-        email: '',
-        profile_url: '',
-        list: [],
-    });
-    const [originalUserInfo, setOriginalUserInfo] = useState({}); // 원래 사용자 정보 저장
-
-    const [passwordMatchError, setPasswordMatchError] = useState(false);
-    const [phoneFormatError, setPhoneFormatError] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
 
     const fetchUserInfo = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/member/user/${id}`);
             setUserInfo(response.data.data);
             setOriginalUserInfo(response.data.data); // 원래 정보 설정
-
+            const imageUrl = `/profile/${id % 10}.jpg`;
+            setUserInfo(prevUserInfo => ({ ...prevUserInfo, profile_url: imageUrl }));
         } catch (error) {
             console.error('사용자 정보 가져오기 에러:', error);
         }
@@ -38,49 +30,10 @@ const MoverMyPageDetail = props => {
         fetchUserInfo();
     }, []);
 
-    const [showModal, setShowModal] = useState(false); // Modal 표시 여부 상태
-    const [showModalDelete, setShowModalDelete] = useState(false); // Modal 표시 여부 상태
-
-    const [isEditing, setIsEditing] = useState(false); // 편집 모드 여부 상태
-
-    const handleDeleteClick = () => {
-        setShowModal(true); // "회원 탈퇴" 버튼 클릭 시 Modal 표시
-    };
-
-    const handleModalClose = () => {
-        setShowModal(false); // Modal 닫기
-    };
-
-    const handleConfirmDelete = async () => {
-        try {
-            const randomPass = `randomemail${Math.floor(Math.random() * 1000)}`;
-
-            const dataToUpdate = {
-                phone: '000-0000-0000',
-                password: randomPass,
-            };
-
-            const response = await axios.put(`http://localhost:8080/member/user/${id}`, dataToUpdate);
-            console.log('회원 삭제 성공:', response.data);
-            setShowModal(false);
-            setShowModalDelete(true);
-            
-        } catch (error) {
-            console.error('회원 삭제 에러:', error);
-        }
-        setShowModal(false);
-    };
-
     const handleEditClick = () => {
-        setIsEditing(true); // 정보 수정 버튼 클릭 시 편집 모드 활성화
+        setIsEditMode(true);
     };
-
-    const handleCancelEdit = () => {
-        setIsEditing(false); // 편집 모드 비활성화
-        setUserInfo(originalUserInfo);
-    };
-
-    const handleSaveClick = async () => {
+    const handleSubmit = async () => {
         try {
             const dataToUpdate = {
                 password: userInfo.password,
@@ -93,170 +46,190 @@ const MoverMyPageDetail = props => {
             // Handle the response
             console.log('정보 수정 성공:', response.data);
 
-            setIsEditing(false);
+            setIsEditMode(false);
             fetchUserInfo();
         } catch (error) {
             console.error('정보 수정 에러:', error);
             // Handle the error
         }
-    };
+    }
+    const handleCancelEdit = () => {
+        setIsEditMode(false);
+        setUserInfo(originalUserInfo);
+        fetchUserInfo();
+    }
+    
+    const handleDelete = async () => {
+        try {
+             const response = await axios.delete(`http://localhost:8080/member/${id}`);
+            console.log('회원 탈퇴 성공:', response.data);
+            moveToHome('/');
+        } catch (error) {
+            console.error('회원 탈퇴 에러:', error);
+        } 
+    }
 
-    const handleUserInfoChange = async e => {
+    const handleChange = e => {
         const { name, value } = e.target;
 
         setUserInfo(prevUserInfo => ({
             ...prevUserInfo,
             [name]: value,
         }));
-        if (name === 'password') {
-            setUpdatedPassword(value); // 변경할 패스워드 업데이트
-            await checkPasswordMatch(); // 비밀번호 일치 검증
+        const validators = {
+            phone: value => /^\d{3}-\d{4}-\d{4}$/.test(value),
+            password: value => /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/.test(value),
+            checkPass: value => value === userInfo.password,
+        };
+        const isValidInput = validators[name](value);
 
-            // setUserInfo(prevUserInfo => ({
-            //     ...prevUserInfo,
-            //     [name]: value,
-            // }));
-
-            await checkPasswordMatch();
-        } else if (name === 'phone') {
-            // setUserInfo(prevUserInfo => ({
-            //     ...prevUserInfo,
-            //     [name]: value,
-            // }));
-
-            checkPhoneFormat();
-        }
+        setIsValid(prevState => ({
+            ...prevState,
+            [name]: isValidInput,
+        }));
+        setMessages(prevState => ({
+            ...prevState,
+            [name]: isValidInput ? '' : getErrorMessage(name),
+        }));
     };
 
-    const checkPasswordMatch = async () => {
-        if (userInfo.password !== userInfo.password_confirm) {
-            setPasswordMatchError(true);
-        } else {
-            setPasswordMatchError(false);
+    const [messages, setMessages] = useState({
+        phone: '',
+        password: '',
+        checkPass: '',
+    });
+
+    const [isValid, setIsValid] = useState({
+        phone: false,
+        password: false,
+        checkPass: false,
+    });
+    const getErrorMessage = fieldName => {
+        switch (fieldName) {
+            case 'phone':
+                return '형식에 맞게 번호를 입력해주세요.';
+            case 'password':
+                return '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요.';
+            case 'checkPass':
+                return '비밀번호가 일치하지 않습니다.';
+            default:
+                return '';
         }
     };
-    const checkPhoneFormat = () => {
-        const phonePattern = /^\d{3}-\d{4}-\d{4}$/;
-
-        if (!phonePattern.test(userInfo.phone)) {
-            setPhoneFormatError(true);
-        } else {
-            setPhoneFormatError(false);
-        }
-    };
-
-    const [updatedPassword, setUpdatedPassword] = useState('');
-
-    useEffect(() => {
-        checkPasswordMatch();
-    }, [updatedPassword, userInfo.password_confirm]); // updatedPassword로 변경
-
-    useEffect(() => {
-        checkPasswordMatch();
-    }, [userInfo.password, userInfo.password_confirm]);
-    useEffect(() => {
-        checkPhoneFormat();
-    }, [userInfo.phone]);
-
+    
     return (
         <div className='sec-two-one-container inner__section  overlap-imgbox'>
-            <div className='mypage-detail-flexbox'>
-                <h1 className='sec-two-container__h2'>마이페이지</h1>
-            </div>
-            <div className='mypage-detail-flexbox vertical-align-center'>
-                <div className='vertical-center'>
-                    <h3>
-                        {isEditing ? (
-                            <>
-                                이름 : <input className='textarea-editing' name='name' value={userInfo.name} onChange={handleUserInfoChange} readOnly />
-                            </>
-                        ) : (
-                            userInfo.name
-                        )}
-                    </h3>
-                </div>
-                <div className='vertical-center'>
-                    <h3>이메일 : {isEditing ? <input className='textarea-editing' type='text' name='email' value={userInfo.email} onChange={handleUserInfoChange} readOnly /> : userInfo.email}</h3>
-                </div>
-                <div className='vertical-center'>
-                    
-                {isEditing ? (
-        <>
-            <h3>연락처</h3>
-            <input className={`textarea-editing ${phoneFormatError ? 'input-error' : ''}`} type='text' name='phone' value={userInfo.phone} onChange={handleUserInfoChange} />
-        </> 
-    ) : (
-        <h3>연락처: {userInfo.phone}</h3>
-    )}
-    {isEditing && (
-        <div>{phoneFormatError && <span className='partner-mypage-error'>(000-0000-0000 형식으로 입력하세요)</span>}</div>
-    )}
-                </div>
-                
-                {isEditing ? (
-                    <div className='vertical-center'>
-                        <h3>변경할 패스워드</h3>
-                        <input className='textarea-editing' type='password' name='password' onChange={handleUserInfoChange} />
-                    </div>
-                ) : (
-                    ''
-                )}
-                {isEditing ? (
-                    <div className='vertical-center'>
-                        <h3>한번 더 입력 </h3>
-                        <input className='textarea-editing' type='password' name='password_confirm' onChange={handleUserInfoChange} />
-                        <div>{passwordMatchError && <span className='partner-mypage-error'>패스워드가 일치하지 않습니다.</span>}</div>
-                    </div>
-                ) : (
-                    ''
-                )}
-                <div>
-                    {isEditing ? (
-                        <>
-                            <h3>프로필 이미지</h3>
-                            <input type='file' name='file' />
-                            <div className='apply-form-innerbox-e'></div>
-                        </>
-                    ) : (
-                        <img className='vertical-center-image' src={userInfo.profile_url || '/default-profile-image.png'} alt='Profile' />
-                    )}
+            <div className='mover-innerbox'>
+                <div className='center-vertically'>
+                    <h2>Mover</h2>
+                    <img className='partner-profile-image' src={userInfo.profile_url} alt='Profile' />
+                    <h2>{userInfo.name}</h2>
                 </div>
             </div>
 
-            <div className='mypage-detail-button-align'>
-                {isEditing ? (
-                    <>
-                        <input className='button-modify' type='button' value={'저장'} onClick={handleSaveClick} />
-                        <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit}/>
-                    </>
-                ) : (
-                    <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
-                )}
-                <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDeleteClick} />
+            {isEditMode ? (
+            <>
+            <div className='mover-innerbox'>
+                <table className='mypage-table'>
+                    <tbody>
+                        <tr>
+                            <div>
+                                <span className='mover-innerbox-label'>Email</span>
+                                <td>
+                                    <span className='user-innerbox-value'>
+                                        {userInfo.email}
+                                    </span>
+                                </td>
+                            </div>                             
+                        </tr>
+                        <tr>
+                            <div>
+                                <span className='mover-innerbox-label'>Phone</span>
+                                <td>
+                                    <span className='mover-innerbox-value'>
+                                        <div>
+                                        <input className='mover-mypage-input-phone' type='text' name='phone' placeholder={userInfo.phone} onChange={handleChange} />
+                                            {messages.phone && <div className={`message ${isValid.phone ? 'success' : 'error'}`}>{messages.phone}</div>}
+                                        </div>
+                                    </span>
+                                </td>
+                            </div>                             
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <Modal
-                show={showModal}
-                onClose={handleModalClose}
-                message='정말로 회원 탈퇴하시겠습니까?' // Modal에 표시할 메시지
-                onConfirm={handleConfirmDelete} // "예" 버튼 클릭 시 동작
-            />
-            <Modal
-                show={showModalDelete}
-                onClose={() => {
-                    setShowModalDelete(false);
-                    setUserInfo({  // Reset userInfo to its default values
-                        m_id: 1,
-                        name: '',
-                        password: '',
-                        phone: '',
-                        email: '',
-                        profile_url: '',
-                        list: [],
-                    });
-                }}
-                message='계정이 성공적으로 삭제되었습니다.' 
-                showFooter={false}
-            />
+            <div className='mover-innerbox'>
+                <table className='mypage-table'>
+                    <tbody>
+
+                        <tr>
+                            <div>
+                                <span className='mover-innerbox-label'>Password</span>
+                                <td>
+                                    <span className='mover-innerbox-value'>
+                                        <div>
+                                        <input className='mover-mypage-input-password' type='password' name='password' onChange={handleChange} />
+                                        {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
+                                        </div>
+                                    </span>
+                                </td>
+                            </div>
+                        </tr>
+                        <tr>
+                            <div>
+                                <span className='mover-innerbox-label'>Password 확인</span>
+                                <td>
+                                    <span className='mover-innerbox-value'>
+                                        <div>
+                                            <input  className='mover-mypage-input-password' type='password' name='checkPass' onChange={handleChange} />
+                                            {messages.checkPass && <div className={`message ${isValid.checkPass ? 'success' : 'error'}`}>{messages.checkPass}</div>}
+                                        </div>
+                                    </span>
+                                </td>
+                            </div>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div className='mypage-detail-button-align'>
+                <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
+                <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit}/>
+                <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete}/>
+            </div>
+            </>)
+            : (
+            <>
+                <div className='mover-innerbox'>
+                <table className='mypage-table'>
+                    <tbody>
+                        <tr>
+                            <div>
+                                <span className='mover-innerbox-label'>Email</span>
+                                <td>
+                                    <span className='user-innerbox-value'>
+                                        {userInfo.email}
+                                    </span>
+                                </td>
+                            </div>                             
+                        </tr>
+                        <tr>
+                            <div>
+                                <span className='mover-innerbox-label'>Phone</span>
+                                <td>
+                                    <span className='mover-innerbox-value'>
+                                        {userInfo.phone}
+                                    </span>
+                                </td>
+                            </div>                             
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div className='mypage-detail-button-align'>
+                <button className='button-modify' type='button' onClick={handleEditClick} > 정보 수정 </button>
+            </div>
+            </>
+            )}
         </div>
     );
 };

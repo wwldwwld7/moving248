@@ -1,162 +1,108 @@
-.mypage-detail-flexbox {
+.mover-innerbox {
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* 수직(열) 방향으로 정렬 */
+    background-color: var(--color-primary-variant);
+    border-radius: 1rem;
+    width: 100%;
+    padding: 1.5rem;
+    margin: 1.5rem 0 1.5rem 0;
+}
+.mover-innerbox div,
+h3 {
+    margin: 0.1rem 0 0.1rem 0;
 }
 
-.vertical-align-center {
+.center-vertically {
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-.vertical-align-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: center; /* 가로 중앙 정렬 */
+    justify-content: center; /* 세로 중앙 정렬 */
+    height: 100%; /* 부모 컨테이너의 높이를 100%로 설정 */
 }
 
-.vertical-center {
-    margin: 10px;
+.mover-innerbox-label {
+    font-size: 1.2rem; /* 원하는 크기로 조정 */
+    font-weight: bold;
+    margin-right: 0.5rem;
 }
 
-.vertical-center-image {
-    margin: 30px;
-    /* padding: auto; */
-    height: 300px;
-    width: 300px;
-    border-radius: 300px;
-    border: 5px solid var(--color-primary);
+.mover-innerbox-value {
+    font-size: 1rem; /* 원하는 크기로 조정 */
 }
 
-.applyform-block {
-    display: flex;
-    background-color: white;
-    border: 2px solid var(--color-primary-variant);
-    border-radius: 5px;
-    padding: 2rem 1rem;
-    margin: 20px 0;
-}
-.applyform-block {
-    display: flex;
-    background-color: white;
-    border: 2px solid var(--color-primary);
-    border-radius: 30px;
-    padding: 2rem 1rem;
+.button-modify {
+    background-color: #9b8d78;
+    color: white;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    border: 0px;
+    border-radius: 4px;
+    /* width: 30%; */
+    padding: 12px;
 }
 
-.applyform-block-left {
-    flex: 1;
-    padding-right: 1rem;
-    border-right: 1px solid var(--color-primary-variant);
+.button-modify:hover {
+    background-color: #3a2c2b;
+}
+.button-send {
+    background-color: #9b8d78;
+    color: white;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    border: 0px;
+    border-radius: 4px;
+    width: 100%;
+    padding: 12px;
 }
 
-.applyform-block-right {
-    flex: 2;
-    padding-left: 1rem;
+.button-send:hover {
+    background-color: #3a2c2b;
+}
+
+.button-delete {
+    background-color: grey;
+    color: white;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    border: 0px;
+    border-radius: 4px;
+    /* width: 30%; */
+    padding: 12px;
+}
+
+.button-delete:hover {
+    background-color: red;
+}
+
+.mover-mypage-input {
+    width: 5rem;
+    height: 2rem;
+    padding: 8px;
+    border: 0px;
+    background-color: #e9e7e7;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+.mover-mypage-input-password,
+.mover-mypage-input-phone {
+    width: 12rem;
+    height: 2rem;
+    padding: 8px;
+    border: 0px;
+    background-color: #e9e7e7;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 1rem;
+    line-height: 1.5;
 }
 
 .mypage-detail-button-align {
     display: flex;
-    margin-top: auto;
-    flex-direction: column; /* 수직(열) 방향으로 정렬 */
-    align-items: center; /* 가로 가운데 정렬 */
-}
-
-.star-rating {
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: column; /* 수직(열) 방향으로 정렬 */
-    font-size: 16px;
-}
-
-.comment-section {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column; /* 수직(열) 방향으로 정렬 */
-}
-
-.p-margin {
-    margin: 10px 0; /* 상하 여백만 유지 */
-    display: flex;
-    justify-content: space-between;
-}
-.rate-input {
-    width: 3rem;
-    height: 2rem;
-    padding: 8px;
-    border: 0px;
-    background-color: #e9e7e7;
-    border-radius: 4px;
-    resize: none;
-    font-size: 1rem;
-    line-height: 1.5;
-    /* background-color: white;
-    border: 2px solid var(--color-primary-variant);
-    border-radius: 5px; */
-}
-.textarea-editing {
-    width: 15rem;
-    height: 2rem;
-    padding: 8px;
-    border: 0px;
-    background-color: #e9e7e7;
-    border-radius: 4px;
-    resize: none;
-    font-size: 1rem;
-    line-height: 1.5;
-    /* background-color: white;
-    border: 2px solid var(--color-primary-variant);
-    border-radius: 5px; */
-    /* padding: 2rem 1rem; */
-    /* width: 80%; */
-    /* margin: 20px 0; */
-}
-.textarea-editing-hb {
-    width: 100%;
-    height: 2rem;
-    padding: 8px;
-    border: 0px;
-    background-color: #e9e7e7;
-    border-radius: 4px;
-    resize: none;
-    font-size: 1rem;
-    line-height: 1.5;
-    /* background-color: white;
-    border: 2px solid var(--color-primary-variant);
-    border-radius: 5px; */
-    /* padding: 2rem 1rem; */
-    /* width: 80%; */
-    /* margin: 20px 0; */
-}
-
-.textarea-editing-hb::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
-}
-
-/* 기본 버튼 스타일 */
-.review-button {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    margin-top: 1rem;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background-color: var(--color-accent-variant);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.review-button:hover {
-    background-color: var(--color-accent);
-}
-
-.review-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.4);
-}
-
-.hb-scroll {
-    overflow-y: scroll;
-    height: 600px;
+    flex-direction: row;
+    justify-content: center; /* 수평(행) 방향으로 정렬 */
 }
