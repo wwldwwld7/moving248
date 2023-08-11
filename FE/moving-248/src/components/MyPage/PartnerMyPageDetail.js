@@ -3,8 +3,18 @@ import Modal from '../UI/Modal';
 import './PartnerMyPageDetail.css';
 import PartnerReview from './PartnerReview';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { memberActiveApplyAtom, memberIdAtom, memberTypeAtom } from '../../atom';
 
 const PartnerMyPageDetail = props => {
+    const { id } = useParams();
+    const memberType = useRecoilValue(memberTypeAtom);
+    const memberId = useRecoilValue(memberIdAtom);
+
+    const isCurrentUser = memberId == id;
+
     const [partnerInfo, setPartnerInfo] = useState({
         p_id: 0,
         p_ceo: '',
@@ -33,7 +43,7 @@ const PartnerMyPageDetail = props => {
 
     const fetchPartnerInfo = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/member/partner/4`);
+            const response = await axios.get(`http://localhost:8080/member/partner/${id}`);
             setPartnerInfo(response.data.data);
             setReviewDatabase(response.data.data.list);
             console.log(response.data.data);
@@ -118,7 +128,7 @@ const PartnerMyPageDetail = props => {
             );
 
             // Send the formData to the server
-            const response = await axios.put('http://localhost:8080/member/partner/4', formData, {
+            const response = await axios.put(`http://localhost:8080/member/partner/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -219,9 +229,7 @@ const PartnerMyPageDetail = props => {
                 <div className='partner-innerbox'>
                     <div className='partner-innerbox-inline-align'>
                         <h2>{partnerInfo.name}</h2>
-                        {isEditing ? (
-                            ''
-                        ) : (
+                        {memberType === 'u' && !isEditing && (
                             <span className='messagebutton'>
                                 <input className='button-send' type='button' value={'메시지 보내기'} />
                             </span>
@@ -372,9 +380,13 @@ const PartnerMyPageDetail = props => {
                             <input className='button-modify' type='button' value={'취소'} onClick={() => setIsEditing(false)} />
                         </>
                     ) : (
-                        <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
+                        isCurrentUser && (
+                            <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
+                        )
                     )}
-                    <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDeleteClick} />
+                    {isCurrentUser && (
+                        <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDeleteClick} />
+                    )}
                 </div>
                 <Modal
                     show={showModal}
@@ -388,4 +400,3 @@ const PartnerMyPageDetail = props => {
 };
 
 export default PartnerMyPageDetail;
-//ㅎㅎ

@@ -3,8 +3,18 @@ import React, { useState, useEffect } from 'react';
 import './MoverMyPageDetail.css';
 import StarRating from '../UI/StarRating';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { memberActiveApplyAtom, memberIdAtom, memberTypeAtom } from '../../atom';
 
 const MoverMyPageHistory = props => {
+    const { id } = useParams();
+    const memberType = useRecoilValue(memberTypeAtom);
+    const memberId = useRecoilValue(memberIdAtom);
+    const setterActiveApply = useSetRecoilState(memberActiveApplyAtom);
+    const moveUrl = useNavigate();
+    
     const [historyList, setHistoryList] = useState([]);
 
     const fetchUserInfo = async () => {
