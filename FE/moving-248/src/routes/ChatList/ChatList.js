@@ -4,40 +4,98 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 // import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
 
 export default function ChatList() {
-    //member_type 가져오고
+    const myId = '2';
+    let p_id = '1';
+    let u_id = '2';
     const member_type = 'm';
+    const now = new Date();
+    const today = new Date().setHours(0, 0, 0, 0);
+
+    // const memberName = useRecoilValue(memberNameAtom); // 값 가져오기
+    // const memberEmail = useRecoilValue(memberEmailAtom);
+    // const memberType = useRecoilValue(memberTypeAtom);
+    // const memberId = useRecoilValue(memberIdAtom);
+
+    //member_type 가져오고
+    // if (memberType == 'p') {
+    // if (member_type == 'p') {
+    //     // p_id = memberId;
+    //     p_id = myId;
+    // } else {
+    //     // u_id = memberId;
+    //     u_id = myId;
+    // }
+
     const [data, setData] = useState([]);
     //읽음여부
-    const [showDiv, setShowDiv] = useState(true);
+    // const [showDiv, setShowDiv] = useState(true);
 
     //m인경우 /chat/user/{u_id}로 get요청
-    // useEffect(() => {
-    //     if (member_type == 'm') {
-    //         // GET 요청 보내기
-    //         axios
-    //             .get('https://i9b301.p.ssafy.io/chat/user/{u_id}')
-    //             .then(response => {
-    //                 setData(response.data);
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error fetching data:', error);
-    //             });
-    //     }
-    //     //p인경우 /chat/partner/{p_id}로 get요청
-    //     else {
-    //         axios
-    //             .get('https://api.example.com/chat/partner/{p_id}')
-    //             .then(response => {
-    //                 setData(response.data);
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error fetching data:', error);
-    //             });
-    //     }
-    // }, []);
+    useEffect(() => {
+        const handleResize = () => {
+            // 원하는 창 크기로 고정 (예시: 800x600)
+            window.resizeTo(500, 800);
+            window.screenLeft = 0;
+            window.screenTop = 0;
+        };
+
+        // resize 이벤트 리스너 등록
+        window.addEventListener('resize', handleResize);
+
+        // 컴포넌트가 unmount될 때 resize 이벤트 리스너 해제
+
+        if (member_type == 'm') {
+            // GET 요청 보내기
+            axios
+                .get(`http://localhost:8080/chat/user/${myId}`)
+                .then(response => {
+                    setData(response.data.data);
+                    // console.log(response.data.data[0].profile_url);
+                    console.log(Date.parse(response.data.data[0].room_last_date));
+                    console.log(today);
+
+                    // console.log(Date(response.data.data.room_last_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+        //p인경우 /chat/partner/{p_id}로 get요청
+        else {
+            axios
+                .get(`http://localhost:8080/chat/partner/${myId}`)
+                .then(response => {
+                    setData(response.data.data);
+                    // date = new Date(response.data.data);
+                    console.log(response.data.data[0]);
+                    console.log(Date.parse(today));
+                    console.log('memberType : p');
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    let formattedDateTime;
+
+    // if (now.getTime() >= today) {
+    //     // If current date is today
+    //     formattedDateTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // } else {
+    //     // If current date is not today
+    //     formattedDateTime = now.toLocaleDateString();
+    // }
+
+    // console.log(formattedDateTime);
+
     //받아서 data 개수 체크 하고 그만큼 map 돌기
     const datas = [1, 2, 3, 4, 5, 6];
     const text = 'sppppppppppppppppppppppppppppppppppppppppppppppspppppsppppppppppppppppppppppppppppppppppppppppppppppspppppsppppppppppppppppppppppppppppppppppppppppppppppsppppp';
@@ -52,39 +110,58 @@ export default function ChatList() {
             <h2 className='head'>248 메신저</h2>
             {/* <LineDrawing></LineDrawing> */}
 
-            {/* <div className=''>
+            <div className=''>
                 {data.map(item => (
                     <div>
                         <div
                             key={item.room_id}
                             className='profileList'
                             onClick={() => {
-                                window.open(`chat-list/chat-detail/`, '_blank', 'width=500, height=600');
+                                // 내가 누군지 확인해서 p_id, u_id,m_id 순으로 요청해서 보내기 순서 주의!!!!
+                                if (member_type == 'p') {
+                                    window.open(
+                                        `chat-list/chat-detail/${myId}/${item.m_id}/${myId}/${item.name}/${item.room_id}`,
+                                        `chat-detail${item.room_id}`,
+                                        '_blank, left =500,top=0,  width=500, height=800'
+                                    );
+                                } else {
+                                    window.open(
+                                        `chat-list/chat-detail/${item.m_id}/${myId}/${myId}/${item.name}/${item.room_id}`,
+                                        `chat-detail${item.room_id}`,
+                                        '_blank,left =500,top=0, width=500, height=800'
+                                    );
+                                }
                             }}
                         >
-                            <img src={item.profile_url} className='profile_img' alt='profile_img' style={{ width: '100px', height: '100px' }}></img>
+                            {/* <img src={item.profile_url} className='profile_img' alt='profile_img' style={{ width: '100px', height: '100px' }}></img> */}
+                            {item.profile_url == null ? (
+                                <img src='./apple.jpg' className='profile_img' alt='profile_img' style={{ width: '100px', height: '100px' }}></img>
+                            ) : (
+                                <img src={item.profile_url} className='profile_img' alt='profile_img' style={{ width: '100px', height: '100px' }}></img>
+                            )}
                             <div className='profile'>
                                 <div className='nameDate'>
                                     <div className='name'>{item.name.length > 5 ? `${item.name.slice(0, 5)}...` : item.name}</div>
-
-                                    <p className='sub date'>{item.room_last_date}</p>
-
+                                    {/* <p className='sub date'>{item.room_last_date}</p> */}
+                                    {Date.parse(item.room_last_date) < today ? (
+                                        <p className='sub last_date'>{item.room_last_date.substr(2, 8)}</p>
+                                    ) : (
+                                        <p className='sub last_date'>{item.room_last_date.substr(11, 5)}</p>
+                                    )}
                                 </div>
 
-                                <div className='message'>
-                                    <div className='lastMassage'>
-                                    {item.room_last_message.length > 100 ? `${item.room_last_message.slice(0,100)}...` : item.room_last_message }
-                                    </div>
-                                    {item.noread_message && <img className='dot' src='redDot.png' alt='읽음여부' style={{ width: '20px', height: '20px' }}></img>}
+                                <div className='chat__message'>
+                                    <div className='lastMassage paragraph'>{item.room_last_message.length > 10 ? `${item.room_last_message.slice(0, 10)}...` : item.room_last_message}</div>
+                                    {item.noread_message && <div className='dot' style={{ width: '12px', height: '12px' }}></div>}
                                 </div>
                             </div>
                         </div>
                         <MyComponent></MyComponent>
-                        </div>
+                    </div>
                 ))}
-            </div> */}
+            </div>
 
-            <div className=''>
+            {/* <div className=''>
                 {datas.map((number, index) => (
                     <div>
                         <div
@@ -107,11 +184,11 @@ export default function ChatList() {
                                 </div>
                             </div>
                         </div>
-                        {/* <LineDrawing></LineDrawing> */}
+                        
                         <MyComponent></MyComponent>
                     </div>
                 ))}
-            </div>
+            </div> */}
 
             {/* <div
                 className='profileList'

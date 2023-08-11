@@ -169,14 +169,14 @@ body {
 .paperPlane {
     width: 30px;
     height: 30px;
-    margin-top: 30px;
-    margin-bottom: 70px;
+    margin-top: 34px;
+    margin-bottom: 50px;
 }
 
 .cam {
     width: 35px;
     height: 35px;
-    margin-bottom: 20px;
+    margin-bottom: 34px;
 }
 
 .btn_close {
@@ -214,7 +214,7 @@ body {
 .chat-messages {
     display: inline-flex;
     flex-direction: column;
-    height: 20px;
+    min-height: 60px;
     width: 70%;
     background-color: #3a2c2b;
 }
@@ -222,7 +222,7 @@ body {
     display: inline-flex;
     flex-direction: column;
     float: right;
-    height: 80px;
+    min-height: 60px;
     width: 70%;
     background-color: #3a2c2b;
 }
@@ -275,8 +275,8 @@ body {
     background-color: #3a2c2b;
 }
 .inputText {
-    margin-top: 30px;
-    margin-left: 10px;
+    margin-top: 7%;
+    margin-left: 4%;
     width: 80%;
     height: 16vh;
     background-color: #3a2c2b;
@@ -311,7 +311,7 @@ body {
     margin: 10px 6px;
     width: 95%;
     justify-content: start;
-    display: flex;
+    display: inline-flex;
     position: relative;
     /* float: right; */
 }
