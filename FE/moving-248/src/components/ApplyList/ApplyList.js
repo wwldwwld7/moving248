@@ -8,27 +8,7 @@ import './ApplyList.css';
 import axios from 'axios';
 
 const ApplyList = props => {
-    const [dataList, setDataList] = useState([
-        {
-            f_status: 1,
-            f_dep_sido: '서울',
-            f_dep_gungu: '강남구',
-            f_arr_sido: '부산',
-            f_arr_gungu: '해운대구',
-            f_date: '2023-08-15',
-            f_category: '참여',
-        },
-        {
-            f_status: 2,
-            f_dep_sido: '경기',
-            f_dep_gungu: '성남시',
-            f_arr_sido: '대구',
-            f_arr_gungu: '중구',
-            f_date: '2023-08-17',
-            f_category: '미참여',
-        },
-
-    ]);
+    const [dataList, setDataList] = useState([]);
 
     //////////////// Filter start ////////////////
 
