@@ -1,8 +1,12 @@
 import './SuggestionBlock.css';
+import { useRecoilValue } from 'recoil';
+import { memberIdAtom, memberTypeAtom } from '../../atom';
 
 export default function SuggestionBlock({ element, f_status }) {
     const user_status = 1; // 전역으로 사용할 것임
-    const user_id = 1; // 전역으로 사용할 것임
+    // const user_id = 1; // 전역으로 사용할 것임
+    const memberType = useRecoilValue(memberTypeAtom);
+    const memberId = useRecoilValue(memberIdAtom);
 
     const renderStatusMessage = () => {
         // Mover이고, 미확정 상태일 때
@@ -24,11 +28,11 @@ export default function SuggestionBlock({ element, f_status }) {
             );
         }
         // Partner이고, 본인의 글이며, 확정 상태일 때
-        else if (user_status === 2 && element.f_id === user_id && f_status === 2) {
+        else if (memberType === 'p' && element.f_id === memberId) {
             return (
                 <div className='suggestion-block__btn-outer'>
-                    <button className='btn-dynamic suggestion-block__btn'>문의하기</button>
-                    <button className='btn-dynamic suggestion-block__btn'>취소하기</button>
+                    <button className='btn-dynamic suggestion-block__btn'>수정하기</button>
+                    <button className='btn-dynamic suggestion-block__btn'>삭제하기</button>
                 </div>
             );
         } else {

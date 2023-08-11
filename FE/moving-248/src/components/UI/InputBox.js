@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import classes from './InputBox.module.css';
 
 const InputBox = props => {
-    const { label, type, name, placeholder, required, value, onChange, readOnly } = props;
+    const { label, type, inputMode, name, placeholder, required, value, onChange, readOnly } = props;
 
     const hasError = props.children && props.children.props.className.includes('error');
 
@@ -14,6 +14,7 @@ const InputBox = props => {
             <input
                 className={`${classes.input_field} ${!isValid ? classes.invalid : ''}`}
                 type={type}
+                inputMode={inputMode}
                 name={name}
                 placeholder={placeholder}
                 required={required}

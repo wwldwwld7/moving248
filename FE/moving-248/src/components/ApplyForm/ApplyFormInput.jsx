@@ -195,15 +195,16 @@ const ApplyFormInput = props => {
         // 수정
         else {
             try {
+                console.log(isModify);
                 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 알맞게 수정 필요합니다
-                const response = await axios.post('http://localhost:8080/update', formData, {
+                const response = await axios.put(`http://localhost:8080/form/${isModify}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
                 console.log('서버 응답:', response.data);
                 setterActiveApply('t');
-                alert('신청서 작성이 완료되었습니다.');
+                alert('신청서 수정이 완료되었습니다.');
                 window.location.href = '/';
             } catch (error) {
                 console.error('수정 에러 발생:', error);
@@ -303,7 +304,7 @@ const ApplyFormInput = props => {
                     <div className='sec-two-container__divide last-divide'></div>
 
                     <button className='btn-static' type='button' onClick={handleSubmit}>
-                        신청서 등록
+                        {isModify === undefined ? '신청서 등록' : '신청서 수정'}
                     </button>
                     <div className='apply-form-innerbox-e'>{errorMessage && <p className='form-error-message dynamic pad-top-05'>{errorMessage}</p>}</div>
                 </div>

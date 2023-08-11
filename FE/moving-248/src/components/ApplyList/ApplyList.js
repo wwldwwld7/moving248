@@ -27,7 +27,6 @@ const ApplyList = props => {
             f_date: '2023-08-17',
             f_category: '미참여',
         },
-
     ]);
 
     //////////////// Filter start ////////////////
@@ -206,23 +205,26 @@ const ApplyList = props => {
                                     <tr className='listTable-row' key={index}>
                                         {/* <td className='listTable-column-double'>{rowData.f_id}</td> */}
 
-                                        <td className='listTable-column-double'>
-                                            <div className={`listTable-column ${rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}`}>
-                                                {rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}
-                                            </div>
-                                        </td>
-                                        <td className='listTable-column-double'>
-                                            <div className='listTable-column-child'>
-                                                출발 : {rowData.f_dep_sido} {rowData.f_dep_gungu}
-                                            </div>
-                                            <div className='listTable-column-child'>
-                                                도착 : {rowData.f_arr_sido} {rowData.f_arr_gungu}
-                                            </div>
-                                        </td>
-                                        <td className='listTable-column-double'>
-                                            <div className='listTable-column-child'>{formattedDate}</div>
-                                            <div className='listTable-column-child'>{rowData.f_category}</div>
-                                        </td>
+                                        {/* 상세 신청서 페이지 이동 */}
+                                        <Link to={`/apply-detail/${rowData.f_id}`}>
+                                            <td className='listTable-column-double'>
+                                                <div className={`listTable-column ${rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}`}>
+                                                    {rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}
+                                                </div>
+                                            </td>
+                                            <td className='listTable-column-double'>
+                                                <div className='listTable-column-child'>
+                                                    출발 : {rowData.f_dep_sido} {rowData.f_dep_gungu}
+                                                </div>
+                                                <div className='listTable-column-child'>
+                                                    도착 : {rowData.f_arr_sido} {rowData.f_arr_gungu}
+                                                </div>
+                                            </td>
+                                            <td className='listTable-column-double'>
+                                                <div className='listTable-column-child'>{formattedDate}</div>
+                                                <div className='listTable-column-child'>{rowData.f_category}</div>
+                                            </td>
+                                        </Link>
                                     </tr>
                                 );
                             })}
