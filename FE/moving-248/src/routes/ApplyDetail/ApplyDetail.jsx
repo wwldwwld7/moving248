@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ImgBox from '../../components/ImgBox/ImgBox';
 import './ApplyDetail.css';
 import { useNavigate } from 'react-router-dom';
@@ -7,13 +7,11 @@ import SuggestionBlock from './SuggestionBlock';
 import SuggestionForm from './SuggestionForm';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { memberActiveApplyAtom, memberIdAtom, memberTypeAtom } from '../../atom';
+import { useRecoilValue } from 'recoil';
+import { memberIdAtom, memberTypeAtom } from '../../atom';
 
 export default function ApplyDetail() {
     const { id } = useParams();
-
-    const setterActiveApply = useSetRecoilState(memberActiveApplyAtom); // react setState와 동일하게 동작함
 
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
@@ -50,6 +48,7 @@ export default function ApplyDetail() {
     useEffect(() => {
         axios.get(`/form/${id}`).then(res => {
             const importData = res.data.data;
+            console.log(importData);
             const newDesc = res.data.data.f_req_desc.split('\n').map((line, index) => (
                 // 출력 시 태그 적용 코드
                 <React.Fragment key={index}>
@@ -59,6 +58,8 @@ export default function ApplyDetail() {
             ));
             res.data.data.f_req_desc = newDesc;
             setApply(importData);
+            setSuggestion(importData);
+            // console.log(suggestion);
         });
 
         suggestion.list
@@ -70,7 +71,7 @@ export default function ApplyDetail() {
                     s_money: element.s_money,
                 });
             });
-    }, [id, suggestion, memberId]);
+    }, []);
 
     const [mySuggestion, setMySuggestion] = useState({
         s_money: 0,
@@ -81,11 +82,15 @@ export default function ApplyDetail() {
         return (
             <>
                 <h2 className='left-align'>확정된 견적서</h2>
-                {apply.f_status === 2 || apply.f_status === 3 ? (
+                {suggestion.list !== null && (apply.f_status === 2 || apply.f_status === 3) ? (
                     suggestion.list
-                        .filter(element => element.is_selected === 't')
+                        //신청서 날짜가 끝나서 완료로 바꼈는데
+                        //확정한 견적서가 없는 경우
+                        //filter가 null이라고 뜨길래 일단 주석처리함
+                        // .filter(element => element.is_selected === 't')
                         .map(element => {
-                            return <SuggestionBlock element={element} f_status={apply.f_status} />;
+                            // console.log('element:' + apply.f_id);
+                            return <SuggestionBlock element={element} f_id={apply.f_id} />;
                         })
                 ) : (
                     <div className='suggestion-block center-align'>확정된 견적서가 없습니다.</div>
@@ -99,11 +104,12 @@ export default function ApplyDetail() {
             <>
                 <div className='sub-division'></div>
                 <h2 className='left-align'>제안된 견적서</h2>
-                {suggestion.list.length !== 0 ? (
+                {suggestion.list !== null ? (
                     suggestion.list
                         // .filter(element => element.is_selected !== 't')
                         .map(element => {
-                            return <SuggestionBlock element={element} f_status={apply.f_status} />;
+                            console.log('element:' + apply.f_id);
+                            return <SuggestionBlock element={element} f_id={apply.f_id} />;
                         })
                 ) : (
                     <div className='suggestion-block center-align'>작성된 견적서가 없습니다.</div>
@@ -123,24 +129,8 @@ export default function ApplyDetail() {
         );
     };
 
-    // Mover 수정 btn
     const moverModifyHandler = () => {
         moveUrl('/apply-form', { state: { isModify: id } });
-    };
-    // Mover 삭제 btn
-    const moverDeleteClickHandler = async () => {
-        const confirmed = window.confirm('정말로 삭제하시겠습니까?');
-        if (confirmed) {
-            // 확인 버튼을 눌렀을 때 수행할 작업
-            try {
-                await axios.delete(`/form/${id}`);
-                setterActiveApply(0);
-                moveUrl('/');
-            } catch (error) {
-                console.error('삭제 중 오류 발생:', error);
-                // 에러 처리 로직 추가
-            }
-        }
     };
 
     const renderSuggestionBtn = () => {
@@ -151,9 +141,7 @@ export default function ApplyDetail() {
                         <button className='btn-dynamic suggestion-block__btn' onClick={moverModifyHandler}>
                             수정하기
                         </button>
-                        <button className='btn-dynamic suggestion-block__btn' onClick={moverDeleteClickHandler}>
-                            삭제하기
-                        </button>
+                        {/* <button className='btn-dynamic suggestion-block__btn' onClick={moverDeleteClickHandler}>삭제하기</button> */}
                     </div>
                 ) : null}
             </>
@@ -231,7 +219,7 @@ export default function ApplyDetail() {
                     <div className='sec-two-container__divide'></div>
 
                     <h4 className='sec-two-container__h4'>무버 요청 사항</h4>
-                    <p className='paragraph sec-two-container__paragraph last-text'>{apply.f_req_desc}</p>
+                    <p className='paragraph sec-two-container__paragraph'>{apply.f_req_desc}</p>
                     {renderSuggestionBtn()}
                 </div>
 

@@ -351,7 +351,7 @@ const ApplyFormInput = props => {
                     <div className='sec-two-container__divide last-divide'></div>
 
                     <button className='btn-static' type='button' onClick={handleSubmit}>
-                        신청서 등록
+                        {isModify === undefined ? '신청서 등록' : '신청서 수정'}
                     </button>
                     <div className='apply-form-innerbox-e'>{errorMessage && <p className='form-error-message dynamic pad-top-05'>{errorMessage}</p>}</div>
                 </div>
