@@ -48,7 +48,7 @@ export default function ApplyDetail() {
     useEffect(() => {
         axios.get(`/form/${id}`).then(res => {
             const importData = res.data.data;
-            // console.log(importData.list);
+            console.log(importData);
             setApply(importData);
             setSuggestion(importData);
             // console.log(suggestion);
@@ -74,9 +74,12 @@ export default function ApplyDetail() {
         return (
             <>
                 <h2 className='left-align'>확정된 견적서</h2>
-                {apply.f_status === 2 || apply.f_status === 3 ? (
+                {suggestion.list !== null && (apply.f_status === 2 || apply.f_status === 3) ? (
                     suggestion.list
-                        .filter(element => element.is_selected === 't')
+                        //신청서 날짜가 끝나서 완료로 바꼈는데
+                        //확정한 견적서가 없는 경우
+                        //filter가 null이라고 뜨길래 일단 주석처리함
+                        // .filter(element => element.is_selected === 't')
                         .map(element => {
                             // console.log('element:' + element);
                             return <SuggestionBlock element={element} f_status={apply.f_status} />;
@@ -93,7 +96,7 @@ export default function ApplyDetail() {
             <>
                 <div className='sub-division'></div>
                 <h2 className='left-align'>제안된 견적서</h2>
-                {suggestion.list.length !== 0 ? (
+                {suggestion.list !== null ? (
                     suggestion.list
                         // .filter(element => element.is_selected !== 't')
                         .map(element => {

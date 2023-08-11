@@ -9,35 +9,54 @@ export default function SuggestionBlock({ element, f_status }) {
     const memberId = useRecoilValue(memberIdAtom);
 
     const renderStatusMessage = () => {
-        // Mover이고, 미확정 상태일 때
-        if (user_status === 1 && f_status === 1) {
+        //mover일 때
+        if (memberType === 'u') {
             return (
                 <div className='suggestion-block__btn-outer'>
                     <button className='btn-dynamic suggestion-block__btn'>문의하기</button>
                     <button className='btn-dynamic suggestion-block__btn'>확정하기</button>
                 </div>
             );
-        }
-        // Mover이고, 확정 상태이고, 확정된 견적서인 경우
-        else if (user_status === 1 && f_status === 2 && element.is_selected === 't') {
-            return (
-                <div className='suggestion-block__btn-outer'>
-                    <button className='btn-dynamic suggestion-block__btn'>문의하기</button>
-                    <button className='btn-dynamic suggestion-block__btn'>취소하기</button>
-                </div>
-            );
-        }
-        // Partner이고, 본인의 글이며, 확정 상태일 때
-        else if (memberType === 'p' && element.f_id === memberId) {
+        } else {
             return (
                 <div className='suggestion-block__btn-outer'>
                     <button className='btn-dynamic suggestion-block__btn'>수정하기</button>
                     <button className='btn-dynamic suggestion-block__btn'>삭제하기</button>
                 </div>
             );
-        } else {
-            return null; // 다른 조건에 해당하지 않으면 아무것도 표시하지 않음
         }
+
+        //partner 일 때
+
+        // Mover이고, 미확정 상태일 때
+        // if (user_status === 1 && f_status === 1) {
+        //     return (
+        //         <div className='suggestion-block__btn-outer'>
+        //             <button className='btn-dynamic suggestion-block__btn'>문의하기</button>
+        //             <button className='btn-dynamic suggestion-block__btn'>확정하기</button>
+        //         </div>
+        //     );
+        // }
+        // // Mover이고, 확정 상태이고, 확정된 견적서인 경우
+        // else if (user_status === 1 && f_status === 2 && element.is_selected === 't') {
+        //     return (
+        //         <div className='suggestion-block__btn-outer'>
+        //             <button className='btn-dynamic suggestion-block__btn'>문의하기</button>
+        //             <button className='btn-dynamic suggestion-block__btn'>취소하기</button>
+        //         </div>
+        //     );
+        // }
+        // // Partner이고, 본인의 글이며, 확정 상태일 때
+        // else if (memberType === 'p' && element.f_id === memberId) {
+        //     return (
+        //         <div className='suggestion-block__btn-outer'>
+        //             <button className='btn-dynamic suggestion-block__btn'>수정하기</button>
+        //             <button className='btn-dynamic suggestion-block__btn'>삭제하기</button>
+        //         </div>
+        //     );
+        // } else {
+        //     return null; // 다른 조건에 해당하지 않으면 아무것도 표시하지 않음
+        // }
     };
 
     return (

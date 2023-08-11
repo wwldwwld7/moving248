@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // react-router-dom 라이브러리에서 Link 컴포넌트 불러오기
+import { Link, useNavigate } from 'react-router-dom'; // react-router-dom 라이브러리에서 Link 컴포넌트 불러오기
 
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/header/Header';
@@ -111,6 +111,12 @@ const ApplyList = props => {
     const endIndex = startIndex + itemsPerPage;
     const currentPageData = dataList.slice(startIndex, endIndex);
 
+    const navi = useNavigate();
+
+    const goToDetail = id => {
+        navi(`/apply-detail/${id}`);
+    };
+
     const handlePageChange = newPage => {
         setCurrentPage(newPage);
     };
@@ -202,29 +208,27 @@ const ApplyList = props => {
                                 const formattedDate = `${month}월 ${day}일`;
 
                                 return (
-                                    <tr className='listTable-row' key={index}>
+                                    <tr onClick={() => goToDetail(rowData.f_id)} className='listTable-row' key={index}>
                                         {/* <td className='listTable-column-double'>{rowData.f_id}</td> */}
 
                                         {/* 상세 신청서 페이지 이동 */}
-                                        <Link to={`/apply-detail/${rowData.f_id}`}>
-                                            <td className='listTable-column-double'>
-                                                <div className={`listTable-column ${rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}`}>
-                                                    {rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}
-                                                </div>
-                                            </td>
-                                            <td className='listTable-column-double'>
-                                                <div className='listTable-column-child'>
-                                                    출발 : {rowData.f_dep_sido} {rowData.f_dep_gungu}
-                                                </div>
-                                                <div className='listTable-column-child'>
-                                                    도착 : {rowData.f_arr_sido} {rowData.f_arr_gungu}
-                                                </div>
-                                            </td>
-                                            <td className='listTable-column-double'>
-                                                <div className='listTable-column-child'>{formattedDate}</div>
-                                                <div className='listTable-column-child'>{rowData.f_category}</div>
-                                            </td>
-                                        </Link>
+                                        <td className='listTable-column-double'>
+                                            <div className={`listTable-column ${rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}`}>
+                                                {rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}
+                                            </div>
+                                        </td>
+                                        <td className='listTable-column-double'>
+                                            <div className='listTable-column-child'>
+                                                출발 : {rowData.f_dep_sido} {rowData.f_dep_gungu}
+                                            </div>
+                                            <div className='listTable-column-child'>
+                                                도착 : {rowData.f_arr_sido} {rowData.f_arr_gungu}
+                                            </div>
+                                        </td>
+                                        <td className='listTable-column-double'>
+                                            <div className='listTable-column-child'>{formattedDate}</div>
+                                            <div className='listTable-column-child'>{rowData.f_category}</div>
+                                        </td>
                                     </tr>
                                 );
                             })}
