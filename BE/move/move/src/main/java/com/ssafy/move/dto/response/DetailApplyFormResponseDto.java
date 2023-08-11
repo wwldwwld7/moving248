@@ -30,6 +30,11 @@ public class DetailApplyFormResponseDto {
     private String f_req_desc;
     private int f_status;
 
+    private int f_dep_sido_code;
+    private int f_dep_gungu_code;
+    private int f_arr_sido_code;
+    private int f_arr_gungu_code;
+
     private List<DetailSuggestionResponseDto> list;
 
 

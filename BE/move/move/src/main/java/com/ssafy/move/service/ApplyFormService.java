@@ -102,7 +102,6 @@ public class ApplyFormService {
 
         ApplyForm applyForm = applyFormRepository.findApplyFormById(f_id);
 
-        String videoUrl = s3UploaderService.uploadFileByClient(multipartFile, "yeonybucket", "file");
 
         applyForm.setFCategory(applyFormRequestDto.getF_category());
         applyForm.setFDate(applyFormRequestDto.getF_date());
@@ -114,15 +113,21 @@ public class ApplyFormService {
         applyForm.setFArrGungu(applyFormRequestDto.getF_arr_gungu());
         applyForm.setFArrEv(applyFormRequestDto.getF_arr_ev());
         applyForm.setFArrLadder(applyFormRequestDto.getF_arr_ladder());
-        applyForm.setFRoomVideoUrl(videoUrl);
+
+
+        if (multipartFile != null){
+            String videoUrl = s3UploaderService.uploadFileByClient(multipartFile, "yeonybucket", "file");
+            applyForm.setFRoomVideoUrl(videoUrl);
+        }
+
         applyForm.setFReqDesc(applyFormRequestDto.getF_req_desc());
         applyForm.setFCreateTime(applyForm.getFCreateTime());
         applyForm.setFModifyTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         applyFormRepository.updateApplyForm(applyForm);
-        //applyFormRepository.save(applyForm);
 
     }
+
 
     // 신청서 삭제
     @Transactional
@@ -219,7 +224,7 @@ public class ApplyFormService {
 
             // 입찰중
             if (status == 1){
-                applyFormResponseDto.setF_status_name("입찰중");
+                applyFormResponseDto.setF_status_name("입찰");
             } else if (status == 2) {
                 applyFormResponseDto.setF_status_name("확정");
             } else{
@@ -254,10 +259,10 @@ public class ApplyFormService {
             //FormStatus formStatus = af.get(1, FormStatus.class);
             MoveCategory moveCategory = af.get(1, MoveCategory.class);
 
-            String depSido = af.get(2, String.class);
-            String depGu = af.get(3, String.class);
-            String arrSido = af.get(4, String.class);
-            String arrGu = af.get(5, String.class);
+            Sido sido1 = af.get(2, Sido.class);
+            Gu gu1 = af.get(3, Gu.class);
+            Sido sido2 = af.get(4, Sido.class);
+            Gu gu2 = af.get(5, Gu.class);
 
 
             detailApply.setF_id(applyForm.getId());
@@ -269,17 +274,23 @@ public class ApplyFormService {
             detailApply.setUserName(applyForm.getUId().getName());
             detailApply.setF_category(moveCategory.getCategoryName());
             detailApply.setF_date(applyForm.getFDate());
-            detailApply.setF_dep_sido(depSido);
-            detailApply.setF_dep_gungu(depGu);
+            detailApply.setF_dep_sido(sido1.getSidoName());
+            detailApply.setF_dep_gungu(gu1.getGuName());
             detailApply.setF_dep_ev(applyForm.getFDepEv());
             detailApply.setF_dep_ladder(applyForm.getFDepLadder());
-            detailApply.setF_arr_sido(arrSido);
-            detailApply.setF_arr_gungu(arrGu);
+            detailApply.setF_arr_sido(sido2.getSidoName());
+            detailApply.setF_arr_gungu(gu2.getGuName());
             detailApply.setF_arr_ev(applyForm.getFArrEv());
             detailApply.setF_arr_ladder(applyForm.getFArrLadder());
             detailApply.setF_room_video_url(applyForm.getFRoomVideoUrl());
             detailApply.setF_req_desc(applyForm.getFReqDesc());
             detailApply.setF_status(applyForm.getFStatus()-'0'); // int 여서
+
+            // 신청서 수정화면에서 주소값 가져올 때 코드 필요해서
+            detailApply.setF_dep_sido_code(Integer.parseInt(sido1.getSidoCode()));
+            detailApply.setF_dep_gungu_code(Integer.parseInt(gu1.getGuCode()));
+            detailApply.setF_arr_sido_code(Integer.parseInt(sido2.getSidoCode()));
+            detailApply.setF_arr_gungu_code(Integer.parseInt(gu2.getGuCode()));
         }
 
         List<DetailSuggestionResponseDto> suggestionResponseDtoList = new ArrayList<>();
