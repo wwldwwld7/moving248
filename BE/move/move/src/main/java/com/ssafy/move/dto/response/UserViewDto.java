@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserViewDto {
+    private int u_id;
     private String name;
     private String phone;
     private String email;

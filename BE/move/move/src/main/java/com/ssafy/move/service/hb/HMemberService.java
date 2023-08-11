@@ -25,6 +25,7 @@ public class HMemberService {
     public UserViewDto findUserById(int m_id) {
         Members member = memberRepository.findMember(m_id);
         UserViewDto udto = new UserViewDto();
+        udto.setU_id(member.getId());
         udto.setName(member.getName());
         udto.setPhone(member.getPhone());
         udto.setEmail(member.getEmail());
