@@ -133,7 +133,7 @@ public class MemberService {
         // 만약 정보수정할 때 이미지 업로드 안 할 경우
 
         
-        if (!multipartFile.isEmpty()) {
+        if (multipartFile != null) {
             String profileUrl = s3UploaderService.uploadFileByClient(multipartFile, "yeonybucket", "file");
             member.setProfileUrl(profileUrl);
         } else {

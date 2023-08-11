@@ -99,7 +99,8 @@ public class MemberController {
 
     //유저 정보 수정
     @PutMapping("/user/{m_id}")
-    public ResponseEntity<String> updateUser(@PathVariable int m_id, @RequestBody UpdateUserRequest updateUserRequest, HttpServletRequest request) throws JsonProcessingException {
+    public ResponseEntity<String> updateUser(@PathVariable int m_id,
+                                             @RequestBody UpdateUserRequest updateUserRequest, HttpServletRequest request) throws JsonProcessingException {
         memberService.updateUser(m_id, updateUserRequest, request);
 
         return new ResponseEntity<>("수정 완료", HttpStatus.OK);
