@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ImgBox from '../../components/ImgBox/ImgBox';
 import './ApplyDetail.css';
 import { useNavigate } from 'react-router-dom';
@@ -7,11 +7,13 @@ import SuggestionBlock from './SuggestionBlock';
 import SuggestionForm from './SuggestionForm';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useRecoilValue } from 'recoil';
-import { memberIdAtom, memberTypeAtom } from '../../atom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { memberActiveApplyAtom, memberIdAtom, memberTypeAtom } from '../../atom';
 
 export default function ApplyDetail() {
     const { id } = useParams();
+
+    const setterActiveApply = useSetRecoilState(memberActiveApplyAtom); // react setState와 동일하게 동작함
 
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
@@ -48,6 +50,14 @@ export default function ApplyDetail() {
     useEffect(() => {
         axios.get(`/form/${id}`).then(res => {
             const importData = res.data.data;
+            const newDesc = res.data.data.f_req_desc.split('\n').map((line, index) => (
+                // 출력 시 태그 적용 코드
+                <React.Fragment key={index}>
+                    {line}
+                    <br />
+                </React.Fragment>
+            ));
+            res.data.data.f_req_desc = newDesc;
             setApply(importData);
         });
 
@@ -113,8 +123,24 @@ export default function ApplyDetail() {
         );
     };
 
+    // Mover 수정 btn
     const moverModifyHandler = () => {
         moveUrl('/apply-form', { state: { isModify: id } });
+    };
+    // Mover 삭제 btn
+    const moverDeleteClickHandler = async () => {
+        const confirmed = window.confirm('정말로 삭제하시겠습니까?');
+        if (confirmed) {
+            // 확인 버튼을 눌렀을 때 수행할 작업
+            try {
+                await axios.delete(`/form/${id}`);
+                setterActiveApply(0);
+                moveUrl('/');
+            } catch (error) {
+                console.error('삭제 중 오류 발생:', error);
+                // 에러 처리 로직 추가
+            }
+        }
     };
 
     const renderSuggestionBtn = () => {
@@ -125,7 +151,9 @@ export default function ApplyDetail() {
                         <button className='btn-dynamic suggestion-block__btn' onClick={moverModifyHandler}>
                             수정하기
                         </button>
-                        {/* <button className='btn-dynamic suggestion-block__btn' onClick={moverDeleteClickHandler}>삭제하기</button> */}
+                        <button className='btn-dynamic suggestion-block__btn' onClick={moverDeleteClickHandler}>
+                            삭제하기
+                        </button>
                     </div>
                 ) : null}
             </>
@@ -203,7 +231,7 @@ export default function ApplyDetail() {
                     <div className='sec-two-container__divide'></div>
 
                     <h4 className='sec-two-container__h4'>무버 요청 사항</h4>
-                    <p className='paragraph sec-two-container__paragraph'>{apply.f_req_desc}</p>
+                    <p className='paragraph sec-two-container__paragraph last-text'>{apply.f_req_desc}</p>
                     {renderSuggestionBtn()}
                 </div>
 
