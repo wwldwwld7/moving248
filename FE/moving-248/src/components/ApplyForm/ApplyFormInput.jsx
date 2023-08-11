@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -9,10 +9,13 @@ import LocationDropdown from './LocationDropdown';
 import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { memberActiveApplyAtom, memberIdAtom } from '../../atom';
+import { useLocation } from 'react-router-dom';
 
 const ApplyFormInput = props => {
     const memberId = useRecoilValue(memberIdAtom);
     const setterActiveApply = useSetRecoilState(memberActiveApplyAtom);
+    const location = useLocation();
+    const isModify = location.state?.isModify;
 
     const [isChecked, setIsChecked] = useState({
         dep_ev: false,
@@ -32,6 +35,36 @@ const ApplyFormInput = props => {
     const [selectedArrSido, setSelectedArrSido] = useState(''); // 추가된 부분
     const [selectedArrGu, setSelectedArrGu] = useState(''); // 추가된 부분
 
+    ////////////// 이 값이 숫자를 가지고 있으면 수정, 그게 아니면 신규 입력
+    useEffect(() => {
+        console.log('[ApplyForm] isModify : ' + isModify);
+        // 신규 입력이면
+        if (isModify === undefined) {
+            return;
+        }
+        // 수정이면
+        else {
+            axios.get(`/form/${isModify}`).then(res => {
+                // 받아온 객체
+                const importData = res.data.data;
+                console.log(`[apply form]`);
+                console.log(importData);
+                console.log(`[apply form]importData.f_arr_ev : ${importData.f_arr_ev}`);
+                /* @@@@@@@@@@@@@@@@@@@@@@@ 여기에서 수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  */
+                setIsChecked({
+                    dep_ev: false,
+                    dep_ladder: false,
+                    arr_ev: importData.f_arr_ev,
+                    arr_ladder: false,
+                });
+
+                // setSelectedDate(importData.f_date);
+                // console.log(selectedDate);
+                /* @@@@@@@@@@@@@@@@@@@@@@@ 여기에서 수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  */
+            });
+        }
+    }, [isModify]);
+
     const handleCheckboxChange = key => {
         setIsChecked(prevState => ({
             ...prevState,
@@ -46,6 +79,7 @@ const ApplyFormInput = props => {
 
     const handleDateChange = date => {
         setSelectedDate(date);
+        console.log(selectedDate);
     };
     const formatDate = date => {
         const year = date.getFullYear();
@@ -118,10 +152,6 @@ const ApplyFormInput = props => {
         }
         setErrorMessage('');
 
-        // useEffect(() => {
-
-        // }, [])
-
         const formData = new FormData();
         formData.append('file', file);
         const jsonData = {
@@ -146,18 +176,39 @@ const ApplyFormInput = props => {
             })
         );
 
-        try {
-            const response = await axios.post('http://localhost:8080/form', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            console.log('서버 응답:', response.data);
-            setterActiveApply('t');
-            alert('신청서 작성이 완료되었습니다.');
-            window.location.href = '/';
-        } catch (error) {
-            console.error('에러 발생:', error);
+        // 신규 작성
+        if (isModify === undefined) {
+            try {
+                const response = await axios.post('http://localhost:8080/form', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                console.log('서버 응답:', response.data);
+                setterActiveApply('t');
+                alert('신청서 작성이 완료되었습니다.');
+                window.location.href = '/';
+            } catch (error) {
+                console.error('신규 작성 에러 발생:', error);
+            }
+        }
+        // 수정
+        else {
+            try {
+                // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 알맞게 수정 필요합니다
+                const response = await axios.post('http://localhost:8080/update', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                console.log('서버 응답:', response.data);
+                setterActiveApply('t');
+                alert('신청서 작성이 완료되었습니다.');
+                window.location.href = '/';
+            } catch (error) {
+                console.error('수정 에러 발생:', error);
+            }
+            // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 알맞게 수정 필요합니다
         }
     };
 
@@ -179,7 +230,7 @@ const ApplyFormInput = props => {
                                 dateFormat='yyyy-MM-dd' // 날짜 형태
                                 shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
                                 minDate={new Date()} // minDate 이전 날짜 선택 불가
-                                maxDate={new Date('2024-12-31')} // maxDate 이후 날짜 선택 불가
+                                // maxDate={new Date('2024-12-31')} // maxDate 이후 날짜 선택 불가
                                 selected={selectedDate}
                                 onChange={handleDateChange}
                                 className='date-picker'
