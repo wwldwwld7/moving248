@@ -3,11 +3,14 @@ import React, { useState, useEffect } from 'react';
 import './MoverMyPageDetail.css';
 import Modal from '../UI/Modal';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Import the Link component
+import { useParams } from 'react-router-dom';
+
 
 const MoverMyPageDetail = props => {
+    const { id } = useParams();
+
     const [userInfo, setUserInfo] = useState({
-        m_id: 1,
+        m_id: 0,
         name: '',
         password: '',
         phone: '',
@@ -22,7 +25,7 @@ const MoverMyPageDetail = props => {
 
     const fetchUserInfo = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/member/user/${userInfo.m_id}`);
+            const response = await axios.get(`http://localhost:8080/member/user/${id}`);
             setUserInfo(response.data.data);
             setOriginalUserInfo(response.data.data); // 원래 정보 설정
 
@@ -50,13 +53,15 @@ const MoverMyPageDetail = props => {
 
     const handleConfirmDelete = async () => {
         try {
-            const randomEmail = `randomemail${Math.floor(Math.random() * 1000)}@example.com`;
+            const randomPass = `randomemail${Math.floor(Math.random() * 1000)}`;
 
             const dataToUpdate = {
-                email: randomEmail,
+                phone: '000-0000-0000',
+                password: randomPass,
             };
 
-            const response = await axios.put(`http://localhost:8080/member/user/${userInfo.m_id}`, dataToUpdate);
+            const response = await axios.put(`http://localhost:8080/member/user/${id}`, dataToUpdate);
+            console.log('회원 삭제 성공:', response.data);
             setShowModal(false);
             setShowModalDelete(true);
             
@@ -83,7 +88,7 @@ const MoverMyPageDetail = props => {
             };
 
             // Send the updated data to the server
-            const response = await axios.put('http://localhost:8080/member/user/1', dataToUpdate);
+            const response = await axios.put(`http://localhost:8080/member/user/${id}`, dataToUpdate);
 
             // Handle the response
             console.log('정보 수정 성공:', response.data);
@@ -248,7 +253,6 @@ const MoverMyPageDetail = props => {
                         profile_url: '',
                         list: [],
                     });
-                    props.history.push('/'); // Redirect to the home page after modal is closed
                 }}
                 message='계정이 성공적으로 삭제되었습니다.' 
                 showFooter={false}

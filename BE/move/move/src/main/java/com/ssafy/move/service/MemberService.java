@@ -97,9 +97,9 @@ public class MemberService {
         Members member = memberRepository.findById(id)
                 .orElseThrow(()->new BadRequestException("유저가 존재하지 않습니다."));
 
-        Token tk = jwtProvider.getToken(request.getHeader("Authorization"));
-
-        if(!tk.getEmail().equals(member.getEmail())) throw new BadRequestException("토큰 정보가 다릅니다.");
+//        Token tk = jwtProvider.getToken(request.getHeader("Authorization"));
+//
+//        if(!tk.getEmail().equals(member.getEmail())) throw new BadRequestException("토큰 정보가 다릅니다.");
 
         member.setPhone(updateUserRequest.getPhone());
 
