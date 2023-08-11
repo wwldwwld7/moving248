@@ -11,6 +11,7 @@ public class ReviewDto {
 
     private int r_id;
     private int r_rate;
+    private int p_id;
     private String r_content;
     private String f_date;
     private String name;

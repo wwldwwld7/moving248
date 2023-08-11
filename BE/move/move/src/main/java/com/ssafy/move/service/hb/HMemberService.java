@@ -29,6 +29,7 @@ public class HMemberService {
         udto.setPhone(member.getPhone());
         udto.setEmail(member.getEmail());
         udto.setPassword(member.getPassword());
+        udto.setProfile_url(member.getProfileUrl());
         List<ApplyForm> applyFormList = memberRepository.findCompForm(m_id);
         List<ReviewDto> list = new ArrayList<>();
         for(ApplyForm af:applyFormList){
@@ -37,6 +38,7 @@ public class HMemberService {
             ReviewDto rdto = new ReviewDto();
             rdto.setF_date(af.getFDate());
             rdto.setName(af.getPId().getName());
+            rdto.setP_id(af.getPId().getId());
             if(review!=null){
                 rdto.setR_id(review.getId());
                 rdto.setR_content(review.getRContent());
