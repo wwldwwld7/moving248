@@ -14,5 +14,6 @@ public class UserViewDto {
     private String phone;
     private String email;
     private String password;
+    private String profile_url;
     private List<ReviewDto> list;
 }
