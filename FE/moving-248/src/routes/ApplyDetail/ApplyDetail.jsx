@@ -81,8 +81,8 @@ export default function ApplyDetail() {
                         //filter가 null이라고 뜨길래 일단 주석처리함
                         // .filter(element => element.is_selected === 't')
                         .map(element => {
-                            // console.log('element:' + element);
-                            return <SuggestionBlock element={element} f_status={apply.f_status} />;
+                            // console.log('element:' + apply.f_id);
+                            return <SuggestionBlock element={element} f_id={apply.f_id} />;
                         })
                 ) : (
                     <div className='suggestion-block center-align'>확정된 견적서가 없습니다.</div>
@@ -100,7 +100,8 @@ export default function ApplyDetail() {
                     suggestion.list
                         // .filter(element => element.is_selected !== 't')
                         .map(element => {
-                            return <SuggestionBlock element={element} f_status={apply.f_status} />;
+                            console.log('element:' + apply.f_id);
+                            return <SuggestionBlock element={element} f_id={apply.f_id} />;
                         })
                 ) : (
                     <div className='suggestion-block center-align'>작성된 견적서가 없습니다.</div>

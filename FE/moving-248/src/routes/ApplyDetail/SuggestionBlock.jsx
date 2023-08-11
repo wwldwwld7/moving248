@@ -2,13 +2,15 @@ import './SuggestionBlock.css';
 import { useRecoilValue } from 'recoil';
 import { memberIdAtom, memberTypeAtom } from '../../atom';
 
-export default function SuggestionBlock({ element, f_status }) {
+export default function SuggestionBlock({ element, f_id }) {
     const user_status = 1; // 전역으로 사용할 것임
     // const user_id = 1; // 전역으로 사용할 것임
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
 
     const renderStatusMessage = () => {
+        console.log(element);
+        console.log(f_id);
         //mover일 때
         if (memberType === 'u') {
             return (
