@@ -1,26 +1,21 @@
+video {
+    height: auto;
+}
+
 .apply-form-innerbox {
-    margin: 1rem 0 1rem 0;
-    /* border: 3px solid var(--color-primary-variant); */
+    width: 100%;
     border-radius: 5px;
-    border-bottom: 2px solid var(--color-primary-variant);
 }
 
-.apply-form-innerbox h3 {
-    margin-bottom: 1rem;
+.apply-form__padding {
+    padding-bottom: 10px;
 }
 
+.react-datepicker-wrapper {
+    width: 100%;
+}
 /* .apply-form-innerbox div {
     margin-bottom: 0.3rem;
-} */
-
-.apply-form-innerbox-inline {
-    display: flex;
-}
-
-/* .apply-form-innerbox-date {
-    margin: 1rem 0 1rem 0;
-    border-radius: 5px;
-    border-bottom: 2px solid var(--color-primary-variant);
 } */
 
 .apply-form-desc {
@@ -28,25 +23,15 @@
     height: 150px;
     padding: 8px;
     border: 0px;
-    background-color: #e9e7e7;
-    border-radius: 4px;
+    border: 2px solid var(--color-primary);
+    border-radius: 3px;
     resize: none;
-    font-size: 1rem;
-    font-weight: bold;
     line-height: 1.5;
 }
 
-.form-submit-button {
-    background-color: var(--color-accent);
-    color: #fff;
-    font-size: large;
-    font-weight: bold;
-    border-radius: 1rem;
-    height: 3rem;
-}
-
-.form-submit-button:hover {
-    background-color: var(--color-accent-variant);
+.last-divide {
+    display: hidden;
+    border: 0px;
 }
 
 .form-error-message {
@@ -54,79 +39,32 @@
     text-align: center;
 }
 .thumbnail-image {
-    /* Define your styles here */
     width: 100%;
     height: 100%;
-    /* Add other styles as needed */
 }
 
-/* 달력 */
-
-.react-datepicker {
-    width: auto;
-    max-width: 100%;
-    height: auto;
-    display: inline-block;
+.help-video {
+    margin-top: 1rem;
+    /* margin-bottom: 2rem; */
 }
 
-.react-datepicker__input-container input {
-    width: 100%;
-    padding: 8px;
-}
-
-.react-datepicker__month {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
-
-.react-datepicker__month-container {
-    flex-grow: 1;
-}
-
-.react-datepicker__header {
-    padding: 1rem 1rem 0.5rem 1rem;
-}
-
-.react-datepicker__day-names {
-    display: flex;
-    justify-content: space-around;
+.apply-form__right-inner-p {
     margin-top: 0.5rem;
-    font-weight: bold;
+    margin-bottom: 2rem;
 }
 
-.react-datepicker__week {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+.apply-form__right-inner-p:last-child {
+    margin-bottom: 0px;
 }
 
-.react-datepicker__day {
-    flex-grow: 1;
-    padding: 0.5rem;
-    text-align: center;
-    cursor: pointer;
+.faq {
+    margin-bottom: 2rem;
 }
 
-/* Adjust the size of the navigation icons */
-.react-datepicker__navigation {
-    width: 1.5rem;
-    height: 1.5rem;
+.movie-p {
+    padding-top: 0.5rem;
 }
 
-/* Adjust the size of the month and year dropdowns */
-.react-datepicker__current-month,
-.react-datepicker__current-year {
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-/* Adjust the size of the day names */
-.react-datepicker__day-name {
-    font-size: 1rem;
-}
-
-/* Adjust the size of the day numbers */
-.react-datepicker__day {
-    font-size: 1rem;
+.pad-top-05 {
+    padding-top: 0.5rem;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -8,14 +8,11 @@ import './ApplyFormInput.css';
 import LocationDropdown from './LocationDropdown';
 import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { memberActiveApply, memberIdAtom } from '../../atom';
-import { useLocation } from 'react-router-dom';
+import { memberActiveApplyAtom, memberIdAtom } from '../../atom';
 
 const ApplyFormInput = props => {
     const memberId = useRecoilValue(memberIdAtom);
-    const setterActiveApply = useSetRecoilState(memberActiveApply);
-    const location = useLocation();
-    const isModify = location.state?.isModify;
+    const setterActiveApply = useSetRecoilState(memberActiveApplyAtom);
 
     const [isChecked, setIsChecked] = useState({
         dep_ev: false,
@@ -34,11 +31,6 @@ const ApplyFormInput = props => {
     const [selectedDepGu, setSelectedDepGu] = useState(''); // 추가된 부분
     const [selectedArrSido, setSelectedArrSido] = useState(''); // 추가된 부분
     const [selectedArrGu, setSelectedArrGu] = useState(''); // 추가된 부분
-
-    ////////////// 이 값이 숫자를 가지고 있으면 수정, 그게 아니면 신규 입력
-    useEffect(() => {
-        console.log('[ApplyForm] isModify : ' + isModify);
-    }, [isModify]);
 
     const handleCheckboxChange = key => {
         setIsChecked(prevState => ({
@@ -125,6 +117,10 @@ const ApplyFormInput = props => {
             return;
         }
         setErrorMessage('');
+
+        // useEffect(() => {
+
+        // }, [])
 
         const formData = new FormData();
         formData.append('file', file);

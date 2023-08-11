@@ -26,20 +26,20 @@ function App() {
             <Routes>
                 {/* 정적 url 사용 */}
                 <Route path='/' element={<Home />} />
+                <Route path='/login' element={<Login />} />
                 <Route path='/chat-list' element={<ChatList />} />
                 <Route path='/chat-list/chat-detail' element={<ChatDetail />} />
 
-                <Route path='/login' element={<Login />} />
                 <Route path='/mover-sign-up' element={<MoverSignUp />} />
+                <Route path='/apply-form' element={<ApplyForm />} />
+                <Route path='/mover-my-page' element={<MoverMyPage />} />
+
                 <Route path='/partner-sign-up' element={<PartnerSignUp />} />
                 <Route path='/apply-list' element={<ApplyList />} />
-                <Route path='/apply-detail' element={<ApplyDetail />} />
-                <Route path='/mover-my-page' element={<MoverMyPage />} />
                 <Route path='/partner-my-page' element={<PartnerMyPage />} />
-                <Route path='/apply-form' element={<ApplyForm />} />
 
                 {/* 동적 url 사용 */}
-                {/* <Route path='/movie/:id' element={<Detail />} /> */}
+                <Route path='/apply-detail/:id' element={<ApplyDetail />} />
             </Routes>
             <Footer />
         </BrowserRouter>
