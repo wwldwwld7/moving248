@@ -134,8 +134,8 @@ export default function ApplyDetail() {
 
     return (
         <div className='apply-detail'>
-            {console.log(apply)}
-            {console.log(`type${memberTypeAtom}`)}
+            {/* {console.log(apply)} */}
+            {/* {console.log(`type${memberTypeAtom}`)} */}
             <ImgBox imgSrc='moving-box' imgTitle='신청서 상세' />
 
             <section className='max-container section'>
