@@ -227,7 +227,7 @@ const PartnerMyPageDetail = props => {
                             </span>
                         )}
                     </div>
-                    <table>
+                    <table className='mypage-table'>
                         <tbody>
                             <tr>
                                 <th>

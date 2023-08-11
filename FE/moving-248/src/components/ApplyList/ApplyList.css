@@ -189,7 +189,7 @@
 .listTable-row {
     /* padding: 2rem;
     margin: 1rem; */
-
+    width: 100%;
     border-bottom: 2px solid var(--color-primary);
 }
 
