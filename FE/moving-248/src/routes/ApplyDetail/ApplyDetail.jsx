@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ImgBox from '../../components/ImgBox/ImgBox';
 import './ApplyDetail.css';
 import { useNavigate } from 'react-router-dom';
