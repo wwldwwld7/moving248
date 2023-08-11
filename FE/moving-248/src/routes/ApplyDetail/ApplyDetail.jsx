@@ -49,6 +49,14 @@ export default function ApplyDetail() {
         axios.get(`/form/${id}`).then(res => {
             const importData = res.data.data;
             console.log(importData);
+            const newDesc = res.data.data.f_req_desc.split('\n').map((line, index) => (
+                // 출력 시 태그 적용 코드
+                <React.Fragment key={index}>
+                    {line}
+                    <br />
+                </React.Fragment>
+            ));
+            res.data.data.f_req_desc = newDesc;
             setApply(importData);
             setSuggestion(importData);
             // console.log(suggestion);
