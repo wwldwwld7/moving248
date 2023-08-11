@@ -46,19 +46,63 @@ const ApplyFormInput = props => {
         else {
             axios.get(`/form/${isModify}`).then(res => {
                 // 받아온 객체
+                console.log(`이거는 is modify: ` + isModify);
                 const importData = res.data.data;
                 console.log(`[apply form]`);
                 console.log(importData);
                 console.log(`[apply form]importData.f_arr_ev : ${importData.f_arr_ev}`);
                 /* @@@@@@@@@@@@@@@@@@@@@@@ 여기에서 수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  */
-                setIsChecked({
+
+                // 이사종류
+                setSelectedOption(importData.f_category == '포장이사' ? 'packing' : 'ordinary');
+                setIsMovingType(importData.f_category == '포장이사' ? '1' : '2');
+                setSelectedArrSido(importData.f_arr_sido_code);
+                setSelectedArrGu(importData.f_arr_gungu_code);
+                setSelectedDepSido(importData.f_dep_sido_code);
+                setSelectedDepGu(importData.f_dep_gungu_code);
+                // 엘리베이터, 사다리차 정보 가져오려고 만듬
+                let updatedata = {
                     dep_ev: false,
                     dep_ladder: false,
-                    arr_ev: importData.f_arr_ev,
+                    arr_ev: false,
                     arr_ladder: false,
+                };
+
+                if (importData.f_dep_ev === 't') {
+                    updatedata.dep_ev = true;
+                } else {
+                    updatedata.dep_ev = false;
+                }
+                if (importData.f_dep_ladder === 't') {
+                    updatedata.dep_ladder = true;
+                } else {
+                    updatedata.dep_ladder = false;
+                }
+                if (importData.f_arr_ev === 't') {
+                    updatedata.arr_ev = true;
+                } else {
+                    updatedata.arr_ev = false;
+                }
+                if (importData.f_arr_ladder === 't') {
+                    updatedata.arr_ladder = true;
+                } else {
+                    updatedata.arr_ladder = false;
+                }
+
+                setIsChecked({
+                    dep_ev: updatedata.dep_ev,
+                    dep_ladder: updatedata.dep_ladder,
+                    arr_ev: updatedata.arr_ev,
+                    arr_ladder: updatedata.arr_ladder,
                 });
 
-                // setSelectedDate(importData.f_date);
+                const parseDate = new Date(importData.f_date);
+                setSelectedDate(parseDate);
+
+                setImageSrc(importData.f_room_video_url);
+
+                setTextareaValue(importData.f_req_desc);
+
                 // console.log(selectedDate);
                 /* @@@@@@@@@@@@@@@@@@@@@@@ 여기에서 수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  */
             });
@@ -148,7 +192,10 @@ const ApplyFormInput = props => {
         }
         if (!file) {
             setErrorMessage('파일을 선택해주세요.');
-            return;
+            if (imageSrc) {
+            } else {
+                return;
+            }
         }
         setErrorMessage('');
 

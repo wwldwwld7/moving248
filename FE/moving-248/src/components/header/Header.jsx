@@ -1,12 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faRightFromBracket, faEnvelopeOpenText } from '@fortawesome/free-solid-svg-icons';
-import './Header.css';
-import axios from 'axios';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { memberActiveApplyAtom, memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faUser,
+    faRightFromBracket,
+    faEnvelopeOpenText,
+} from "@fortawesome/free-solid-svg-icons";
+import "./Header.css";
+import axios from "axios";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+    memberActiveApplyAtom,
+    memberEmailAtom,
+    memberIdAtom,
+    memberNameAtom,
+    memberTypeAtom,
+} from "../../atom";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
     // const memberName = useRecoilValue(memberNameAtom); // 값 가져오기
@@ -23,38 +33,43 @@ export default function Header() {
 
     // const [userId, setUserId] = useState('s'); // userId
     // const [userCategory, setUserCategory] = useState(''); // user 분류
-    const [isactiveApply, setIsActiveApply] = useState('f'); // 활성화된 신청서 주소
-    const [btntxt, setBtntxt] = useState('시작하기');
-    const [btnUrl, setBtnUrl] = useState('/login'); // 버튼이 이동할 주소
+    const [isactiveApply, setIsActiveApply] = useState("f"); // 활성화된 신청서 주소
+    const [btntxt, setBtntxt] = useState("시작하기");
+    const [btnUrl, setBtnUrl] = useState("/login"); // 버튼이 이동할 주소
 
     useEffect(() => {
         // 로그인이 되어 있다면
-        if (memberId !== '') {
+        if (memberId !== "") {
             console.log(memberId);
             // 무버라면
-            if (memberType === 'u') {
-                axios.get(`/form/user/${memberId}`).then(res => {
+            if (memberType === "u") {
+                axios.get(`/form/user/${memberId}`).then((res) => {
                     // console.log(res.data.data);
                     // console.log(typeof res.data.data);
                     // res.data는 받아온 데이터의 배열
 
-                    console.log('--------------------', res.data.is_form_empty);
+                    console.log("--------------------", res.data.is_form_empty);
 
-                    console.log('[header] res.data.is_form_empty : ' + res.data.is_form_empty);
-                    console.log('[header] memberActiveApply : ' + memberActiveApply);
+                    console.log(
+                        "[header] res.data.is_form_empty : " +
+                            res.data.is_form_empty
+                    );
+                    console.log(
+                        "[header] memberActiveApply : " + memberActiveApply
+                    );
 
                     if (memberActiveApply !== 0) {
-                        console.log('신청서 보기');
+                        console.log("신청서 보기");
 
-                        setBtntxt('신청서 보기');
+                        setBtntxt("신청서 보기");
                         setterActiveApply(res.data.is_form_empty);
                         setBtnUrl(`/apply-detail/${memberActiveApply}`);
-                        setIsActiveApply('t');
+                        setIsActiveApply("t");
                     } else {
-                        console.log('신청서 작성');
+                        console.log("신청서 작성");
                         // 현재 진행중인 이사가 없다면
-                        setBtntxt('신청서 작성');
-                        setBtnUrl('/apply-form');
+                        setBtntxt("신청서 작성");
+                        setBtnUrl("/apply-form");
                     }
 
                     // res.data.data.forEach(item => {
@@ -69,16 +84,22 @@ export default function Header() {
             }
             // 파트너라면
             else {
-                setBtntxt('견적 리스트');
-                setBtnUrl('/apply-list');
+                setBtntxt("견적 리스트");
+                setBtnUrl("/apply-list");
             }
         }
         // 로그인이 되어 있지 않다면
         else {
-            setBtntxt('시작하기');
-            setBtnUrl('/login');
+            setBtntxt("시작하기");
+            setBtnUrl("/login");
         }
-    }, [memberId, isactiveApply, memberType, memberActiveApply, setterActiveApply]);
+    }, [
+        memberId,
+        isactiveApply,
+        memberType,
+        memberActiveApply,
+        setterActiveApply,
+    ]);
 
     const navigate = useNavigate();
 
@@ -88,55 +109,87 @@ export default function Header() {
     };
 
     const handleLogout = () => {
-        const confirmed = window.confirm('로그아웃 하시겠습니까?');
+        const confirmed = window.confirm("로그아웃 하시겠습니까?");
         if (confirmed) {
             // 확인 버튼을 눌렀을 때 수행할 작업
-            localStorage.removeItem('accessToken');
-            document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-            settermemberName('');
-            settermemberEmail('');
-            settermemberType('');
-            settermemberId('');
+            localStorage.removeItem("accessToken");
+            document.cookie =
+                "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            settermemberName("");
+            settermemberEmail("");
+            settermemberType("");
+            settermemberId("");
 
-            navigate('/');
+            navigate("/");
         }
     };
 
     return (
         <header>
-            <div className='header'>
-                <div className='header__inner'>
-                    <div className='header__logo'>
+            <div className="header">
+                <div className="header__inner">
+                    <div className="header__logo">
                         <Link to={`/`}>
-                            <img className='header__logo__img' src={process.env.PUBLIC_URL + '/logo-text-color.png'} alt='logo' />
+                            <img
+                                className="header__logo__img"
+                                src={
+                                    process.env.PUBLIC_URL +
+                                    "/logo-text-color.png"
+                                }
+                                alt="logo"
+                            />
                         </Link>
                     </div>
                     {/* 로그인 했을 때 */}
-                    {memberId !== '' ? (
-                        <ul className='header__menu'>
-                            <li className='header__menu__item'>
+                    {memberId !== "" ? (
+                        <ul className="header__menu">
+                            <li className="header__menu__item">
+                                {memberType === "u" ? (
+                                    <Link to={`/mover-my-page/${memberId}`}>
+                                        <FontAwesomeIcon
+                                            className="header__icon"
+                                            icon={faUser}
+                                        />
+                                    </Link>
+                                ) : (
+                                    <Link to={`/partner-my-page/${memberId}`}>
+                                        <FontAwesomeIcon
+                                            className="header__icon"
+                                            icon={faUser}
+                                        />
+                                    </Link>
+                                )}
+                            </li>
+                            <li className="header__menu__item">
                                 <Link to={`#`}>
-                                    <FontAwesomeIcon className='header__icon' icon={faUser} />
-                                    {/* <FontAwesomeIcon icon="fa-regular fa-user" /> */}
+                                    <FontAwesomeIcon
+                                        className="header__icon"
+                                        icon={faEnvelopeOpenText}
+                                    />
                                 </Link>
                             </li>
-                            <li className='header__menu__item'>
-                                <Link to={`#`}>
-                                    <FontAwesomeIcon className='header__icon' icon={faEnvelopeOpenText} />
-                                </Link>
-                            </li>
-                            <li className='header__menu__item'>
+                            <li className="header__menu__item">
                                 {/* <Link to={`#`}> */}
-                                <FontAwesomeIcon className='header__icon' icon={faRightFromBracket} onClick={() => handleLogout()} />
+                                <FontAwesomeIcon
+                                    className="header__icon"
+                                    icon={faRightFromBracket}
+                                    onClick={() => handleLogout()}
+                                />
                                 {/* </Link> */}
                             </li>
 
-                            <button className='header__button' onClick={() => handleClick()}>
+                            <button
+                                className="header__button"
+                                onClick={() => handleClick()}
+                            >
                                 {btntxt}
                             </button>
                         </ul>
                     ) : (
-                        <button className='header__button' onClick={() => handleClick()}>
+                        <button
+                            className="header__button"
+                            onClick={() => handleClick()}
+                        >
                             {btntxt}
                         </button>
                     )}

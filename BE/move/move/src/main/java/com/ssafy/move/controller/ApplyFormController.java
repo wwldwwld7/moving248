@@ -56,7 +56,7 @@ public class ApplyFormController {
     @PutMapping("/{f_id}")
     public ResponseEntity<?> updateForm(@PathVariable int f_id,
                                         @RequestPart(name = "data") ApplyFormRequestDto applyFormRequestDto,
-                                        @RequestPart(name = "file") MultipartFile multipartFile) throws IOException {
+                                        @RequestPart(name = "file", required = false) MultipartFile multipartFile) throws IOException {
 
         applyFormService.updateApplyForm(f_id, applyFormRequestDto, multipartFile);
 

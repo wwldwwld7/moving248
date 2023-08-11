@@ -169,7 +169,7 @@ public class ApplyFormRepository {
 
 
 
-        String jpql = "select a,c, s.sidoName, g.guName, s2.sidoName, g2.guName from ApplyForm a " +
+        String jpql = "select a,c, s, g, s2, g2 from ApplyForm a " +
                 "JOIN MoveCategory c ON a.fCategory = c.categoryCode " +
                 "JOIN Sido s ON a.fDepSido = s.sidoCode " +
                 "JOIN Gu g ON a.fDepSido = g.sido.sidoCode AND a.fDepGungu = g.guCode " +

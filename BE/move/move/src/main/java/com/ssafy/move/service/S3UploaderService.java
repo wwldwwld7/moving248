@@ -97,9 +97,6 @@ public class S3UploaderService {
     private Optional<File> convert(MultipartFile multipartFile) throws IOException{
 
 
-        if (multipartFile.isEmpty()){
-            return Optional.empty();
-        }
         // 비어있지 않으면
         String originalFileName = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFileName); // uuid+확장자
