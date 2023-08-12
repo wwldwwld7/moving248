@@ -310,11 +310,11 @@ section {
     }
 
     .sec-two-one-container {
-        padding: 3rem;
+        padding: 3rem 2rem;
     }
 
     .sec-two-two-container {
-        padding: 3rem;
+        padding: 3rem 0rem;
         padding-bottom: 0px;
         border-top: 2px solid var(--color-primary-variant);
         margin-top: 77px;

@@ -23,7 +23,7 @@ export default function ApplyDetail() {
     const [apply, setApply] = useState({
         f_id: 0,
         u_id: 0,
-        p_id: 0,
+        p_id: '',
         userName: '',
         f_category: '',
         f_date: '',
@@ -48,7 +48,6 @@ export default function ApplyDetail() {
     useEffect(() => {
         axios.get(`/form/${id}`).then(res => {
             const importData = res.data.data;
-            console.log(importData);
             const newDesc = res.data.data.f_req_desc.split('\n').map((line, index) => (
                 // 출력 시 태그 적용 코드
                 <React.Fragment key={index}>
@@ -59,19 +58,17 @@ export default function ApplyDetail() {
             res.data.data.f_req_desc = newDesc;
             setApply(importData);
             setSuggestion(importData);
-            // console.log(suggestion);
-        });
 
-        suggestion.list
-            .filter(element => element.p_id === memberId)
-            .map(element => {
-                // console.log(element);
-                return setMySuggestion({
-                    s_desc: element.s_desc,
-                    s_money: element.s_money,
+            suggestion.list
+                .filter(element => element.p_id === memberId)
+                .map(element => {
+                    return setMySuggestion({
+                        s_desc: element.s_desc,
+                        s_money: element.s_money,
+                    });
                 });
-            });
-    }, []);
+        });
+    }, [id, memberId]);
 
     const [mySuggestion, setMySuggestion] = useState({
         s_money: 0,
@@ -87,10 +84,10 @@ export default function ApplyDetail() {
                         //신청서 날짜가 끝나서 완료로 바꼈는데
                         //확정한 견적서가 없는 경우
                         //filter가 null이라고 뜨길래 일단 주석처리함
-                        // .filter(element => element.is_selected === 't')
-                        .map(element => {
+                        .filter(element => element.is_selected === 't')
+                        .map((element, index) => {
                             // console.log('element:' + apply.f_id);
-                            return <SuggestionBlock element={element} f_id={apply.f_id} />;
+                            return <SuggestionBlock key={index} element={element} f_id={apply.f_id} p_id={apply.p_id} u_id={apply.u_id} />;
                         })
                 ) : (
                     <div className='suggestion-block center-align'>확정된 견적서가 없습니다.</div>
@@ -103,17 +100,18 @@ export default function ApplyDetail() {
         return (
             <>
                 <div className='sub-division'></div>
-                <h2 className='left-align'>제안된 견적서</h2>
-                {suggestion.list !== null ? (
-                    suggestion.list
-                        // .filter(element => element.is_selected !== 't')
-                        .map(element => {
-                            console.log('element:' + apply.f_id);
-                            return <SuggestionBlock element={element} f_id={apply.f_id} />;
-                        })
-                ) : (
-                    <div className='suggestion-block center-align'>작성된 견적서가 없습니다.</div>
-                )}
+                <h2 className='apply-detail__suggestion-h2 left-align'>제안된 견적서</h2>
+                <div className='scoll-suggestion'>
+                    {suggestion.list !== null ? (
+                        suggestion.list
+                            // .filter(element => element.is_selected !== 't')
+                            .map(element => {
+                                return <SuggestionBlock element={element} f_id={apply.f_id} />;
+                            })
+                    ) : (
+                        <div className='suggestion-block center-align'>작성된 견적서가 없습니다.</div>
+                    )}
+                </div>
             </>
         );
     };
@@ -123,7 +121,7 @@ export default function ApplyDetail() {
             <>
                 {
                     // 파트너인 경우
-                    memberType === 'p' ? <SuggestionForm mySuggestion={mySuggestion} /> : null
+                    memberType === 'p' ? <SuggestionForm f_id={id} /> : null
                 }
             </>
         );
@@ -229,9 +227,9 @@ export default function ApplyDetail() {
                     {renderSelected()}
                     {/* 제안된 견적서 */}
                     {renderAll()}
-
                     {/* 견적서 작성 Form */}
                     {renderSuggestionForm()}
+                    {/* HERE!!!!!! */}
                 </div>
             </section>
         </div>

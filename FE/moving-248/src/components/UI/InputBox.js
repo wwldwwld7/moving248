@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import classes from './InputBox.module.css';
 
 const InputBox = props => {
