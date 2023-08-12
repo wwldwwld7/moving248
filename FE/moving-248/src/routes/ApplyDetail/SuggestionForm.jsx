@@ -149,16 +149,19 @@ export default function SuggestionForm() {
     };
 
     const onDeleteHandler = () => {
-        axios
-            .delete(`/form/suggestion/${id}/${memberId}`)
-            .then(res => {
-                alert('견적이 삭제되었습니다.');
-                window.location.reload();
-            })
-            .catch(error => {
-                alert('견적 삭제 중 에러가 발생하였습니다.');
-                console.log('견적 삭제 error : ' + error);
-            });
+        const confirmed = window.confirm('견적을 삭제 하시겠습니까?');
+        if (confirmed) {
+            axios
+                .delete(`/form/suggestion/${id}/${memberId}`)
+                .then(res => {
+                    alert('견적이 삭제되었습니다.');
+                    window.location.reload();
+                })
+                .catch(error => {
+                    alert('견적 삭제 중 에러가 발생하였습니다.');
+                    console.log('견적 삭제 error : ' + error);
+                });
+        }
     };
     return (
         <>
