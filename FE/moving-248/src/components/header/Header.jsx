@@ -114,6 +114,7 @@ export default function Header() {
                     {/* 로그인 했을 때 */}
                     {memberId !== '' ? (
                         <ul className='header__menu'>
+                            <span className='header__message__info'></span>
                             <li className='header__menu__item'>
                                 {memberType === 'u' ? (
                                     <Link to={`/mover-my-page/${memberId}`}>
@@ -129,9 +130,6 @@ export default function Header() {
                                 <Link to={`#`}>
                                     <FontAwesomeIcon className='header__icon' icon={faEnvelopeOpenText} />
                                 </Link>
-                                <span className='header__message__info'>
-                                    <FontAwesomeIcon className='header__icon' icon={faEnvelopeOpenText} />
-                                </span>
                             </li>
                             <li className='header__menu__item'>
                                 {/* <Link to={`#`}> */}
