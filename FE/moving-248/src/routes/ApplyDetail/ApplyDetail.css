@@ -1,3 +1,15 @@
+.apply-detail__suggestion-h2 {
+    margin-bottom: 1rem;
+}
+
+.scoll-suggestion {
+    border-top: 2px solid #f1f1f1;
+    /* border: 1px solid #d3c09a; */
+    max-height: 850px;
+    overflow-y: scroll;
+    /* box-shadow: 1px 1px 2px 6px #d3c09a; */
+    /* background-color: #d3c09a; */
+}
 .sub {
     color: gray;
 }
@@ -34,6 +46,7 @@
     position: relative;
     padding-top: 3rem;
     padding-bottom: 4rem;
+    min-height: 266px;
 }
 
 .suggestion-block__image {

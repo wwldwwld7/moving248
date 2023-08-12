@@ -2,27 +2,89 @@ import React, { useEffect, useState } from 'react';
 import InputBox from '../../components/UI/InputBox';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { memberActiveApplyAtom, memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
+import { useRecoilValue } from 'recoil';
+import { memberIdAtom } from '../../atom';
 
-export default function SuggestionForm({ mySuggestion }) {
+export default function SuggestionForm() {
     const { id } = useParams();
 
     const memberId = useRecoilValue(memberIdAtom);
+
+    const [apply, setApply] = useState({
+        f_id: 0,
+        u_id: 0,
+        p_id: '',
+        userName: '',
+        f_category: '',
+        f_date: '',
+        f_dep_sido: '',
+        f_dep_gungu: '',
+        f_dep_ev: '',
+        f_dep_ladder: '',
+        f_arr_sido: '',
+        f_arr_gungu: '',
+        f_arr_ev: '',
+        f_arr_ladder: '',
+        f_room_video_url: '',
+        f_req_desc: '',
+        f_status: 0,
+    });
+
+    const [isNew, setIsNew] = useState(true);
+
+    const [mySuggestion, setMySuggestion] = useState({
+        s_money: 0,
+        s_desc: '',
+    });
 
     const [formData, setFormData] = useState({
         s_money: '',
         s_desc: '',
     });
-    // const [messages, setMessages] = useState({
-    //     email: '',
-    //     password: '',
-    // });
+
+    const getData = () => {
+        axios
+            .get(`/form/${id}`)
+            .then(res => {
+                const importData = { ...res.data.data };
+
+                const newDesc = res.data.data.f_req_desc.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                        {line}
+                        <br />
+                    </React.Fragment>
+                ));
+                res.data.data.f_req_desc = newDesc;
+                setApply({ ...importData }); // Update apply state
+
+                const filteredSuggestions = importData.list.filter(element => element.p_id === memberId);
+                if (filteredSuggestions.length > 0) {
+                    console.log(filteredSuggestions[0]);
+                    setIsNew(false);
+                    setMySuggestion({
+                        s_desc: filteredSuggestions[0].s_desc,
+                        s_money: filteredSuggestions[0].s_money,
+                    });
+                }
+            })
+            .catch(error => {
+                console.log('Error:', error);
+            });
+    };
+
+    useEffect(() => {
+        getData();
+    }, [id, memberId]);
+
+    useEffect(() => {
+        setFormData({
+            s_desc: mySuggestion.s_desc,
+            s_money: mySuggestion.s_money,
+        });
+    }, [mySuggestion]);
 
     const changeHandler = e => {
         const { name, value } = e.target;
-        // console.log('val : ' + value);
-        // console.log(name);
 
         setFormData(prevState => ({
             ...prevState,
@@ -34,22 +96,68 @@ export default function SuggestionForm({ mySuggestion }) {
 
     const submitHandler = e => {
         e.preventDefault();
-        console.log('돈 들어오나?' + formData.s_money);
-        console.log('설명' + formData.s_desc);
+
         const data = {
             p_id: memberId,
-            s_money: formData.s_money,
+            s_money: Number(formData.s_money),
             s_desc: formData.s_desc,
         };
 
+        console.log(`[Suggestion Form] s_money : ${data.s_money}`);
+        if (isNaN(data.s_money)) {
+            alert('올바른 가격을 입력해주세요.');
+            return;
+        }
+
+        if (data.s_money <= 0 || data.s_money >= 100000000) {
+            alert('올바르지 않은 가격을 작성하였습니다. (ex. 1~100,000,000 이내)');
+            return;
+        }
+
+        if (data.s_desc === '') {
+            alert('상세 설명이 비어있습니다.');
+            return;
+        }
+
+        // 신규 등록이면
+        if (isNew === true) {
+            axios
+                .post(`/form/suggestion/${id}`, data)
+                .then(res => {
+                    alert('견적이 등록되었습니다.');
+                    window.location.reload();
+                })
+                .catch(error => {
+                    alert('견적 등록 중 에러가 발생하였습니다.');
+                    console.log('견적등록 error : ' + error);
+                });
+        }
+
+        // 수정 이면
+        else {
+            axios
+                .put(`/form/suggestion/${id}`, data)
+                .then(res => {
+                    alert('견적이 수정되었습니다.');
+                    window.location.reload();
+                })
+                .catch(error => {
+                    alert('견적 수정 중 에러가 발생하였습니다.');
+                    console.log('견적 수정 error : ' + error);
+                });
+        }
+    };
+
+    const onDeleteHandler = () => {
         axios
-            .post(`/form/suggestion/${id}`, data)
+            .delete(`/form/suggestion/${id}/${memberId}`)
             .then(res => {
-                alert('견적이 등록되었습니다.');
-                window.location.href = `/apply-detail/${id}`;
+                alert('견적이 삭제되었습니다.');
+                window.location.reload();
             })
             .catch(error => {
-                console.log('견적등록 error : ' + error);
+                alert('견적 삭제 중 에러가 발생하였습니다.');
+                console.log('견적 삭제 error : ' + error);
             });
     };
     return (
@@ -60,11 +168,16 @@ export default function SuggestionForm({ mySuggestion }) {
                     <h2 className='left-align'>견적서 작성하기</h2>
                     <form onSubmit={submitHandler}>
                         <h5 className='suggestion-block__h5'>예상 견적가</h5>
-                        <InputBox label='예상 가격' type='number' name='s_money' placeholder='원' value={formData.s_money} onChange={changeHandler}></InputBox>
+                        <InputBox type='text' name='s_money' placeholder='원' value={formData.s_money} onChange={changeHandler}></InputBox>
                         <h5>상세 설명</h5>
-                        <InputBox label='예상 가격' type='text' name='s_desc' value={formData.s_desc} onChange={changeHandler}></InputBox>
+                        <InputBox type='text' name='s_desc' value={formData.s_desc} onChange={changeHandler}></InputBox>
                         <div className='suggestion-block__btn-outer'>
-                            <button className='btn-dynamic suggestion-block__btn'>확정하기</button>
+                            {isNew ? null : (
+                                <div className='btn-dynamic suggestion-block__btn' onClick={onDeleteHandler}>
+                                    삭제하기
+                                </div>
+                            )}
+                            <button className='btn-dynamic suggestion-block__btn'>{isNew ? '등록하기' : '수정하기'}</button>
                         </div>
                     </form>
                 </div>
