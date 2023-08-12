@@ -1,7 +1,7 @@
 .star {
     display: inline-block;
-    width: 40px; /* 별의 크기를 조정 */
-    height: 40px;
-    background-image: url("../../assets/image/star.jpg"); /* 별 아이콘의 경로 */
+    width: 30px; /* 별의 크기를 조정 */
+    height: 30px;
+    background-image: url('../../assets/image/star.jpg'); /* 별 아이콘의 경로 */
     background-size: cover;
 }

@@ -106,7 +106,7 @@ export default function ApplyDetail() {
                         suggestion.list
                             // .filter(element => element.is_selected !== 't')
                             .map(element => {
-                                return <SuggestionBlock element={element} f_id={apply.f_id} />;
+                                return <SuggestionBlock element={element} f_id={apply.f_id} p_id={apply.p_id} u_id={apply.u_id} />;
                             })
                     ) : (
                         <div className='suggestion-block center-align'>작성된 견적서가 없습니다.</div>
