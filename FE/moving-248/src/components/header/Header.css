@@ -51,6 +51,13 @@ header {
     padding-right: 1rem;
 }
 
+.header__message__info {
+    position: relative;
+    /* float: left; */
+    left: 30px;
+    bottom: 20px;
+}
+
 .max-container {
     max-width: var(--size-max-width);
     margin: auto;

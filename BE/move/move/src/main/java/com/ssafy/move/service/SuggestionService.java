@@ -62,6 +62,11 @@ public class SuggestionService {
     public void deleteSuggestion(int fId, int pId){
 
         Suggestion suggestion = suggestionRepository.findSuggestionByFidAndPid(fId, pId);
+        ApplyForm applyForm = applyFormRepository.findApplyFormById(fId);
+        if(applyForm.getPId().getId()==pId){
+            applyForm.setPId(null);
+            applyForm.setFStatus('1');
+        }
         suggestionRepository.deleteSuggestion(suggestion);
     }
 
