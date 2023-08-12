@@ -110,3 +110,14 @@ h3 {
     flex-direction: row;
     justify-content: center; /* 수평(행) 방향으로 정렬 */
 }
+
+.mypage-block__image {
+    border: 0px solid var(--color-primary-variant);
+    width: 8rem;
+    height: 8rem;
+    margin-right: 2rem;
+}
+.input-number {
+    border: 2px solid var(--color-primary);
+    border-radius: 3px;
+}

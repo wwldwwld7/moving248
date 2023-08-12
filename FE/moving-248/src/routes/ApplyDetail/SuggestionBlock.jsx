@@ -50,6 +50,7 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
         //mover 인 경우
         if (memberType === 'u') {
             // 선택된 견적이 없는 경우
+            console.log(p_id);
             if (p_id === 0) {
                 return (
                     <div className='suggestion-block__btn-outer'>
