@@ -117,8 +117,10 @@ const PartnerMyPageDetail = props => {
             const formData = new FormData(); // Create a new FormData instance
             if (file) {
                 formData.append('file', file);
+                console.log(`파일임---------` + file);
             } else {
-                formData.append('file', null);
+                formData.append('file', file);
+                console.log(`파일임---------------` + file);
             }
             formData.append(
                 'data',
@@ -380,13 +382,9 @@ const PartnerMyPageDetail = props => {
                             <input className='button-modify' type='button' value={'취소'} onClick={() => setIsEditing(false)} />
                         </>
                     ) : (
-                        isCurrentUser && (
-                            <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
-                        )
+                        isCurrentUser && <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
                     )}
-                    {isCurrentUser && (
-                        <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDeleteClick} />
-                    )}
+                    {isCurrentUser && <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDeleteClick} />}
                 </div>
                 <Modal
                     show={showModal}

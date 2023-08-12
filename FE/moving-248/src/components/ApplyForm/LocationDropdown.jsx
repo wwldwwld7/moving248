@@ -11,7 +11,9 @@ const LocationDropdown = ({ label, selectedSido, setSelectedSido, selectedGu, se
         axios
             .get('http://localhost:8080/form/sido')
             .then(response => {
-                setSidoOptions(response.data.data);
+                // 이사신청서 작성할 때 시도목록을 필요 없으니깐
+                const filterSido = response.data.data.filter(option => option.sido_name !== '전체');
+                setSidoOptions(filterSido);
             })
             .catch(error => {
                 console.error('Error fetching sido:', error);
@@ -24,7 +26,9 @@ const LocationDropdown = ({ label, selectedSido, setSelectedSido, selectedGu, se
             axios
                 .get(`http://localhost:8080/form/gu/${selectedSido}`)
                 .then(response => {
-                    setGuOptions(response.data.data);
+                    //이사신청서 작성할 때 구군 목록에서 전체 필요없음
+                    const filterGu = response.data.data.filter(option => option.gu_name !== '전체');
+                    setGuOptions(filterGu);
                 })
                 .catch(error => {
                     console.error('Error fetching gu:', error);
