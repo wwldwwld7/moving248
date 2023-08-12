@@ -9,9 +9,14 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { memberActiveApplyAtom, memberIdAtom, memberTypeAtom } from '../../atom';
 
 const PartnerMyPageDetail = props => {
+    const moveToHome = useNavigate();
     const { id } = useParams();
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
+    const [reviewDatabase, setReviewDatabase] = useState([]);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [file, setFile] = useState(null);
+    const [imageSrc, setImageSrc] = useState('');
 
     const isCurrentUser = memberId == id;
 
@@ -33,50 +38,7 @@ const PartnerMyPageDetail = props => {
         p_review_cnt: '',
         list: [],
     });
-
-    const [reviewDatabase, setReviewDatabase] = useState([]);
-    const [showModal, setShowModal] = useState(false); // Modal 표시 여부 상태
-    const [isEditing, setIsEditing] = useState(false); // 편집 모드 여부 상태
-    const [passwordMatchError, setPasswordMatchError] = useState(false);
-    const [phoneFormatError, setPhoneFormatError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-
-    const fetchPartnerInfo = async () => {
-        try {
-            const response = await axios.get(`http://localhost:8080/member/partner/${id}`);
-            setPartnerInfo(response.data.data);
-            setReviewDatabase(response.data.data.list);
-            console.log(response.data.data);
-        } catch (error) {
-            console.error('사용자 정보 가져오기 에러:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchPartnerInfo();
-    }, []);
-
-    const handleDeleteClick = () => {
-        setShowModal(true); // "회원 탈퇴" 버튼 클릭 시 Modal 표시
-    };
-
-    const handleModalClose = () => {
-        setShowModal(false); // Modal 닫기
-    };
-
-    const handleConfirmDelete = () => {
-        // 여기에 "예" 버튼 클릭 시 동작을 추가
-
-        // Modal 닫기
-        setShowModal(false);
-    };
-
-    const handleEditClick = () => {
-        setIsEditing(true); // 정보 수정 버튼 클릭 시 편집 모드 활성화
-    };
-
-    const [file, setFile] = useState(null);
-    const [imageSrc, setImageSrc] = useState('');
+    const [originalPartnerInfo, setOriginalPartnerInfo] = useState({});
 
     const handleFileChange = fileBlob => {
         const selectedFile = fileBlob.target.files[0];
@@ -98,7 +60,35 @@ const PartnerMyPageDetail = props => {
         };
     };
 
-    const handleSaveClick = async event => {
+    const fetchPartnerInfo = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/member/partner/${id}`);
+            setPartnerInfo(response.data.data);
+            setOriginalPartnerInfo(response.data.data);
+            setReviewDatabase(response.data.data.list);
+            console.log(response.data.data);
+
+            
+        } catch (error) {
+            console.error('사용자 정보 가져오기 에러:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchPartnerInfo();
+    }, []);
+
+    const handleEditClick = () => {
+        setIsEditMode(true);
+    };
+
+    const handleCancelEdit = () => {
+        setIsEditMode(false);
+        setPartnerInfo(originalPartnerInfo);
+        fetchPartnerInfo();
+    }
+
+    const handleSubmit = async event => {
         // event.preventDefault();
 
         try {
@@ -117,11 +107,7 @@ const PartnerMyPageDetail = props => {
             const formData = new FormData(); // Create a new FormData instance
             if (file) {
                 formData.append('file', file);
-                console.log(`파일임---------` + file);
-            } else {
-                formData.append('file', file);
-                console.log(`파일임---------------` + file);
-            }
+            } 
             formData.append(
                 'data',
                 new Blob([JSON.stringify(jsonData)], {
@@ -142,7 +128,7 @@ const PartnerMyPageDetail = props => {
             if (response.data.profile_url) {
                 setImageSrc(response.data.profile_url);
             }
-            setIsEditing(false);
+            setIsEditMode(false);
             fetchPartnerInfo();
         } catch (error) {
             console.error('정보 수정 에러:', error);
@@ -150,209 +136,292 @@ const PartnerMyPageDetail = props => {
         }
     };
 
-    const checkPasswordMatch = async () => {
-        if (partnerInfo.password !== partnerInfo.password_confirm) {
-            setPasswordMatchError(true);
-        } else {
-            setPasswordMatchError(false);
-        }
-    };
-    const checkPhoneFormat = () => {
-        const phonePattern = /^\d{3}-\d{4}-\d{4}$/;
+    const handleDelete = async () => {
+        try {
+             const response = await axios.delete(`http://localhost:8080/member/${id}`);
+            console.log('회원 탈퇴 성공:', response.data);
+            moveToHome('/');
+        } catch (error) {
+            console.error('회원 탈퇴 에러:', error);
+        } 
+    }
 
-        if (!phonePattern.test(partnerInfo.phone)) {
-            setPhoneFormatError(true);
-        } else {
-            setPhoneFormatError(false);
-        }
-    };
-
-    const [updatedPassword, setUpdatedPassword] = useState('');
-
-    useEffect(() => {
-        checkPasswordMatch();
-    }, [updatedPassword, partnerInfo.password_confirm]); // updatedPassword로 변경
-
-    useEffect(() => {
-        checkPasswordMatch();
-    }, [partnerInfo.password, partnerInfo.password_confirm]);
-    useEffect(() => {
-        checkPhoneFormat();
-    }, [partnerInfo.phone]);
-
-    const handlePartnerInfoChange = async e => {
+    const handleChange = e => {
         const { name, value } = e.target;
 
-        if (name === 'password') {
-            setUpdatedPassword(value); // 변경할 패스워드 업데이트
-            await checkPasswordMatch(); // 비밀번호 일치 검증
+        setPartnerInfo(prevPartnerInfo => ({
+            ...prevPartnerInfo,
+            [name]: value,
+        }));
+        if (name === 'password' || name === 'checkPass' || name === 'phone') {
 
-            setPartnerInfo(prevPartnerInfo => ({
-                ...prevPartnerInfo,
-                [name]: value,
-            }));
+        const validators = {
+            phone: value => /^\d{3}-\d{4}-\d{4}$/.test(value),
+            password: value => /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/.test(value),
+            checkPass: value => value === partnerInfo.password,
+        };
+        const isValidInput = validators[name](value);
 
-            await checkPasswordMatch();
-        } else if (name === 'phone') {
-            setPartnerInfo(prevPartnerInfo => ({
-                ...prevPartnerInfo,
-                [name]: value,
-            }));
+        setIsValid(prevState => ({
+            ...prevState,
+            [name]: isValidInput,
+        }));
+        setMessages(prevState => ({
+            ...prevState,
+            [name]: isValidInput ? '' : getErrorMessage(name),
+        }));
+    }
+    };
+    const [messages, setMessages] = useState({
+        phone: '',
+        password: '',
+        checkPass: '',
+    });
 
-            checkPhoneFormat();
-        } else if (name === 'profile_url') {
-            setPartnerInfo(prevPartnerInfo => ({
-                ...prevPartnerInfo,
-                [name]: value,
-            }));
-        } else {
-            setPartnerInfo(prevPartnerInfo => ({
-                ...prevPartnerInfo,
-                [name]: value,
-            }));
+    const [isValid, setIsValid] = useState({
+        phone: false,
+        password: false,
+        checkPass: false,
+    });
+    const getErrorMessage = fieldName => {
+        switch (fieldName) {
+            case 'phone':
+                return '형식에 맞게 번호를 입력해주세요.';
+            case 'password':
+                return '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요.';
+            case 'checkPass':
+                return '비밀번호가 일치하지 않습니다.';
+            default:
+                return '';
         }
     };
 
     return (
         <>
-            <div className='partner-outerbox'>
-                {isEditing ? (
-                    <div className='partner-innerbox-image'>
-                        <h3>프로필 이미지</h3>
-                        <input type='file' name='file' onChange={handleFileChange} />
-                        <div className='apply-form-innerbox-e'></div>
-                        {imageSrc ? <img src={imageSrc} controls></img> : <img src={partnerInfo.profile_url} alt='profile' />}
-                    </div>
-                ) : (
-                    <div className='partner-overlab'>
-                        <img className='partner-profile-image' src={partnerInfo.profile_url || '/default-profile-image.png'} alt='Profile' />
-                    </div>
-                )}
-                <div className='partner-innerbox'>
-                    <div className='partner-innerbox-inline-align'>
-                        <h2>{partnerInfo.name}</h2>
-                        {memberType === 'u' && !isEditing && (
+            <div className='sec-two-one-container inner__section  overlap-imgbox'>
+            <div className='partner-innerbox'>
+
+            {isEditMode ? (
+                <div className='center-vertically'>
+                    <h2>Partner</h2>
+                    <input type='file' name='file' onChange={handleFileChange} />                   
+                    <img className='partner-profile-image' src={imageSrc || '/default-profile-image.png'} alt='Profile' />
+                    <h2>{partnerInfo.name}</h2>
+                </div>
+            ) : (
+                <div className='center-vertically'>
+                    <h2>Partner</h2>
+
+                    <img className='partner-profile-image' src={partnerInfo.profile_url || '/default-profile-image.png'} alt='profile' />
+                    <h2>{partnerInfo.name}</h2>
+                    {memberType === 'u' && !isEditMode && (
                             <span className='messagebutton'>
                                 <input className='button-send' type='button' value={'메시지 보내기'} />
                             </span>
                         )}
-                    </div>
-                    <table className='mypage-table'>
-                        <tbody>
-                            <tr>
-                                <th>
-                                    <span className='partner-innerbox-label'>대표자</span>
-                                </th>
-                                <td>
-                                    <span className='partner-innerbox-value'>
-                                        {isEditing ? (
-                                            <input className='partner-mypage-input' type='text' name='p_ceo' value={partnerInfo.p_ceo} onChange={handlePartnerInfoChange} />
-                                        ) : (
-                                            partnerInfo.p_ceo
-                                        )}
-                                    </span>
-                                </td>
-                                <th>
-                                    <span className='partner-innerbox-label'>지역</span>
-                                </th>
-                                <td>
-                                    <span className='partner-innerbox-value'>
-                                        {isEditing ? (
-                                            <input className='partner-mypage-input' type='text' name='p_location' value={partnerInfo.p_location} onChange={handlePartnerInfoChange} />
-                                        ) : (
-                                            partnerInfo.p_location
-                                        )}
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <span className='partner-innerbox-label'>평점 </span>
-                                </th>
-                                <td>
-                                    <span className='partner-innerbox-value'>
-                                        ★{parseFloat((partnerInfo.p_total_score / partnerInfo.p_review_cnt).toFixed(2))} ({partnerInfo.p_move_cnt})
-                                    </span>
-                                </td>
-                                <th>
-                                    <span className='partner-innerbox-label'>경력</span>
-                                </th>
-                                <td>
-                                    <span className='partner-innerbox-value'>
-                                        {isEditing ? (
-                                            <input className='partner-mypage-input' type='text' name='p_exp' value={partnerInfo.p_exp} onChange={handlePartnerInfoChange} />
-                                        ) : (
-                                            `${partnerInfo.p_exp}`
-                                        )}
-                                        년
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
-                {isEditing ? (
-                    <div className='partner-innerbox'>
-                        <div>
-                            <h3>전화번호</h3>
-                        </div>
-                        <div>
-                            <input className='partner-mypage-input-phone' type='text' name='phone' onChange={handlePartnerInfoChange} placeholder={partnerInfo.phone} />
-                        </div>
-                        <div>{phoneFormatError && <span className='partner-mypage-error'>전화번호 형식이 올바르지 않습니다. (000-0000-0000 형식으로 입력하세요)</span>}</div>
-                        <div className='partner-innerbox-inline-pass'>
-                            <div>
-                                <h3>변경할 패스워드</h3>
-                                <input className='partner-mypage-input-password' type='password' name='password' onChange={handlePartnerInfoChange} />
-                            </div>
-                            <div>
-                                <h3>한번 더 입력</h3>
-                                <input className='partner-mypage-input-password' type='password' name='password_confirm' onChange={handlePartnerInfoChange} />
-                                <div>{passwordMatchError && <span className='partner-mypage-error'>패스워드가 일치하지 않습니다.</span>}</div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    ' '
-                )}
-                {isEditing ? (
-                    <div className='partner-innerbox'>
-                        <div>
-                            <h3>직원수</h3>
-                        </div>
-                        <div>
-                            <input className='partner-mypage-input' type='text' name='p_emp_cnt' value={partnerInfo.p_emp_cnt} onChange={handlePartnerInfoChange} />
-                        </div>
-                        <div>
-                            <h3>연락 가능 시간</h3>
-                        </div>
-                        <div>
-                            <input className='partner-mypage-input' type='number' min='0' max='24' name='p_starttime' value={partnerInfo.p_starttime} onChange={handlePartnerInfoChange} />시 ~&nbsp;
-                            <input className='partner-mypage-input' type='number' min='0' max='24' name='p_endtime' value={partnerInfo.p_endtime} onChange={handlePartnerInfoChange} />시
-                        </div>
-                    </div>
-                ) : (
-                    <div className='partner-innerbox'>
-                        <div>
-                            <h3>직원수</h3>
-                        </div>
-                        <div>{partnerInfo.p_emp_cnt} 명</div>
-                        <div>
-                            <h3>연락 가능 시간</h3>
-                        </div>
-                        <div>
-                            {partnerInfo.p_starttime}시 ~ {partnerInfo.p_endtime}시
-                        </div>
-                    </div>
-                )}
+            )
+            }
+            </div>
 
-                {isEditing ? (
+            <div className='partner-innerbox'>
+                <table className='mypage-table'>
+                    <tbody>
+                        <h2>업체 정보</h2>
+                        <hr></hr>
+                        {isEditMode ? 
+                        (
+                            <>
+                                                <div className='mypage-table-double'>
+
+                            <div>
+                                <div>
+                                    <span className='partner-innerbox-label'>연락처</span>
+
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    <input className='partner-mypage-input-phone' type='text' name='phone' onChange={handleChange} placeholder={partnerInfo.phone} />
+                                    {messages.phone && <div className={`message ${isValid.phone ? 'success' : 'error'}`}>{messages.phone}</div>}
+                                    </span>
+                                </div>
+                            </div>
+                            </div>
+
+                        <tr className='mypage-table-double'>
+                           
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>대표명</span>
+
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    <input className='partner-mypage-input' type='text' name='p_ceo' value={partnerInfo.p_ceo} readOnly />
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>활동지역</span>
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    <input className='partner-mypage-input' type='text' name='p_location' value={partnerInfo.p_location} onChange={handleChange} />
+                                    </span>
+                                </div>
+                            </td>                         
+                        </tr>
+                        <tr className='mypage-table-double'>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>평점</span>
+
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    ★{parseFloat((partnerInfo.p_total_score / partnerInfo.p_review_cnt).toFixed(2))} ({partnerInfo.p_move_cnt})
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>경력</span>
+
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    <input className='partner-mypage-input' type='text' name='p_exp' value={partnerInfo.p_exp} onChange={handleChange} />
+                                    </span>
+                                </div>
+                            </td>                         
+                        </tr>
+                        <tr className='mypage-table-double'>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>직원수</span>
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    <input className='partner-mypage-input' type='text' name='p_emp_cnt' value={partnerInfo.p_emp_cnt} onChange={handleChange} />
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>연락 가능 시간</span>
+
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                        <input className='partner-mypage-input' type='number' min='0' max='24' name='p_starttime' value={partnerInfo.p_starttime} onChange={handleChange} />시 ~&nbsp;
+                                        <input className='partner-mypage-input' type='number' min='0' max='24' name='p_endtime' value={partnerInfo.p_endtime} onChange={handleChange} />시
+                                    </span>
+                                </div>
+                            </td>                         
+                        </tr>
+                            </>
+                        )    :
+                        (<>
+                         <div className='mypage-table-double'>
+
+<div>
+    <div>
+        <span className='partner-innerbox-label'>연락처</span>
+
+    </div>
+    <div>
+        <span className='partner-innerbox-value'>
+        
+                        {partnerInfo.phone}
+        </span>
+    </div>
+</div>
+</div>
+                        <tr className='mypage-table-double'>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>대표명</span>
+
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                      {partnerInfo.p_ceo}
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>활동지역</span>
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    {partnerInfo.p_location}
+                                    </span>
+                                </div>
+                            </td>                         
+                        </tr>
+                        <tr className='mypage-table-double'>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>평점</span>
+
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    ★{parseFloat((partnerInfo.p_total_score / partnerInfo.p_review_cnt).toFixed(2))} ({partnerInfo.p_move_cnt})
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>경력</span>
+
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    {partnerInfo.p_exp}년
+                                    </span>
+                                </div>
+                            </td>                         
+                        </tr>
+                        <tr className='mypage-table-double'>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>직원수</span>
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    {partnerInfo.p_emp_cnt}
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <span className='partner-innerbox-label'>연락 가능 시간</span>
+
+                                </div>
+                                <div>
+                                    <span className='partner-innerbox-value'>
+                                    {partnerInfo.p_starttime}시 ~ {partnerInfo.p_endtime}시
+                                    </span>
+                                </div>
+                            </td>                         
+                        </tr>
+
+                        </>)}
+                    </tbody>
+                </table>
+            </div>
+
+
+                {isEditMode ? (
                     <div className='partner-innerbox'>
                         <div>
                             <h3>상세설명</h3>
                         </div>
                         <div>
-                            <textarea className='profile-mypage-desc' type='textarea' name='p_desc' value={partnerInfo.p_desc} onChange={handlePartnerInfoChange} />
+                            <textarea className='profile-mypage-desc' type='textarea' name='p_desc' value={partnerInfo.p_desc} onChange={handleChange} />
                         </div>
                     </div>
                 ) : (
@@ -364,36 +433,65 @@ const PartnerMyPageDetail = props => {
                     </div>
                 )}
 
+            {isEditMode ? (
+            <>
                 <div className='partner-innerbox'>
-                    <div>
-                        <h3>업체 후기</h3>
-                    </div>
-                    <div>
-                        {reviewDatabase.map((review, index) => (
-                            <PartnerReview key={index} name={review.name} rating={review.r_rate} date={review.r_create_time} content={review.r_content} />
-                        ))}
-                    </div>
+                    <table className='mypage-table'>
+                        <tbody>
+                            <tr>
+                                <div>
+                                    <span className='partner-innerbox-label'>Password</span>
+                                    <td>
+                                        <span className='partner-innerbox-value'>
+                                            <div>
+                                            <input className='partner-mypage-input-password' type='password' name='password' onChange={handleChange} />
+                                            {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
+                                            </div>
+                                        </span>
+                                    </td>
+                                </div>
+                            </tr>
+                            <tr>
+                                <div>
+                                    <span className='partner-innerbox-label'>Password 확인</span>
+                                    <td>
+                                        <span className='partner-innerbox-value'>
+                                            <div>
+                                                <input  className='partner-mypage-input-password' type='password' name='checkPass' onChange={handleChange} />
+                                                {messages.checkPass && <div className={`message ${isValid.checkPass ? 'success' : 'error'}`}>{messages.checkPass}</div>}
+                                            </div>
+                                        </span>
+                                    </td>
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-
                 <div className='mypage-detail-button-align'>
-                    {isEditing ? (
-                        <>
-                            <input className='button-modify' type='button' value={'저장'} onClick={handleSaveClick} />
-                            <input className='button-modify' type='button' value={'취소'} onClick={() => setIsEditing(false)} />
-                        </>
-                    ) : (
-                        isCurrentUser && <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
-                    )}
-                    {isCurrentUser && <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDeleteClick} />}
+                    <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit}  />
+                    <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit}/>
+                    <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete}/>
                 </div>
-                <Modal
-                    show={showModal}
-                    onClose={handleModalClose}
-                    message='정말로 회원 탈퇴하시겠습니까?' // Modal에 표시할 메시지
-                    onConfirm={handleConfirmDelete} // "예" 버튼 클릭 시 동작
-                />
+            </>
+            ) : (
+                isCurrentUser && (
+                    <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
+                )
+            )}
+        </div>
+
+        <div className='sec-two-two-container inner__section hb-scroll'>
+            <div>
+                <h3>업체 후기</h3>
             </div>
-        </>
+            <div>
+                {reviewDatabase.map((review, index) => (
+                    <PartnerReview key={index} name={review.name} rating={review.r_rate} date={review.r_create_time} content={review.r_content} />
+                ))}
+            </div>
+        </div>
+    </>
+
     );
 };
 

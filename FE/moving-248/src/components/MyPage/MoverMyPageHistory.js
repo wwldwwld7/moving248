@@ -19,7 +19,7 @@ const MoverMyPageHistory = props => {
 
     const fetchUserInfo = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/member/user/1`);
+            const response = await axios.get(`http://localhost:8080/member/user/${id}`);
             setHistoryList(response.data.data.list);
             console.log(response.data.data.list);
         } catch (error) {
