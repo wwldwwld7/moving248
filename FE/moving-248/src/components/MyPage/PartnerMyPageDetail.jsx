@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { memberActiveApplyAtom, memberIdAtom, memberTypeAtom } from '../../atom';
+import InputBox from '../UI/InputBox';
 
 const PartnerMyPageDetail = props => {
     const moveToHome = useNavigate();
@@ -24,8 +25,8 @@ const PartnerMyPageDetail = props => {
         p_id: 0,
         p_ceo: '',
         name: '',
-        password: '',
         phone: '',
+        password: '',
         p_exp: 0,
         p_emp_cnt: 0,
         p_starttime: '',
@@ -66,6 +67,7 @@ const PartnerMyPageDetail = props => {
             setPartnerInfo(response.data.data);
             setOriginalPartnerInfo(response.data.data);
             setReviewDatabase(response.data.data.list);
+            setImageSrc(response.data.data.profile_url);
             console.log(response.data.data);
         } catch (error) {
             console.error('사용자 정보 가져오기 에러:', error);
@@ -82,7 +84,7 @@ const PartnerMyPageDetail = props => {
 
     const handleCancelEdit = () => {
         setIsEditMode(false);
-        setPartnerInfo(originalPartnerInfo);
+        // setPartnerInfo(originalPartnerInfo);
         fetchPartnerInfo();
     };
 
@@ -93,8 +95,8 @@ const PartnerMyPageDetail = props => {
             const jsonData = {
                 p_ceo: partnerInfo.p_ceo,
                 name: partnerInfo.name,
-                password: partnerInfo.password,
                 phone: partnerInfo.phone,
+                password: partnerInfo.password,
                 p_exp: partnerInfo.p_exp,
                 p_emp_cnt: partnerInfo.p_emp_cnt,
                 p_starttime: partnerInfo.p_starttime,
@@ -119,13 +121,9 @@ const PartnerMyPageDetail = props => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-
             // Handle the response
             console.log('정보 수정 성공:', response.data);
 
-            if (response.data.profile_url) {
-                setImageSrc(response.data.profile_url);
-            }
             setIsEditMode(false);
             fetchPartnerInfo();
         } catch (error) {
@@ -136,9 +134,11 @@ const PartnerMyPageDetail = props => {
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`http://localhost:8080/member/${id}`);
-            console.log('회원 탈퇴 성공:', response.data);
-            moveToHome('/');
+            if (window.confirm('탈퇴하시겠습니까?')) {
+                const response = await axios.delete(`http://localhost:8080/member/${id}`);
+                console.log('회원 탈퇴 성공:', response.data);
+                moveToHome('/');
+            }
         } catch (error) {
             console.error('회원 탈퇴 에러:', error);
         }
@@ -180,6 +180,10 @@ const PartnerMyPageDetail = props => {
         password: false,
         checkPass: false,
     });
+
+    const calculatedValue = partnerInfo.p_total_score / partnerInfo.p_review_cnt;
+    const formattedValue = partnerInfo.p_review_cnt === 0 ? 0 : calculatedValue.toFixed(1);
+
     const getErrorMessage = fieldName => {
         switch (fieldName) {
             case 'phone':
@@ -195,77 +199,87 @@ const PartnerMyPageDetail = props => {
 
     return (
         <>
-            <div className='sec-two-one-container inner__section overlap-imgbox'>
-                <h2 className='sec-two-container__h2'>{partnerInfo.name}</h2>
-                <div className='profile__image-outer div-center'>
-                    <img className='profile__image' src={imageSrc || '/default-profile-image.png'} alt='Profile' />
-                </div>
-                {memberType === 'u' && !isEditMode && (
-                    <div className='message-button div-center message_btn'>
-                        <input className='btn-static' type='button' value={'메시지 보내기'} />
+            {!isEditMode ? (
+                <div className='sec-two-one-container inner__section overlap-imgbox'>
+                    <h2 className='sec-two-container__h2'>{partnerInfo.name}</h2>
+                    <div className='profile__image-outer div-center'>
+                        <img className='profile__image' src={imageSrc || '/default-profile-image.png'} alt='Profile' />
                     </div>
-                )}
-                <div class='sec-two-container__divide display-hidden'></div>
+                    {memberType === 'u' && (
+                        <div className='message-button div-center message_btn'>
+                            <input className='btn-static' type='button' value={'메시지 보내기'} />
+                        </div>
+                    )}
+                    <div class='sec-two-container__divide display-hidden'></div>
 
-                <h2 className='sec-two-container__h2'>업체 정보</h2>
+                    <h2 className='sec-two-container__h2'>업체 정보</h2>
 
-                <div className='inner-full'>
-                    <h4 className='sec-two-container__h4 left-align'>연락처</h4>
-                    <p className='paragraph sec-two-container__paragraph left-align'>{0}</p>
-                    <div className='sec-two-container__divide'></div>
-                </div>
+                    <div className='inner-half-outer'>
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>대표명</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>{partnerInfo.p_ceo}</p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
 
-                <div className='inner-half-outer'>
-                    <div className='inner-half'>
-                        <h4 className='sec-two-container__h4 left-align'>대표명</h4>
-                        <p className='paragraph sec-two-container__paragraph left-align'>{0}</p>
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>평점</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>
+                                {formattedValue}({partnerInfo.p_review_cnt})
+                            </p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+                        <div className='inner-full'>
+                            <h4 className='sec-two-container__h4 left-align'>연락처</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>{partnerInfo.phone}</p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>활동 지역</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>{partnerInfo.p_location}</p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>경력</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>{partnerInfo.p_exp}</p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>직원수</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>{partnerInfo.p_emp_cnt}</p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>연락 가능 시간</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>
+                                {partnerInfo.p_starttime}시 ~ {partnerInfo.p_endtime}시
+                            </p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+                    </div>
+
+                    <div className='inner-full'>
+                        <h4 className='sec-two-container__h4 left-align'>상세설명</h4>
+                        <p className='paragraph sec-two-container__paragraph left-align'>{partnerInfo.p_desc}</p>
                         <div className='sec-two-container__divide'></div>
                     </div>
 
-                    <div className='inner-half'>
-                        <h4 className='sec-two-container__h4 left-align'>활동 지역</h4>
-                        <p className='paragraph sec-two-container__paragraph left-align'>{0}</p>
-                        <div className='sec-two-container__divide'></div>
-                    </div>
+                    {memberType === 'p' && !isEditMode ? (
+                        <div className='message-button div-center message_btn'>
+                            <input className='btn-static' type='button' value={'수정'} onClick={handleEditClick} />
+                        </div>
+                    ) : (
+                        <div className='message-button div-center message_btn'>
+                            <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
+                            <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
+                            <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
+                        </div>
+                    )}
 
-                    <div className='inner-half'>
-                        <h4 className='sec-two-container__h4 left-align'>평점</h4>
-                        <p className='paragraph sec-two-container__paragraph left-align'>{0}</p>
-                        <div className='sec-two-container__divide'></div>
-                    </div>
-
-                    <div className='inner-half'>
-                        <h4 className='sec-two-container__h4 left-align'>경력</h4>
-                        <p className='paragraph sec-two-container__paragraph left-align'>{0}</p>
-                        <div className='sec-two-container__divide'></div>
-                    </div>
-
-                    <div className='inner-half'>
-                        <h4 className='sec-two-container__h4 left-align'>직원수</h4>
-                        <p className='paragraph sec-two-container__paragraph left-align'>{0}</p>
-                        <div className='sec-two-container__divide'></div>
-                    </div>
-
-                    <div className='inner-half'>
-                        <h4 className='sec-two-container__h4 left-align'>연락 가능 시간</h4>
-                        <p className='paragraph sec-two-container__paragraph left-align'>{0}</p>
-                        <div className='sec-two-container__divide'></div>
-                    </div>
-                </div>
-
-                <div className='inner-full'>
-                    <h4 className='sec-two-container__h4 left-align'>상세설명</h4>
-                    <p className='paragraph sec-two-container__paragraph left-align'>{0}</p>
-                    <div className='sec-two-container__divide'></div>
-                </div>
-
-                {memberType === 'p' && !isEditMode && (
-                    <div className='message-button div-center message_btn'>
-                        <input className='btn-static' type='button' value={'메시지 보내기'} onClick={handleEditClick} />
-                    </div>
-                )}
-
-                {/* <table className='mypage-table'>
+                    {/* <table className='mypage-table'>
                     <tbody>
                         <h2>업체 정보</h2>
                         <hr></hr>
@@ -490,7 +504,92 @@ const PartnerMyPageDetail = props => {
                 ) : (
                     isCurrentUser && <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
                 )} */}
-            </div>
+                </div>
+            ) : (
+                <div className='sec-two-one-container inner__section overlap-imgbox'>
+                    <h2 className='sec-two-container__h2'>{partnerInfo.name}</h2>
+                    <div className='profile__image-outer div-center'>
+                        <img className='profile__image' src={imageSrc || '/default-profile-image.png'} alt='Profile' />
+                        <input type='file' name='file' onChange={handleFileChange}></input>
+                    </div>
+                    <div class='sec-two-container__divide display-hidden'></div>
+
+                    <h2 className='sec-two-container__h2'>업체 정보</h2>
+
+                    <div className='inner-half-outer'>
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>대표명</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>{partnerInfo.p_ceo}</p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>평점</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>
+                                {formattedValue}({partnerInfo.p_review_cnt})
+                            </p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+                        <div className='inner-full'>
+                            <h4 className='sec-two-container__h4 left-align'>연락처</h4>
+                            <input className='partner-mypage-input-phone' type='text' name='phone' onChange={handleChange} value={partnerInfo.phone} />
+                            {messages.phone && <div className={`message ${isValid.phone ? 'success' : 'error'}`}>{messages.phone}</div>}
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>활동 지역</h4>
+                            <input className='partner-mypage-input' type='text' name='p_location' value={partnerInfo.p_location} onChange={handleChange} />
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>경력</h4>
+                            <input className='partner-mypage-input' type='text' name='p_exp' value={partnerInfo.p_exp} onChange={handleChange} />
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>직원수</h4>
+                            <input className='partner-mypage-input' type='text' name='p_emp_cnt' value={partnerInfo.p_emp_cnt} onChange={handleChange} />
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>연락 가능 시간</h4>
+                            <span className='partner-innerbox-value'>
+                                <input className='partner-mypage-input' type='number' min='0' max='24' name='p_starttime' value={partnerInfo.p_starttime} onChange={handleChange} />
+                                시 ~&nbsp;
+                                <input className='partner-mypage-input' type='number' min='0' max='24' name='p_endtime' value={partnerInfo.p_endtime} onChange={handleChange} />시
+                            </span>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+                    </div>
+
+                    <div className='inner-full'>
+                        <h4 className='sec-two-container__h4 left-align'>상세설명</h4>
+                        <textarea className='profile-mypage-desc' type='textarea' name='p_desc' value={partnerInfo.p_desc} onChange={handleChange} />
+                        <div className='sec-two-container__divide'></div>
+                    </div>
+                    <div className='inner-full'>
+                        <h4 className='sec-two-container__h4 left-align'>비밀번호 변경</h4>
+                        <input className='partner-mypage-input-phone' type='password' name='password' onChange={handleChange} placeholder='변경을 원치 않으시면 입력하지 마십쇼!' />
+                        {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
+                        <div class='sec-two-container__divide'></div>
+                    </div>
+                    {memberType === 'p' && !isEditMode ? (
+                        <div className='message-button div-center message_btn'>
+                            <input className='btn-static' type='button' value={'수정'} onClick={handleEditClick} />
+                        </div>
+                    ) : (
+                        <div className='message-button div-center message_btn'>
+                            <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
+                            <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
+                            <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
+                        </div>
+                    )}
+                </div>
+            )}
 
             <div className='sec-two-two-container inner__section hb-scroll'>
                 <div>
