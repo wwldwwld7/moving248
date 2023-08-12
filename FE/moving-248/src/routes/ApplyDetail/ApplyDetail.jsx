@@ -154,7 +154,7 @@ export default function ApplyDetail() {
 
             <section className='max-container section'>
                 {/* [S] 요청 신청서 */}
-                <div className='sec-two-one-container inner__section  overlap-imgbox'>
+                <div className='sec-two-one-container inner__section overlap-imgbox'>
                     <h2 className='sec-two-container__h2'>
                         "{apply.userName}"님 요청 신청서 <p className='sub'>{apply.f_status === 1 ? '입찰중' : apply.f_status === 2 ? '입찰 완료' : '이사 완료'}</p>
                     </h2>
