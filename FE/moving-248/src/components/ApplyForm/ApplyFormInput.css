@@ -2,6 +2,10 @@ video {
     height: auto;
 }
 
+.padding-05 {
+    padding-bottom: 0.5rem;
+}
+
 .apply-form-innerbox {
     width: 100%;
     border-radius: 5px;
@@ -20,7 +24,7 @@ video {
 
 .apply-form-desc {
     width: 100%;
-    height: 150px;
+    height: 100px;
     padding: 8px;
     border: 0px;
     border: 2px solid var(--color-primary);

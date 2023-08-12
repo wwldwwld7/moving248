@@ -199,12 +199,18 @@ td {
     text-align: start;
 }
 
+.mypage-table-double {
+    align-items: center;
+}
+
+.mypage-block__left {
+    border: 0px solid var(--color-primary-variant);
+    width: 9rem;
+    margin-right: 2rem;
+}
+
 @media (min-width: 768px) {
     .partner-outerbox {
         width: 75%;
     }
-}
-
-.mypage-table-double {
-    align-items: center;
 }

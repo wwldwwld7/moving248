@@ -89,51 +89,58 @@ const MoverMyPageHistory = props => {
                 //         <br />
                 //     </div>
                 // </div>
-                <div key={index} className='suggestion-block'>
-                    <div className='mypage-block__image'>
-                        <h4 className='sec-two-container__h4'>{history.name}</h4>
+                <div key={index} className='suggestion-block history-suggestion-block'>
+                    <div className='mypage-block__left'>
+                        <h5 className='sec-two-container__h4'>{history.name}</h5>
                         <div>
-                            <p className='sec-two-container__paragraph'>
+                            <p className='dynamic sec-two-container__paragraph'>
                                 <b>일자 </b>
                                 {history.f_date}
                             </p>
-                            <p className='sec-two-container__paragraph'>
+                            <p className='dynamic sec-two-container__paragraph'>
                                 <b>비용 </b> {history.s_money}원
                             </p>
                         </div>
                     </div>
+
                     <div className='suggestion-block__content'>
-                        <p className='sec-two-container__paragraph'>
-                            <b>평점 ({history.r_rate}.0/5.0)&nbsp;</b>
+                        <p className='dynamic sec-two-container__paragraph'>
+                            <b>평점({history.r_rate}.0/5.0)&nbsp;</b>
                             {history.r_id === 0 ? (
-                                <input className='input-number' type='number' value={history.r_rate} min='1' max='5' onChange={event => handleRateChange(event, index)} />
+                                <>
+                                    <span>&nbsp;</span>
+                                    <input className='input-number' type='number' value={history.r_rate} min='1' max='5' onChange={event => handleRateChange(event, index)} />
+                                </>
                             ) : (
-                                <StarRating rating={history.r_rate} />
+                                <>
+                                    <div className='padding-05'></div>
+                                    <StarRating rating={history.r_rate} />
+                                </>
                             )}
                         </p>
-                        <p className='sec-two-container__paragraph'>
+                        <p className='dynamic sec-two-container__paragraph'>
                             <b>후기</b>
-                            {history.r_id === 0 ? (
-                                <>
-                                    <textarea
-                                        className='apply-form-desc'
-                                        type='textarea'
-                                        name='apply-form-desc'
-                                        onChange={event => handleContentChange(event, index)}
-                                        placeholder='리뷰를 등록하세요'
-                                    ></textarea>
-                                    <div className='suggestion-block__btn-outer'>
-                                        <button className='btn-dynamic suggestion-block__btn' onClick={() => handleSaveClick(history, index)}>
-                                            리뷰 등록
-                                        </button>
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div>{history.r_content}</div>
-                                </>
-                            )}
                         </p>
+                        {history.r_id === 0 ? (
+                            <>
+                                <textarea
+                                    className='dynamic apply-form-desc'
+                                    type='textarea'
+                                    name='apply-form-desc'
+                                    onChange={event => handleContentChange(event, index)}
+                                    placeholder='리뷰를 등록하세요'
+                                ></textarea>
+                                <div className='suggestion-block__btn-outer'>
+                                    <button className='btn-dynamic suggestion-block__btn' onClick={() => handleSaveClick(history, index)}>
+                                        리뷰 등록
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div>{history.r_content}</div>
+                            </>
+                        )}
                     </div>
                 </div>
             ))}

@@ -1,3 +1,20 @@
+.history-suggestion-block {
+    flex-wrap: wrap;
+    justify-content: space-between; /* 태그들을 양옆으로 붙이고 자동 간격 */
+}
+
+.history-suggestion-block-non {
+    flex-wrap: wrap;
+}
+
+.suggestion-block__content {
+    width: 220px;
+}
+
+.mypage-block__image {
+    height: auto;
+}
+
 .mover-innerbox {
     display: flex;
     flex-direction: column; /* 수직(열) 방향으로 정렬 */
@@ -10,14 +27,6 @@
 .mover-innerbox div,
 h3 {
     margin: 0.1rem 0 0.1rem 0;
-}
-
-.center-vertically {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 가로 중앙 정렬 */
-    justify-content: center; /* 세로 중앙 정렬 */
-    height: 100%; /* 부모 컨테이너의 높이를 100%로 설정 */
 }
 
 .mover-innerbox-label {
@@ -120,4 +129,11 @@ h3 {
 .input-number {
     border: 2px solid var(--color-primary);
     border-radius: 3px;
+}
+
+/* 768 이하 */
+@media (max-width: 1186px) {
+    .suggestion-block__content {
+        width: 100%;
+    }
 }

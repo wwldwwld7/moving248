@@ -230,6 +230,12 @@ section {
 .btn-dynamic:hover {
     background: #3a2c2b;
 }
+.dummy {
+    /* visibility: hidden; */
+    height: auto;
+    width: auto;
+    margin: auto;
+}
 
 /* **********other********** */
 .left-align {
