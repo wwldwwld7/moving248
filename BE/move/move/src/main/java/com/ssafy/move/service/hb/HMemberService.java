@@ -89,6 +89,8 @@ public class HMemberService {
         pddto.setP_id(pm.getId());
         pddto.setP_ceo(pm.getPCeo());
         pddto.setName(pm.getName());
+        pddto.setPhone(pm.getPhone());
+        pddto.setPassword(pm.getPassword());
         pddto.setP_exp(pm.getPExp());
         pddto.setP_emp_cnt(pm.getPEmpCnt());
         pddto.setP_starttime(pm.getPStartTime());

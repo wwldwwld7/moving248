@@ -103,8 +103,12 @@ public class MemberService {
 
         member.setPhone(updateUserRequest.getPhone());
 
-        String encodedPassword = passwordEncoder.encode(updateUserRequest.getPassword());
-        member.setPassword(encodedPassword);
+        if(!member.getPassword().equals(updateUserRequest.getPassword())){
+            String encodedPassword = passwordEncoder.encode(updateUserRequest.getPassword());
+            member.setPassword(encodedPassword);
+        }
+//        String encodedPassword = passwordEncoder.encode(updateUserRequest.getPassword());
+//        member.setPassword(encodedPassword);
 
         member = memberRepository.save(member);
     }
@@ -147,9 +151,14 @@ public class MemberService {
 
         }
 
+        if(!member.getPassword().equals(updatePartnerRequest.getPassword())){
+            System.out.println(member.getPassword()+" : "+updatePartnerRequest.getPassword());
+            System.out.println("비밀번호가 다를때만 수정된다.");
+            String encodedPassword = passwordEncoder.encode(updatePartnerRequest.getPassword());
+            member.setPassword(encodedPassword);
+        }
 
-        String encodedPassword = passwordEncoder.encode(updatePartnerRequest.getPassword());
-        member.setPassword(encodedPassword);
+
 
         member = memberRepository.save(member);
     }

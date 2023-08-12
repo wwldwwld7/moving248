@@ -15,6 +15,8 @@ public class PartnerDetailDto {
     private String name;
     private int p_exp;
     private int p_emp_cnt;
+    private String phone;
+    private String password;
     private String p_starttime;
     private String p_endtime;
     private String p_desc;
