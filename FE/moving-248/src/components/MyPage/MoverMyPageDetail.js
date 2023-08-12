@@ -5,7 +5,6 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-
 const MoverMyPageDetail = props => {
     const moveToHome = useNavigate();
     const { id } = useParams();
@@ -52,22 +51,22 @@ const MoverMyPageDetail = props => {
             console.error('정보 수정 에러:', error);
             // Handle the error
         }
-    }
+    };
     const handleCancelEdit = () => {
         setIsEditMode(false);
         setUserInfo(originalUserInfo);
         fetchUserInfo();
-    }
-    
+    };
+
     const handleDelete = async () => {
         try {
-             const response = await axios.delete(`http://localhost:8080/member/${id}`);
+            const response = await axios.delete(`http://localhost:8080/member/${id}`);
             console.log('회원 탈퇴 성공:', response.data);
             moveToHome('/');
         } catch (error) {
             console.error('회원 탈퇴 에러:', error);
-        } 
-    }
+        }
+    };
 
     const handleChange = e => {
         const { name, value } = e.target;
@@ -116,7 +115,7 @@ const MoverMyPageDetail = props => {
                 return '';
         }
     };
-    
+
     return (
         <div className='sec-two-one-container inner__section  overlap-imgbox'>
             <div className='mover-innerbox'>
@@ -128,107 +127,97 @@ const MoverMyPageDetail = props => {
             </div>
 
             {isEditMode ? (
-            <>
-            <div className='mover-innerbox'>
-                <table className='mypage-table'>
-                    <tbody>
-                        <tr>
-                            <div>
-                                <span className='mover-innerbox-label'>Email</span>
-                                <td>
-                                    <span className='user-innerbox-value'>
-                                        {userInfo.email}
-                                    </span>
-                                </td>
-                            </div>                             
-                        </tr>
-                        <tr>
-                            <div>
-                                <span className='mover-innerbox-label'>Phone</span>
-                                <td>
-                                    <span className='mover-innerbox-value'>
-                                        <div>
-                                        <input className='mover-mypage-input-phone' type='text' name='phone' placeholder={userInfo.phone} onChange={handleChange} />
+                <>
+                    <div className='mover-innerbox'>
+                        <table className='mypage-table'>
+                            <tbody>
+                                <tr>
+                                    <td className='before-td'>
+                                        <p className='mover-innerbox-label'>Email</p>
+                                    </td>
+                                    <td className='before-td'>
+                                        <p className='user-innerbox-value'>{userInfo.email}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='before-td'>
+                                        <p className='mover-innerbox-label'>Phone</p>
+                                    </td>
+                                    <td className='before-td'>
+                                        <p className='mover-innerbox-value'>
+                                            <input className='mover-mypage-input-phone' type='text' name='phone' placeholder={userInfo.phone} onChange={handleChange} />
                                             {messages.phone && <div className={`message ${isValid.phone ? 'success' : 'error'}`}>{messages.phone}</div>}
-                                        </div>
-                                    </span>
-                                </td>
-                            </div>                             
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div className='mover-innerbox'>
-                <table className='mypage-table'>
-                    <tbody>
-
-                        <tr>
-                            <div>
-                                <span className='mover-innerbox-label'>Password</span>
-                                <td>
-                                    <span className='mover-innerbox-value'>
-                                        <div>
-                                        <input className='mover-mypage-input-password' type='password' name='password' onChange={handleChange} />
-                                        {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
-                                        </div>
-                                    </span>
-                                </td>
-                            </div>
-                        </tr>
-                        <tr>
-                            <div>
-                                <span className='mover-innerbox-label'>Password 확인</span>
-                                <td>
-                                    <span className='mover-innerbox-value'>
-                                        <div>
-                                            <input  className='mover-mypage-input-password' type='password' name='checkPass' onChange={handleChange} />
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className='mover-innerbox'>
+                        <table className='mypage-table'>
+                            <tbody>
+                                <tr>
+                                    <td className='before-td'>
+                                        <p className='mover-innerbox-label'>Password</p>
+                                    </td>
+                                    <td className='before-td'>
+                                        <p className='mover-innerbox-value'>
+                                            <input className='mover-mypage-input-password' type='password' name='password' onChange={handleChange} />
+                                            {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='before-td'>
+                                        <p className='mover-innerbox-label'>Password 확인</p>
+                                    </td>
+                                    <td className='before-td'>
+                                        <p className='mover-innerbox-value'>
+                                            <input className='mover-mypage-input-password' type='password' name='checkPass' onChange={handleChange} />
                                             {messages.checkPass && <div className={`message ${isValid.checkPass ? 'success' : 'error'}`}>{messages.checkPass}</div>}
-                                        </div>
-                                    </span>
-                                </td>
-                            </div>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div className='mypage-detail-button-align'>
-                <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
-                <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit}/>
-                <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete}/>
-            </div>
-            </>)
-            : (
-            <>
-                <div className='mover-innerbox'>
-                <table className='mypage-table'>
-                    <tbody>
-                        <tr>
-                            <div>
-                                <span className='mover-innerbox-label'>Email</span>
-                                <td>
-                                    <span className='user-innerbox-value'>
-                                        {userInfo.email}
-                                    </span>
-                                </td>
-                            </div>                             
-                        </tr>
-                        <tr>
-                            <div>
-                                <span className='mover-innerbox-label'>Phone</span>
-                                <td>
-                                    <span className='mover-innerbox-value'>
-                                        {userInfo.phone}
-                                    </span>
-                                </td>
-                            </div>                             
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div className='mypage-detail-button-align'>
-                <button className='button-modify' type='button' onClick={handleEditClick} > 정보 수정 </button>
-            </div>
-            </>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className='mypage-detail-button-align'>
+                        <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
+                        <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
+                        <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
+                    </div>
+                </>
+            ) : (
+                <>
+                    <div className='mover-innerbox'>
+                        <table className='mypage-table'>
+                            <tbody>
+                                <tr>
+                                    <td className='before-td'>
+                                        <p className='mover-innerbox-label'>Email</p>
+                                    </td>
+                                    <td className='before-td'>
+                                        <p className='user-innerbox-value'>{userInfo.email}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className='before-td'>
+                                        <p className='mover-innerbox-label'>Phone</p>
+                                    </td>
+                                    <td className='before-td'>
+                                        <p className='mover-innerbox-value'>{userInfo.phone}</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className='mypage-detail-button-align'>
+                        <button className='button-modify' type='button' onClick={handleEditClick}>
+                            {' '}
+                            정보 수정{' '}
+                        </button>
+                    </div>
+                </>
             )}
         </div>
     );
