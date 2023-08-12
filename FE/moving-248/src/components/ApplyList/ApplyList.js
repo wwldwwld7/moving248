@@ -8,7 +8,6 @@ import './ApplyList.css';
 import axios from 'axios';
 
 const ApplyList = props => {
-
     const [dataList, setDataList] = useState([]);
 
     //////////////// Filter start ////////////////

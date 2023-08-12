@@ -139,8 +139,10 @@ public class MemberService {
         } else {
             if (member.getProfileUrl() == null){
                 member.setProfileUrl(null);
+                System.out.println(member.getProfileUrl());
             } else {
-            member.setProfileUrl(member.getProfileUrl());
+                member.setProfileUrl(member.getProfileUrl());
+                System.out.println(member.getProfileUrl());
             }
 
         }
