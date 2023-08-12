@@ -272,6 +272,10 @@ section {
 .display-none {
     display: none;
 }
+
+.display-hidden {
+    visibility: hidden;
+}
 /* 768 이하 */
 @media (max-width: 768px) {
     .sec-one-one-container {
