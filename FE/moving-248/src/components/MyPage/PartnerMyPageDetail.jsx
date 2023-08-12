@@ -47,7 +47,7 @@ const PartnerMyPageDetail = props => {
         // Check if a file was selected
         if (!selectedFile) {
             setFile(null);
-            setImageSrc('');
+            setImageSrc(partnerInfo.profile_url);
             return;
         }
 
