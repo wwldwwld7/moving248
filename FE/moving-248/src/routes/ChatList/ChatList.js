@@ -39,7 +39,7 @@ export default function ChatList() {
     useEffect(() => {
         const handleResize = () => {
             // 원하는 창 크기로 고정 (예시: 800x600)
-            window.resizeTo(500, 800);
+            window.resizeTo(480, 920);
             window.screenLeft = 0;
             window.screenTop = 0;
         };
@@ -120,15 +120,15 @@ export default function ChatList() {
                                 // 내가 누군지 확인해서 p_id, u_id,m_id 순으로 요청해서 보내기 순서 주의!!!!
                                 if (member_type == 'p') {
                                     window.open(
-                                        `chat-list/chat-detail/${myId}/${item.m_id}/${myId}/${item.name}/${item.room_id}`,
+                                        `chat-list/chat-detail/${myId}/${item.m_id}/${myId}/${item.name}/${item.room_id}/${item.profile_url}`,
                                         `chat-detail${item.room_id}`,
-                                        '_blank, left =500,top=0,  width=500, height=800'
+                                        '_blank, left =500,top=0,  width=480, height=920, resizable=no'
                                     );
                                 } else {
                                     window.open(
-                                        `chat-list/chat-detail/${item.m_id}/${myId}/${myId}/${item.name}/${item.room_id}`,
+                                        `chat-list/chat-detail/${item.m_id}/${myId}/${myId}/${item.name}/${item.room_id}/${item.profile_url}`,
                                         `chat-detail${item.room_id}`,
-                                        '_blank,left =500,top=0, width=500, height=800'
+                                        '_blank,left =500,top=0, width=480, height=920, resizable=no'
                                     );
                                 }
                             }}
@@ -141,7 +141,7 @@ export default function ChatList() {
                             )}
                             <div className='profile'>
                                 <div className='nameDate'>
-                                    <div className='name'>{item.name.length > 5 ? `${item.name.slice(0, 5)}...` : item.name}</div>
+                                    <div className='name'>{item.name.length > 8 ? `${item.name.slice(0, 8)}...` : item.name}</div>
                                     {/* <p className='sub date'>{item.room_last_date}</p> */}
                                     {Date.parse(item.room_last_date) < today ? (
                                         <p className='sub last_date'>{item.room_last_date.substr(2, 8)}</p>
@@ -151,7 +151,7 @@ export default function ChatList() {
                                 </div>
 
                                 <div className='chat__message'>
-                                    <div className='lastMassage paragraph'>{item.room_last_message.length > 10 ? `${item.room_last_message.slice(0, 10)}...` : item.room_last_message}</div>
+                                    <div className='lastMassage paragraph'>{item.room_last_message.length > 13 ? `${item.room_last_message.slice(0, 13)}...` : item.room_last_message}</div>
                                     {item.noread_message && <div className='dot' style={{ width: '12px', height: '12px' }}></div>}
                                 </div>
                             </div>
@@ -269,12 +269,12 @@ const MyComponent = () => {
     }, []);
 
     return (
-        <div>
+        <div className='Linecontainer'>
             <div
                 style={{
                     position: 'relative',
-                    left: 50,
-                    width: '85%',
+                    left: 40,
+                    width: '100%',
                     height: 0,
                     paddingBottom: lineHeight,
                     borderTop: '2px solid black', // 직선의 선 스타일을 설정
