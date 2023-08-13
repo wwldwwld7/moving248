@@ -30,4 +30,5 @@ export const memberIdAtom = atom({
 export const memberActiveApplyAtom = atom({
     key: 'atom_apply',
     default: '',
+    effects_UNSTABLE: [persistAtom],
 });
