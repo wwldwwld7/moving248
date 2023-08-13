@@ -11,6 +11,7 @@ const MoverMyPageDetail = props => {
     const moveToHome = useNavigate();
     const { id } = useParams();
     const [userInfo, setUserInfo] = useState({});
+    const memberid = useRecoilValue(memberIdAtom);
     const setMemberId = useSetRecoilState(memberIdAtom); // 회원탈퇴시 로컬이랑 쿠키 값 지우기위해
     const [originalUserInfo, setOriginalUserInfo] = useState({});
 
@@ -64,12 +65,14 @@ const MoverMyPageDetail = props => {
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(`http://localhost:8080/member/${id}`);
-            localStorage.removeItem('accessToken');
-            document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-            setMemberId(``);
+            if (window.confirm('탈퇴하시겠습니까?')) {
+                const response = await axios.delete(`http://localhost:8080/member/${id}`);
+                localStorage.removeItem('accessToken');
+                document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                setMemberId(``);
 
-            moveToHome('/');
+                moveToHome('/');
+            }
         } catch (error) {
             console.error('회원 탈퇴 에러:', error);
         }
@@ -125,36 +128,43 @@ const MoverMyPageDetail = props => {
 
     return (
         <>
-            <div className='sec-two-one-container inner__section overlap-imgbox'>
-                <h2 className='sec-two-container__h2'>{userInfo.name}</h2>
-                <div className='profile__image-outer div-center'>
-                    {/* <img className='profile__image' src={userInfo.profile_url} alt='Profile' /> */}
-                    <img className='profile__image' src={require(`../../assets/image/profile/${id % 10}.jpg`)} alt='img' />
-                </div>
-                <div class='sec-two-container__divide display-hidden'></div>
+            {!isEditMode ? (
+                <div className='sec-two-one-container inner__section overlap-imgbox'>
+                    <h2 className='sec-two-container__h2'>{userInfo.name}</h2>
+                    <div className='profile__image-outer div-center'>
+                        {/* <img className='profile__image' src={userInfo.profile_url} alt='Profile' /> */}
+                        <img className='profile__image' src={require(`../../assets/image/profile/${id % 10}.jpg`)} alt='img' />
+                    </div>
+                    <div class='sec-two-container__divide display-hidden'></div>
 
-                <div className='inner-half-outer'>
-                    <div className='inner-half'>
-                        <h4 className='sec-two-container__h4 left-align'>이메일</h4>
-                        <p className='paragraph sec-two-container__paragraph left-align'>{0}</p>
-                        <div className='sec-two-container__divide'></div>
+                    <div className='inner-half-outer'>
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>이메일</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>{userInfo.email}</p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>전화번호</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>{userInfo.phone}</p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
                     </div>
 
-                    <div className='inner-half'>
-                        <h4 className='sec-two-container__h4 left-align'>전화번호</h4>
-                        <p className='paragraph sec-two-container__paragraph left-align'>010-0000-0000</p>
-                        <div className='sec-two-container__divide'></div>
-                    </div>
-                </div>
+                    {/* 아이디가 같은 경우에만 보임 */}
+                    {memberid == id && !isEditMode ? (
+                        <div className='message-button div-center message_btn'>
+                            <input className='btn-static' type='button' value={'수정'} onClick={handleEditClick} />
+                        </div>
+                    ) : (
+                        <div className='message-button div-center message_btn'>
+                            <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
+                            <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
+                            <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
+                        </div>
+                    )}
 
-                {/* 아이디가 같은 경우에만 보임 */}
-                {!isEditMode && (
-                    <div className='message-button div-center message_btn'>
-                        <input className='btn-static' type='button' value={'개인정보 수정'} onClick={handleEditClick} />
-                    </div>
-                )}
-
-                {/* {isEditMode ? (
+                    {/* {isEditMode ? (
                     <>
                         <div className='mover-innerbox'>
                             <table className='mypage-table'>
@@ -246,7 +256,145 @@ const MoverMyPageDetail = props => {
                         </div>
                     </>
                 )} */}
-            </div>
+                </div>
+            ) : (
+                <div className='sec-two-one-container inner__section overlap-imgbox'>
+                    <h2 className='sec-two-container__h2'>{userInfo.name}</h2>
+                    <div className='profile__image-outer div-center'>
+                        {/* <img className='profile__image' src={userInfo.profile_url} alt='Profile' /> */}
+                        <img className='profile__image' src={require(`../../assets/image/profile/${id % 10}.jpg`)} alt='img' />
+                    </div>
+                    <div class='sec-two-container__divide display-hidden'></div>
+
+                    <div className='inner-half-outer'>
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>이메일</h4>
+                            <p className='paragraph sec-two-container__paragraph left-align'>{userInfo.email}</p>
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+
+                        <div className='inner-half'>
+                            <h4 className='sec-two-container__h4 left-align'>전화번호</h4>
+                            <input className='partner-mypage-input-phone' type='text' name='phone' onChange={handleChange} value={userInfo.phone} />
+                            {messages.phone && <div className={`message ${isValid.phone ? 'success' : 'error'}`}>{messages.phone}</div>}
+                            <div className='sec-two-container__divide'></div>
+                        </div>
+                    </div>
+
+                    <div className='inner-full'>
+                        <h4 className='sec-two-container__h4 left-align'>비밀번호 변경</h4>
+                        <input className='partner-mypage-input-phone' type='password' name='password' onChange={handleChange} placeholder='변경을 원치 않으시면 입력하지 마십쇼!' />
+                        {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
+                        <div class='sec-two-container__divide'></div>
+                    </div>
+
+                    {/* 아이디가 같은 경우에만 보임 */}
+                    {memberid == id && !isEditMode ? (
+                        <div className='message-button div-center message_btn'>
+                            <input className='btn-static' type='button' value={'수정'} onClick={handleEditClick} />
+                        </div>
+                    ) : (
+                        <div className='message-button div-center message_btn'>
+                            <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
+                            <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
+                            <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
+                        </div>
+                    )}
+
+                    {/* {isEditMode ? (
+                    <>
+                        <div className='mover-innerbox'>
+                            <table className='mypage-table'>
+                                <tbody>
+                                    <tr>
+                                        <td className='before-td'>
+                                            <p className='mover-innerbox-label'>Email</p>
+                                        </td>
+                                        <td className='before-td'>
+                                            <p className='user-innerbox-value'>{userInfo.email}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className='before-td'>
+                                            <p className='mover-innerbox-label'>Phone</p>
+                                        </td>
+                                        <td className='before-td'>
+                                            <p className='mover-innerbox-value'>
+                                                <input className='mover-mypage-input-phone' type='text' name='phone' placeholder={userInfo.phone} onChange={handleChange} />
+                                                {messages.phone && <div className={`message ${isValid.phone ? 'success' : 'error'}`}>{messages.phone}</div>}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className='mover-innerbox'>
+                            <table className='mypage-table'>
+                                <tbody>
+                                    <tr>
+                                        <td className='before-td'>
+                                            <p className='mover-innerbox-label'>Password</p>
+                                        </td>
+                                        <td className='before-td'>
+                                            <p className='mover-innerbox-value'>
+                                                <input className='mover-mypage-input-password' type='password' name='password' onChange={handleChange} />
+                                                {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className='before-td'>
+                                            <p className='mover-innerbox-label'>Password 확인</p>
+                                        </td>
+                                        <td className='before-td'>
+                                            <p className='mover-innerbox-value'>
+                                                <input className='mover-mypage-input-password' type='password' name='checkPass' onChange={handleChange} />
+                                                {messages.checkPass && <div className={`message ${isValid.checkPass ? 'success' : 'error'}`}>{messages.checkPass}</div>}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className='mypage-detail-button-align'>
+                            <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
+                            <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
+                            <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className='mover-innerbox'>
+                            <table className='mypage-table'>
+                                <tbody>
+                                    <tr>
+                                        <td className='before-td'>
+                                            <p className='mover-innerbox-label'>Email</p>
+                                        </td>
+                                        <td className='before-td'>
+                                            <p className='user-innerbox-value'>{userInfo.email}</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className='before-td'>
+                                            <p className='mover-innerbox-label'>Phone</p>
+                                        </td>
+                                        <td className='before-td'>
+                                            <p className='mover-innerbox-value'>{userInfo.phone}</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className='mypage-detail-button-align'>
+                            <button className='button-modify' type='button' onClick={handleEditClick}>
+                                정보 수정
+                            </button>
+                        </div>
+                    </>
+                )} */}
+                </div>
+            )}
         </>
     );
 };
