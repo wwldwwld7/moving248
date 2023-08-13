@@ -4,11 +4,14 @@ import './MyPage.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { memberActiveApplyAtom, memberIdAtom, memberTypeAtom } from '../../atom';
 
 const MoverMyPageDetail = props => {
     const moveToHome = useNavigate();
     const { id } = useParams();
     const [userInfo, setUserInfo] = useState({});
+    const setMemberId = useSetRecoilState(memberIdAtom); // 회원탈퇴시 로컬이랑 쿠키 값 지우기위해
     const [originalUserInfo, setOriginalUserInfo] = useState({});
 
     const [isEditMode, setIsEditMode] = useState(false);
@@ -62,7 +65,10 @@ const MoverMyPageDetail = props => {
     const handleDelete = async () => {
         try {
             const response = await axios.delete(`http://localhost:8080/member/${id}`);
-            console.log('회원 탈퇴 성공:', response.data);
+            localStorage.removeItem('accessToken');
+            document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            setMemberId(``);
+
             moveToHome('/');
         } catch (error) {
             console.error('회원 탈퇴 에러:', error);

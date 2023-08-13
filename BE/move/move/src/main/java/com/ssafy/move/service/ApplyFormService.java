@@ -244,7 +244,7 @@ public class ApplyFormService {
             // 참여
             if (category == 2) {
                 for (Suggestion sjt : sjtList) {
-                    if (sjt.getPId().getId() == pId) { //해당 신청서의 견적서들 중 내 견적이 있는 경우
+                    if (sjt.getPId().getId() == pId && applyForm.getFStatus()-'0' != 3) { //해당 신청서의 견적서들 중 내 견적이 있는 경우
                         list.add(applyFormResponseDto);
                         break;
                     }
@@ -253,11 +253,14 @@ public class ApplyFormService {
             // 미참여
             else if (category == 3) {
                 for (Suggestion sjt : sjtList) {
-                    if (sjt.getPId().getId() == pId) { //해당 신청서의 견적서들 중 내 견적이 있으면 추가하지 않음
-                        break outer;
+                    // 해당 신청서의 견적서리스트 중에서 내 견적서가 있는 신청서는
+                    // tuple 부분 강제로 다음 index로 continue 하도록
+                    if (sjt.getPId().getId() == pId) {
+                        continue outer;
                     }
                 }
-                list.add(applyFormResponseDto);
+                if(applyForm.getFStatus()-'0' == 1 )
+                    list.add(applyFormResponseDto);
             }
             // 확정
             else if (category == 4) {
