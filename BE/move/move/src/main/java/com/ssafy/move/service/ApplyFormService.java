@@ -54,12 +54,12 @@ public class ApplyFormService {
 
     // 신청서 유무
     @Transactional
-    public int existForm(int uId){
+    public int existForm(int uId) {
         List<ApplyForm> applyForms = applyFormRepository.existForm(uId);
 
         System.out.println(applyForms.size());
 
-        if (applyForms.size()==0)
+        if (applyForms.size() == 0)
             return 0;
         else
             return applyForms.get(0).getId();
@@ -115,7 +115,7 @@ public class ApplyFormService {
         applyForm.setFArrLadder(applyFormRequestDto.getF_arr_ladder());
 
 
-        if (multipartFile != null){
+        if (multipartFile != null) {
             String videoUrl = s3UploaderService.uploadFileByClient(multipartFile, "yeonybucket", "file");
             applyForm.setFRoomVideoUrl(videoUrl);
         }
@@ -131,7 +131,7 @@ public class ApplyFormService {
 
     // 신청서 삭제
     @Transactional
-    public void deleteApplyForm(int f_id){
+    public void deleteApplyForm(int f_id) {
 
         applyFormRepository.deleteApplyForm(f_id);
 
@@ -139,7 +139,7 @@ public class ApplyFormService {
 
     // 신청서 전체조회
     @Transactional
-    public List<ApplyFormResponseDto> findAll(){
+    public List<ApplyFormResponseDto> findAll() {
 
         List<ApplyFormResponseDto> list = new ArrayList<>();
 
@@ -147,12 +147,12 @@ public class ApplyFormService {
         List<Tuple> allForm = applyFormRepository.findAll();
 
 
-        for(Tuple af : allForm){
+        for (Tuple af : allForm) {
 
             ApplyFormResponseDto applyFormResponseDto = new ApplyFormResponseDto();
 
-            ApplyForm applyForm = af.get(0,ApplyForm.class);
-           //FormStatus formStatus = af.get(1, FormStatus.class);
+            ApplyForm applyForm = af.get(0, ApplyForm.class);
+            //FormStatus formStatus = af.get(1, FormStatus.class);
             MoveCategory moveCategory = af.get(1, MoveCategory.class);
 
             String depSido = af.get(2, String.class);
@@ -168,12 +168,12 @@ public class ApplyFormService {
             else
                 applyFormResponseDto.setP_id(applyForm.getPId().getId());
 
-            applyFormResponseDto.setF_status(applyForm.getFStatus()-'0');
+            applyFormResponseDto.setF_status(applyForm.getFStatus() - '0');
             applyFormResponseDto.setF_date(applyForm.getFDate());
 
             applyFormResponseDto.setF_dep_sido(depSido);
             applyFormResponseDto.setF_dep_gungu(depGu);
-            applyFormResponseDto. setF_arr_sido(arrSido);
+            applyFormResponseDto.setF_arr_sido(arrSido);
             applyFormResponseDto.setF_arr_gungu(arrGu);
 
             applyFormResponseDto.setF_category(moveCategory.getCategoryName());
@@ -186,16 +186,17 @@ public class ApplyFormService {
 
     // 카테고리별 신청서 조회
     @Transactional
-    public List<ApplyFormResponseDto> findApplyByCategory(String sido, String gungu, int category, int pId){
+    public List<ApplyFormResponseDto> findApplyByCategory(String sido, String gungu, int category, int pId) {
 
         List<ApplyFormResponseDto> list = new ArrayList<>();
 
         List<Tuple> option = applyFormRepository.findByOption(sido, gungu, category, pId);
 
 
-        for(Tuple af : option){
+        outer:
+        for (Tuple af : option) {
 
-            ApplyForm applyForm = af.get(0,ApplyForm.class);
+            ApplyForm applyForm = af.get(0, ApplyForm.class);
             //FormStatus formStatus = af.get(1, FormStatus.class);
             MoveCategory moveCategory = af.get(1, MoveCategory.class);
 
@@ -203,7 +204,6 @@ public class ApplyFormService {
             String depGu = af.get(3, String.class);
             String arrSido = af.get(4, String.class);
             String arrGu = af.get(5, String.class);
-
 
 
             ApplyFormResponseDto applyFormResponseDto = new ApplyFormResponseDto();
@@ -217,17 +217,17 @@ public class ApplyFormService {
                 applyFormResponseDto.setP_id(applyForm.getPId().getId());
 
 
-            applyFormResponseDto.setF_status(applyForm.getFStatus()-'0');
-            
-            int status = applyForm.getFStatus()-'0';
+            applyFormResponseDto.setF_status(applyForm.getFStatus() - '0');
+
+            int status = applyForm.getFStatus() - '0';
 
 
             // 입찰중
-            if (status == 1){
+            if (status == 1) {
                 applyFormResponseDto.setF_status_name("입찰");
             } else if (status == 2) {
                 applyFormResponseDto.setF_status_name("확정");
-            } else{
+            } else {
                 applyFormResponseDto.setF_status_name("완료");
             }
 
@@ -238,14 +238,44 @@ public class ApplyFormService {
             applyFormResponseDto.setF_arr_gungu(arrGu);
             applyFormResponseDto.setF_category(moveCategory.getCategoryName());
 
-            list.add(applyFormResponseDto);
+            //시도,군구에 맞는 신청서들의 견적서들을 가져온다.
+            List<Suggestion> sjtList = suggestionRepository.findAllSuggestionByFid(applyForm.getId());
+
+            // 참여
+            if (category == 2) {
+                for (Suggestion sjt : sjtList) {
+                    if (sjt.getPId().getId() == pId) { //해당 신청서의 견적서들 중 내 견적이 있는 경우
+                        list.add(applyFormResponseDto);
+                        break;
+                    }
+                }
+            }
+            // 미참여
+            else if (category == 3) {
+                for (Suggestion sjt : sjtList) {
+                    if (sjt.getPId().getId() == pId) { //해당 신청서의 견적서들 중 내 견적이 있으면 추가하지 않음
+                        break outer;
+                    }
+                }
+                list.add(applyFormResponseDto);
+            }
+            // 확정
+            else if (category == 4) {
+                if (applyForm.getPId() != null && applyForm.getPId().getId() == pId) {
+                    list.add(applyFormResponseDto);
+                }
+            }
+            //전체
+            else {
+                list.add(applyFormResponseDto);
+            }
         }
         return list;
     }
 
     // 신청서 상세조회
     @Transactional
-    public DetailApplyFormResponseDto findDetailApplyById(int fId){
+    public DetailApplyFormResponseDto findDetailApplyById(int fId) {
 
         List<Suggestion> suggestionList = suggestionRepository.findAllSuggestionByFid(fId);
 
@@ -253,7 +283,7 @@ public class ApplyFormService {
 
         DetailApplyFormResponseDto detailApply = new DetailApplyFormResponseDto();
 
-        for(Tuple af : detail){
+        for (Tuple af : detail) {
 
             ApplyForm applyForm = af.get(0, ApplyForm.class);
             //FormStatus formStatus = af.get(1, FormStatus.class);
@@ -269,7 +299,7 @@ public class ApplyFormService {
             detailApply.setU_id(applyForm.getUId().getId());
             if (applyForm.getPId() != null)
                 detailApply.setP_id(applyForm.getPId().getId());
-                //detailApply.setP_id(0);
+            //detailApply.setP_id(0);
 
             detailApply.setUserName(applyForm.getUId().getName());
             detailApply.setF_category(moveCategory.getCategoryName());
@@ -284,7 +314,7 @@ public class ApplyFormService {
             detailApply.setF_arr_ladder(applyForm.getFArrLadder());
             detailApply.setF_room_video_url(applyForm.getFRoomVideoUrl());
             detailApply.setF_req_desc(applyForm.getFReqDesc());
-            detailApply.setF_status(applyForm.getFStatus()-'0'); // int 여서
+            detailApply.setF_status(applyForm.getFStatus() - '0'); // int 여서
 
             // 신청서 수정화면에서 주소값 가져올 때 코드 필요해서
             detailApply.setF_dep_sido_code(Integer.parseInt(sido1.getSidoCode()));
@@ -295,7 +325,7 @@ public class ApplyFormService {
 
         List<DetailSuggestionResponseDto> suggestionResponseDtoList = new ArrayList<>();
 
-        if (suggestionList.size()!=0) {
+        if (suggestionList.size() != 0) {
 
             for (Suggestion s : suggestionList) {
 
@@ -328,15 +358,15 @@ public class ApplyFormService {
 
     // 시도 가져오기
     @Transactional
-    public List<SidoResponseDto> getSido(){
+    public List<SidoResponseDto> getSido() {
 
         List<Sido> sidoList = applyFormRepository.getSido();
 
         List<SidoResponseDto> list = new ArrayList<>();
 
-        for(Sido si : sidoList){
+        for (Sido si : sidoList) {
 
-            SidoResponseDto sidoResponseDto = new SidoResponseDto(si.getSidoCode(),si.getSidoName());
+            SidoResponseDto sidoResponseDto = new SidoResponseDto(si.getSidoCode(), si.getSidoName());
 
             list.add(sidoResponseDto);
 
@@ -347,13 +377,13 @@ public class ApplyFormService {
 
     // 군구 가져오기
     @Transactional
-    public List<GuResponseDto> getGu(String sido){
+    public List<GuResponseDto> getGu(String sido) {
 
         List<Gu> gu = applyFormRepository.getGu(sido);
 
         List<GuResponseDto> list = new ArrayList<>();
 
-        for(Gu g : gu){
+        for (Gu g : gu) {
 
             GuResponseDto guResponseDto = new GuResponseDto(g.getGuCode(), g.getGuName());
             list.add(guResponseDto);
@@ -364,10 +394,9 @@ public class ApplyFormService {
 
     // 신청서 상태 수정
     @Transactional
-    public void updateFormStatus(int fId){
+    public void updateFormStatus(int fId) {
         //
         applyFormRepository.updateFormStatus(fId);
     }
-
 
 }

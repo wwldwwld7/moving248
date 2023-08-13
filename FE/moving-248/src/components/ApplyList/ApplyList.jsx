@@ -6,8 +6,13 @@ import Header from '../../components/header/Header';
 import ImgBox from '../../components/ImgBox/ImgBox';
 import './ApplyList.css';
 import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { memberIdAtom, memberTypeAtom } from '../../atom';
 
 const ApplyList = props => {
+    const memberType = useRecoilValue(memberTypeAtom);
+    const memberId = useRecoilValue(memberIdAtom);
+
     const [dataList, setDataList] = useState([]);
 
     //////////////// Filter start ////////////////
@@ -67,11 +72,11 @@ const ApplyList = props => {
             return;
         }
         axios
-            .get(`http://localhost:8080/form/${selectedSido}/${selectedGu}/${selectedCartegory}/3`)
+            .get(`http://localhost:8080/form/${selectedSido}/${selectedGu}/${selectedCartegory}/${memberId}`)
             .then(response => {
                 // 서버 응답 처리 로직
                 const filteredData = response.data;
-                console.log(filteredData);
+                // console.log(filteredData);
                 setDataList(filteredData.data);
                 setCurrentPage(1); // 결과가 변경되면 페이지를 1로 초기화
             })
