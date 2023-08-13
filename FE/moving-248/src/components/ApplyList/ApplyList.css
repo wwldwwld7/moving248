@@ -30,10 +30,9 @@
 }
 
 /* filter.css */
-
 .filter-dropdown {
     display: flex;
-    flex-direction: column; /* Display items vertically */
+    flex-direction: row; /* Display items vertically */
 
     gap: 10px;
 }
@@ -51,13 +50,13 @@
 .filter-dropdown select {
     padding: 5px;
     border: 1px solid #ccc;
-    border-radius: 1rem;
+    border-radius: 3px;
     outline: none;
     transition: border-color 0.3s;
-    width: 150px;
+    width: 100px;
 
     /* 배경색 및 색상 설정 */
-    background: var(--color-primary); /* 배경색 */
+    background: #9b8d78; /* 배경색 */
     color: #fff; /* 텍스트 색상 */
 }
 
@@ -91,7 +90,7 @@
     display: flex;
     gap: 10px;
     border-radius: 20px;
-    padding: 10px;
+    padding: 10px 0px;
     justify-content: space-between;
 }
 
@@ -100,14 +99,14 @@
     align-items: center;
     cursor: pointer;
     padding: 5px 15px;
-    border-radius: 15px;
+    border-radius: 3px;
     background-color: #ddd;
     border: none;
     transition: background-color 0.3s ease;
 }
 
 .filter-status button:hover {
-    background-color: var(--color-primary);
+    background-color: var(--color-accent);
     color: #fff;
     border-color: var(--color-primary);
 }
@@ -126,18 +125,16 @@
 }
 
 .filter-buttons {
-    background-color: #f2f2f2;
-    height: 3rem;
-    width: 7rem;
+    background-color: #3a2c2b;
+    height: 2rem;
+    width: 5rem;
     color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 1rem;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s ease;
     text-align: center;
     vertical-align: middle;
-    background-color: var(--color-primary);
 }
 
 .filter-buttons:hover {
@@ -200,7 +197,7 @@
     /* border: 2px solid var(--color-accent); */
 }
 .listTable-column-child {
-    padding: 0.3rem;
+    padding: 1px;
 }
 .listTable-column-double {
     padding: 0.5rem 0 0.5rem 0.5rem;
@@ -218,11 +215,11 @@
     vertical-align: middle; /* Center content vertically */
     margin: 1rem;
     /* border: 2px solid var(--color-accent); */
-    max-width: 3rem;
+    max-width: 5rem;
 }
 
 .listTable-column.확정 {
-    background-color: #f59299;
+    background-color: #e6749d;
     color: white;
 }
 
@@ -232,7 +229,7 @@
 }
 
 .listTable-column.입찰 {
-    background-color: #a6cf9c;
+    background-color: #65c28e;
     color: white;
 }
 

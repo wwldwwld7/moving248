@@ -124,21 +124,21 @@ public class ApplyFormRepository {
 
         // 전체
         // 참여, 미참여, 확정
-        if (category == 2 || category == 3 || category == 4) {
-            jpql += " Where a.pId.id ";
-            // 참여
-            if (category == 2) {
-                jpql += "= :pId ";
-            parameters.put("pId", pId);
-            // 미참여
-            } else if (category == 3) {
-                jpql += "= null And a.fStatus = 1 ";
-            // 확정
-            } else if (category == 4) {
-                jpql += "= :pId AND a.fStatus != 1 ";
-            parameters.put("pId", pId);
-            }
-        }
+//        if (category == 2 || category == 3 || category == 4) {
+//            jpql += " Where a.pId.id ";
+//            // 참여
+//            if (category == 2) {
+//                jpql += "= :pId ";
+//            parameters.put("pId", pId);
+//            // 미참여
+//            } else if (category == 3) {
+//                jpql += "= null And a.fStatus = 1 ";
+//            // 확정
+//            } else if (category == 4) {
+//                jpql += "= :pId AND a.fStatus != 1 ";
+//            parameters.put("pId", pId);
+//            }
+//        }
 
 
         if (!sido.equals("0")) {
