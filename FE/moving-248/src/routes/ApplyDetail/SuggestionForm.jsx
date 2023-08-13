@@ -115,7 +115,7 @@ export default function SuggestionForm() {
         }
 
         if (data.s_desc === '') {
-            alert('상세 설명이 비어있습니다.');
+            alert('상세 설명을 작성해 주세요.');
             return;
         }
 
@@ -170,7 +170,18 @@ export default function SuggestionForm() {
                         <h5 className='suggestion-block__h5'>예상 견적가</h5>
                         <InputBox type='text' name='s_money' placeholder='원' value={formData.s_money} onChange={changeHandler}></InputBox>
                         <h5>상세 설명</h5>
-                        <InputBox type='text' name='s_desc' value={formData.s_desc} onChange={changeHandler}></InputBox>
+                        <textarea className='apply-form-desc' type='textarea' name='s_desc' value={formData.s_desc} onChange={changeHandler} placeholder='ex) 함께 일하기 어렵습니다.'></textarea>
+                        {/* <InputBox
+                            type='text'
+                            name='s_desc'
+                            value={formData.s_desc}
+                            onChange={changeHandler}
+                            onKeyPress={e => {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                }
+                            }}
+                        ></InputBox> */}
                         <div className='suggestion-block__btn-outer'>
                             {isNew ? null : (
                                 <div className='btn-dynamic suggestion-block__btn' onClick={onDeleteHandler}>
