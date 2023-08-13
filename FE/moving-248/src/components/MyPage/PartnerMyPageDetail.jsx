@@ -14,6 +14,7 @@ const PartnerMyPageDetail = props => {
     const { id } = useParams();
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
+    const setMemberId = useSetRecoilState(memberIdAtom); // 회원탈퇴시 로컬이랑 쿠키 값 지우기위해
     const [reviewDatabase, setReviewDatabase] = useState([]);
     const [isEditMode, setIsEditMode] = useState(false);
     const [file, setFile] = useState(null);
@@ -136,7 +137,9 @@ const PartnerMyPageDetail = props => {
         try {
             if (window.confirm('탈퇴하시겠습니까?')) {
                 const response = await axios.delete(`http://localhost:8080/member/${id}`);
-                console.log('회원 탈퇴 성공:', response.data);
+                localStorage.removeItem('accessToken');
+                document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+                setMemberId(``);
                 moveToHome('/');
             }
         } catch (error) {
