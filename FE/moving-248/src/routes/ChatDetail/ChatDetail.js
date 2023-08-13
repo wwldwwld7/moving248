@@ -16,12 +16,15 @@ export default function ChatDetail() {
     // const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
 
+    const memberName_copy = '김김김'; // 값 가져오기
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const { p_id, u_id, m_id, name, roomId } = useParams();
+    const { p_id, u_id, m_id, name, roomId, profile_url } = useParams();
     const myId = u_id;
     const today = new Date().setHours(0, 0, 0, 0);
     const [data, setData] = useState([]);
+    const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
+
     // const [dlength, setDlength] = useState(0);
 
     let dlength = 0;
@@ -30,7 +33,6 @@ export default function ChatDetail() {
 
     // let checkMsg = 0;
     const scrollRef = useRef();
-
     // useEffect(() => {
     //     scrollToBottom();
     // }, dlength);
@@ -113,7 +115,9 @@ export default function ChatDetail() {
                 dlength = response.data.data.length;
                 await setTimeout(scrollToBottom, 10);
             }
-
+            if (response.data.data.length != 0) {
+                setShowWelcomeMessage(false);
+            }
             // console.log(response.data.data.length + ' : datalength');
             // setAddData(response.data.data);
         } catch (error) {
@@ -140,6 +144,9 @@ export default function ChatDetail() {
             // setDlength(responseData.data.data.length);
             dlength = response.data.data.length;
             await setTimeout(scrollToBottom, 10);
+            if (response.data.data.length != 0) {
+                setShowWelcomeMessage(false);
+            }
             // console.log(response.data.data[0]);
             // for (let index = 0; index < response.data.data.length; index++) {
             //     // const element = array[index];
@@ -189,12 +196,19 @@ export default function ChatDetail() {
             {/* <FontAwesomeIcon icon={faSearch} className='search' /> */}
             <h2 className='hea'>248메신저</h2>
             <div className='member'>
-                <div className='profileBox'>
-                    <div className='circle'>
-                        <FontAwesomeIcon className='userimg' icon={faUser} style={{ color: '#f1ebd6' }} />
-                    </div>
+                <div className='imgName'>
+                    {profile_url != null ? (
+                        // <img src={profile_url} className='profile_urlImg' alt='profile_img'></img>
+                        <img src='/apple.jpg' className='profile_urlImg' alt='profile_img'></img>
+                    ) : (
+                        <div className='profileBox'>
+                            <div className='circle'>
+                                <FontAwesomeIcon className='userimg' icon={faUser} style={{ color: '#f1ebd6' }} />
+                            </div>
+                        </div>
+                    )}
+                    <h4 className='memberName'>{name}</h4>
                 </div>
-                <h4 className='memberName'>{name}</h4>
                 {/* </div> */}
 
                 <button
@@ -207,25 +221,26 @@ export default function ChatDetail() {
                 </button>
             </div>
             <div className='chat-box' ref={scrollRef}>
+                {showWelcomeMessage && <div className='startChatMsg'>여러분의 행복한 이사에 함께합니다.</div>}
                 {data.map((item, index) =>
                     item.m_id == myId ? (
                         <div className='chat-messagesRight' key={index}>
-                            <div className='messageBoxs'>
-                                {item.c_write_date >= today ? (
-                                    <ChatMessage className='chatMessage' key={index} name={item.m_id} text={item.c_message} date={item.c_write_date.substr(11, 15)} />
-                                ) : (
-                                    <ChatMessage className='chatMessage' key={index} name={item.m_id} text={item.c_message} date={item.c_write_date.substr(11, 15)} />
-                                )}
-                            </div>
+                            {/* <div className='messageBoxs'> */}
+                            {Date.parse(item.c_write_date) < today ? (
+                                <ChatMessage className='chatMessage' key={index} name={item.m_id} text={item.c_message} date={item.c_write_date.substr(5, 5)} />
+                            ) : (
+                                <ChatMessage className='chatMessage' key={index} name={item.m_id} text={item.c_message} date={item.c_write_date.substr(11, 5)} />
+                            )}
+                            {/* </div> */}
                             {/* {messages.map((message, index) => (
                         ))} */}
                         </div>
                     ) : (
                         <div className='chat-messages' key={index}>
-                            {item.c_write_date >= today ? (
-                                <ChatMessageLeft className='chatMessage' key={index} name={item.m_id} text={item.c_message} date={item.c_write_date.substr(11, 15)} />
+                            {Date.parse(item.c_write_date) < today ? (
+                                <ChatMessageLeft className='chatMessage' key={index} name={item.m_id} text={item.c_message} date={item.c_write_date.substr(5, 5)} />
                             ) : (
-                                <ChatMessageLeft className='chatMessage' key={index} name={item.m_id} text={item.c_message} date={item.c_write_date.substr(11, 15)} />
+                                <ChatMessageLeft className='chatMessage' key={index} name={item.m_id} text={item.c_message} date={item.c_write_date.substr(11, 5)} />
                             )}
                             {/* {messages.map((message, index) => (
                             ))} */}
@@ -234,7 +249,7 @@ export default function ChatDetail() {
                 )}
             </div>
 
-            <ChatInput myId={myId} p_id={p_id} u_id={u_id} m_id={m_id} roomId={roomId} name={name} />
+            <ChatInput myId={myId} p_id={p_id} u_id={u_id} m_id={m_id} roomId={roomId} name={memberName_copy} />
         </div>
     );
 }
@@ -324,7 +339,11 @@ const ChatInput = ({ p_id, u_id, myId, roomId, name }) => {
                     icon={faVideo}
                     style={{ color: '#f1ebd6' }}
                     onClick={() => {
-                        window.open(`http://localhost:3001/?name=${name}&roomId=${roomId}`, '_blank', 'width=1000, height=1000');
+                        const koreanName = name;
+                        const encodedText = encodeURIComponent(koreanName);
+
+                        console.log('sessionstorage 저장');
+                        window.open(`http://localhost:3001/?name=${encodedText}&roomId=${roomId}`, '_blank', 'width=1000, height=1000');
                     }}
                 />
             </div>

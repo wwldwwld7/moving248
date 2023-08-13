@@ -98,11 +98,10 @@ body {
     -ms-overflow-style: none;
 }
 
-::-webkit-scrollbar {
-    display: none;
-}
-
 /*특정 부분 스크롤바 없애기*/
+/* ::-webkit-scrollbar {
+    display: none;
+} */
 
 /* .box {
     -ms-overflow-style: none;
@@ -125,6 +124,17 @@ body {
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: center;
 }
+.profile_urlImg {
+    margin-left: 20px;
+    /* display: inline; */
+    border-radius: 50%;
+    background-color: #3a2c2b;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center; /* 수평 가운데 정렬 */
+    align-items: center;
+}
 .hea {
     text-align: center;
     background-color: #3a2c2b;
@@ -135,13 +145,15 @@ body {
     /* margin-bottom: 30px; */
 }
 .memberName {
-    margin-left: 10px;
-    margin-right: 150px;
-    margin-top: 8px;
-    display: inline;
-    /* width: 100%; */
-    justify-content: center;
-    align-items: center;
+    /* margin-left: 15px; */
+    /* margin-right: 5%; */
+    margin-top: 6px;
+    /* display: inline; */
+    width: 80%;
+    /* display: flex; */
+    /* justify-content: left; */
+    /* align-items: center; */
+    /* text-align: left; */
     /* font-weight: 900; */
 }
 .member {
@@ -155,7 +167,12 @@ body {
     /* padding-bottom: 20px; */
     /* letter-spacing: 3px; */
 }
-
+.imgName {
+    width: 60%;
+    display: flex;
+    /* flex-direction: column; */
+    gap: 20px; /* item1과 item2 사이의 간격 설정 */
+}
 .svg-inline--fa {
     /* margin-left: 20px; */
     /* display: inline; */
@@ -169,14 +186,14 @@ body {
 .paperPlane {
     width: 30px;
     height: 30px;
-    margin-top: 34px;
+    margin-top: 35px;
     margin-bottom: 50px;
 }
 
 .cam {
     width: 35px;
     height: 35px;
-    margin-bottom: 34px;
+    margin-bottom: 30px;
 }
 
 .btn_close {
@@ -197,7 +214,7 @@ body {
     /*위에서 아래로 수직 배치*/
     float: right;
     /*중앙정렬*/
-    margin-right: 20px;
+    margin-right: 4%;
     flex-direction: column;
     justify-content: center;
 }
@@ -206,29 +223,53 @@ body {
     display: block;
     /* justify-content: end; */
     background-color: #3a2c2b;
-    overflow-y: scroll;
+    overflow-y: auto;
     word-wrap: break-word;
     white-space: pre-wrap;
 }
-
+.chat-box::-webkit-scrollbar {
+    width: 10px;
+}
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: #554645;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 2px solid transparent;
+}
+.chat-box::-webkit-scrollbar-track {
+    background-color: #f1ebd6;
+    border-radius: 10px;
+    /* box-shadow: inset 0px 0px 5px white; */
+}
+.chat-box::-webkit-scrollbar-thumb:hover {
+    background-color: #3a2c2b;
+}
+.startChatMsg {
+    /* margin-left: 50%; */
+    margin-top: 1%;
+    display: flex;
+    justify-content: center;
+    color: #f1ebd6;
+}
 .chat-messages {
     display: inline-flex;
     flex-direction: column;
     min-height: 60px;
-    width: 70%;
+    width: 80%;
     background-color: #3a2c2b;
 }
 .chat-messagesRight {
     display: inline-flex;
     flex-direction: column;
     float: right;
+    justify-content: end;
     min-height: 60px;
-    width: 70%;
+    width: 80%;
     background-color: #3a2c2b;
 }
 .messageBoxs {
-    display: inline-block;
-
+    /* display: inline-block; */
+    /* width: 50%; */
     /* margin-left: 50px; */
     /* display: flex; */
 }
@@ -239,19 +280,29 @@ body {
     /* display: block; */
     color: white;
     margin: 10px 6px;
-    width: 95%;
+    width: 96%;
+    float: right;
     justify-content: end;
     display: inline-flex;
     position: relative;
+    margin-left: 3.5%;
+    /* 
 
+    color: white;
+    margin: 10px 6px;
+    width: 95%;
+    justify-content: start;
+    display: inline-flex;
+    position: relative; */
     /* float: right; */
 }
 
 .test {
-    width: auto;
+    /* width: 90%; */
     background-color: #f1ebd6;
     border-radius: 5px;
-    padding: 5px;
+    padding: 8px;
+    min-width: 17px;
     display: inline-block;
     text-align: left;
     margin-right: 5px;
@@ -275,10 +326,10 @@ body {
     background-color: #3a2c2b;
 }
 .inputText {
-    margin-top: 7%;
+    margin-top: 30px;
     margin-left: 4%;
     width: 80%;
-    height: 16vh;
+    height: 17vh;
     background-color: #3a2c2b;
     border: 3px solid #f1ebd6;
     border-radius: 5px;
@@ -289,9 +340,12 @@ body {
 
 .date {
     /* margin-top: 50px; */
-    margin-right: 80px;
+    /* margin-right: 50px; */
     position: relative;
     color: gray;
+    width: 69%;
+    margin-right: 10px;
+
     /* position: absolute; */
     /* bottom: 0; */
     /* float: left; */
@@ -299,6 +353,8 @@ body {
 .dateDiv {
     position: absolute;
     bottom: 0;
+    width: 100%;
+    text-align: end;
 }
 
 .userName {
@@ -329,6 +385,7 @@ body {
     margin-left: 10px;
     position: relative;
     color: gray;
+    width: 19%;
     /* position: absolute; */
     /* bottom: 0; */
     /* float: left; */
