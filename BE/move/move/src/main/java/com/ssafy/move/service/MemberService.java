@@ -1,12 +1,14 @@
 package com.ssafy.move.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ssafy.move.domain.ApplyForm;
 import com.ssafy.move.domain.Members;
 import com.ssafy.move.dto.request.*;
 import com.ssafy.move.dto.response.MemberResponse;
 import com.ssafy.move.exception.BadRequestException;
 import com.ssafy.move.jwt.JwtProvider;
 import com.ssafy.move.jwt.Token;
+import com.ssafy.move.repository.ApplyFormRepository;
 import com.ssafy.move.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +29,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final S3UploaderService s3UploaderService;
+    private final ApplyFormRepository applyFormRepository;
 
     //유저 회원가입
     @Transactional
@@ -67,7 +72,7 @@ public class MemberService {
         int exp = 2023-Integer.parseInt(signUpPartnerRequest.getP_exp().substring(0,4));
         member.setPExp(exp);
         member.setPLocation(signUpPartnerRequest.getP_location());
-        member.setProfileUrl(signUpPartnerRequest.getProfile_url());
+        member.setProfileUrl("https://yeonybucket.s3.ap-northeast-2.amazonaws.com/file/a22035c2-b867-448e-9795-2047c52a1738bdc34ad6-d794-4002-846a-565bda6a02d9.jpg");
 
         member = memberRepository.save(member);
 
@@ -76,6 +81,24 @@ public class MemberService {
 
     @Transactional
     public void deleteMember(int id) {
+
+        Members member = memberRepository.findById(id)
+                .orElseThrow(()->new BadRequestException("유저가 존재하지 않습니다."));
+
+        if (member.getMemberType()=='p'){
+
+            List<ApplyForm> applyList = applyFormRepository.findApplyByPId(member.getId());
+
+            for(ApplyForm af : applyList){
+
+                if (af.getFStatus()!=3){
+                    System.out.println("fffff");
+                    //applyFormRepository.updateFormStatus(af.getId());
+                    af.setFStatus('1');
+                    af.setPId(null);
+                }
+            }
+        }
         memberRepository.deleteById(id);
     }
 

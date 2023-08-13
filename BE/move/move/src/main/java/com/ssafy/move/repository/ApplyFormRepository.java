@@ -90,6 +90,18 @@ public class ApplyFormRepository {
         em.remove(findApplyFormById(id));
     }
 
+    // 확정된 업체 id로 신청서 가져오기
+    public List<ApplyForm> findApplyByPId(int pId){
+
+        String jpql = "select a from ApplyForm a where a.pId.id = :pId ";
+
+        List<ApplyForm> resultList = em.createQuery(jpql, ApplyForm.class)
+                .setParameter("pId", pId)
+                .getResultList();
+
+        return resultList;
+    }
+
     
     // 신청서 전체 조회
     public List<Tuple> findAll(){
