@@ -1,15 +1,28 @@
+.sec-rot-container__divide {
+    border: 1px solid var(--color-primary);
+    /* border: 2px solid var(--color-primary-variant); */
+    margin: 0.5rem 0;
+}
+.profileList:hover {
+    background-color: var(--color-primary);
+}
 .head {
     text-align: center;
     background-color: #3a2c2b;
     color: white;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
     padding-top: 20px;
     padding-bottom: 20px;
     letter-spacing: 4px;
 }
 .rot {
     height: 100vh;
-    background-color: #f1ebd6;
+    /* background-color: #fffdfc; */
+    background-color: var(--color-primary-variant);
+}
+
+.inner-rot {
+    padding: 1rem;
 }
 
 /* .member {
@@ -22,49 +35,39 @@
 }
 .profileList {
     display: flex;
-    justify-content: left;
+    justify-content: center;
+    margin: auto;
     cursor: pointer;
-    margin-top: 12px;
-    margin-bottom: 8px;
+}
+.inner-profile-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .profile_img {
-    margin-left: 50px;
-    margin-right: 100px;
+    /* padding: 2rem 1rem; */
+    margin: 1rem;
+    background-color: white;
 
     /* display: inline-block; */
     /* flex: 1; */
-    border-radius: 10%;
+    border-radius: 100px;
+    border: 2px solid var(--color-primary);
+    width: 75px;
+    height: 75px;
 }
-/* .nameDate {
-    display: inline-block;
-    text-align: center;
-} */
-
-/* .date {
-    display: inline-block;
-} */
 
 .profile {
-    /* display: inline-block; */
-    /* flex: 1; */
     width: 100%;
-    /* margin-left: 200px; */
-    margin-right: 20px;
-    /* display: flex; */
-    /* justify-content: space-between; */
-    /* margin-right: 50px; */
-    margin-bottom: 10px;
-
-    /* float: right; */
-    /* text-align: right; */
+    margin: 1rem;
 }
 .nameDate {
     width: 100%;
     display: flex;
     /* gap: 1%; */
     justify-content: space-between;
-    margin-bottom: 20px;
     /* float: right; */
+    margin-bottom: 0.7rem;
 }
 .name {
     /* text-align: center; */
@@ -72,7 +75,6 @@
     display: inline;
     font-weight: bold;
     font-size: 18px;
-    width: 70%;
 }
 
 .Linecontainer {
@@ -105,21 +107,19 @@
 }
 
 .last_date {
-    margin-right: 4%;
     color: gray;
     display: grid;
     grid-template-columns: auto; /* 자동으로 열의 크기 조절 */
     /* grid-auto-rows: minmax(20px, auto); 행의 크기 최소값과 최대값 설정 */
     /* gap: 50px; 열과 행 사이의 간격 설정 */
     /* margin-left: 3%; */
-    min-width: none;
+    padding: 0;
 }
 .chat__message {
     display: flex;
     /* position: relative; */
     /* gap: 20%; */
     font-weight: 400;
-    margin-top: 31px;
     justify-content: space-between;
     align-items: center;
     align-items: flex-end;
@@ -129,6 +129,7 @@
     /* margin-right: 10%; */
     position: relative;
     /* float: left; */
+    width: 100%;
 }
 .dot {
     position: relative;
@@ -139,14 +140,3 @@
     background-color: red;
     border-radius: 50%; /* 50%를 주면 원 모양이 됩니다 */
 }
-
-/* .profile_img {
-    text-align: left;
-    margin-right: 20px;
-}
-
-.nameDate {
-    text-align: center;
-    margin-right: 20px;
- position: relative;s
-} */

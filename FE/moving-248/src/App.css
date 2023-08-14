@@ -86,6 +86,7 @@ h5 {
 
 p {
     font-size: 1rem;
+    word-wrap: break-word;
 }
 
 .dynamic {

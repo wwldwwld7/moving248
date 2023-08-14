@@ -67,7 +67,7 @@ export default function ChatDetail() {
 
     useEffect(() => {
         const handleResize = () => {
-            window.resizeTo(500, 800);
+            window.resizeTo(480, 920);
             window.screenLeft = 500;
             window.screenTop = 0;
         };
