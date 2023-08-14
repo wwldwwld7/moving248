@@ -351,10 +351,8 @@ public class ApplyFormService {
 
                 suggestionResponseDtoList.add(detailSuggestion);
             }
-
-            detailApply.setList(suggestionResponseDtoList);
         }
-
+        detailApply.setList(suggestionResponseDtoList);
         return detailApply;
     }
 

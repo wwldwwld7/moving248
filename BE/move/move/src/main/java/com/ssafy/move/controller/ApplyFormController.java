@@ -210,7 +210,12 @@ public class ApplyFormController {
 
         List<DetailSuggestionResponseDto> resultList = suggestionService.sortSuggestion(f_id, option);
 
-        return new ResponseEntity<List<DetailSuggestionResponseDto>>(resultList, HttpStatus.OK);
+        Map<String, Object> map = new HashMap<>();
+
+
+        map.put("list", resultList);
+
+        return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
     }
 
 
