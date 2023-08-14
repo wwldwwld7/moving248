@@ -1,6 +1,6 @@
 import './SuggestionBlock.css';
 import { useRecoilValue } from 'recoil';
-import { memberIdAtom, memberTypeAtom } from '../../atom';
+import { memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import axios from 'axios';
 export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
+    const memberName = useRecoilValue(memberNameAtom);
     const room_id = 0;
     const [cutUrl, setCutUrl] = useState('');
     const url = '';
@@ -41,10 +42,22 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
     // 견적서 확정 버튼 0
     const onConfirmHandler = () => {
         axios
+            .post(`http://localhost:8080/chat/message/${element.p_id}/${u_id}`, {
+                m_id: u_id,
+                message: `[공지] "${memberName}"님 신청서에 등록하신 견적이 확정되었습니다. <br /> <a href="/apply-detail/${f_id}" target='_blank'>바로가기</a>`,
+            })
+            .then(response => {
+                console.log('확정메시지');
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        axios
             .put(`/form/suggestion/${f_id}/${element.p_id}`)
             .then(res => {
                 alert('견적서가 확정 되었습니다.');
                 window.location.reload();
+
                 // if (res.)
             })
             .catch(error => {
@@ -53,6 +66,17 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
     };
 
     const onCancelHandler = () => {
+        axios
+            .post(`http://localhost:8080/chat/message/${element.p_id}/${u_id}`, {
+                m_id: u_id,
+                message: `[공지] "${memberName}"님 신청서에 등록하신 견적의 확정이 취소되었습니다. <br /> <a href="/apply-detail/${f_id}" target='_blank'>바로가기</a>`,
+            })
+            .then(response => {
+                // setMessage(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
         axios
             .put(`/form/suggestion/${f_id}/${u_id}/${p_id}`)
             .then(res => {

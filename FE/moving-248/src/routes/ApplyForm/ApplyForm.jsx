@@ -4,7 +4,7 @@ import ApplyFormInput from '../../components/ApplyForm/ApplyFormInput';
 const ApplyForm = props => {
     return (
         <div>
-            <ImgBox imgSrc='moving-box' imgTitle='신청서 작성' />
+            <ImgBox imgSrc='apply-form' imgTitle='신청서 작성' />
             <div>
                 <ApplyFormInput />
             </div>

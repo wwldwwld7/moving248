@@ -288,7 +288,7 @@ const ApplyFormInput = props => {
                     <div className='sec-two-container__divide'></div>
 
                     <div className='apply-form-innerbox'>
-                        <h4 className='sec-two-container__h4'>기존 주소</h4>
+                        <h4 className='sec-two-container__h4'>출발 주소</h4>
                         <LocationDropdown label='출발' selectedSido={selectedDepSido} setSelectedSido={setSelectedDepSido} selectedGu={selectedDepGu} setSelectedGu={setSelectedDepGu} />
                         <div className='apply-form__padding'>
                             <Checkbox name='dep_ev' checked={isChecked.dep_ev} onChange={() => handleCheckboxChange('dep_ev')} onClick={() => handleCheckboxChange('dep_ev')} />
@@ -306,7 +306,7 @@ const ApplyFormInput = props => {
                     <div className='sec-two-container__divide'></div>
 
                     <div className='apply-form-innerbox'>
-                        <h4 className='sec-two-container__h4'>변경 주소</h4>
+                        <h4 className='sec-two-container__h4'>도착 주소</h4>
                         <LocationDropdown label='도착' selectedSido={selectedArrSido} setSelectedSido={setSelectedArrSido} selectedGu={selectedArrGu} setSelectedGu={setSelectedArrGu} />
                         <div className='apply-form__padding'>
                             <Checkbox name='arr_ev' checked={isChecked.arr_ev} onChange={() => handleCheckboxChange('arr_ev')} onClick={() => handleCheckboxChange('arr_ev')} />
@@ -323,7 +323,7 @@ const ApplyFormInput = props => {
                     </div>
                     <div className='sec-two-container__divide'></div>
 
-                    <h4 className='sec-two-container__h4'>방 정보</h4>
+                    <h4 className='sec-two-container__h4'>자택 정보</h4>
                     <div className='apply-form-innerbox'>
                         {/* 파일 선택 폼 */}
                         <div className='apply-form__padding'>
@@ -336,7 +336,7 @@ const ApplyFormInput = props => {
                     <div className='sec-two-container__divide'></div>
 
                     <div className='apply-form-innerbox'>
-                        <h4 className='sec-two-container__h4'>상세 설명</h4>
+                        <h4 className='sec-two-container__h4'>요청사항</h4>
                         <textarea
                             className='apply-form-desc'
                             type='textarea'
@@ -366,9 +366,9 @@ const ApplyFormInput = props => {
                                 일반이사는 운송만 도와주고 포장, 짐 정리는 스스로 하는 서비스입니다.
                                 <br />
                             </p>
-                            <h5 className='left-align'>상세 주소는 안 써도 되나요?</h5>
+                            <h5 className='left-align'>상세 주소는 입력하지 않아도 되나요?</h5>
                             <p className='apply-form__right-inner-p left-align dynamic'>
-                                네! 고객의 개인정보 보호를 위해 신청서 작성 시에는 상세 주소를 쓰지 않습니다.
+                                네! 고객의 개인정보 보호를 위해 신청서 작성 시에는 상세 주소를 입력하지 않습니다.
                                 <br />
                                 후에 파트너 확정 후 상세 주소를 파트너에게 공유하면 됩니다.
                                 <br />

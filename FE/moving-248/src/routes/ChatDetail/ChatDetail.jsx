@@ -122,7 +122,7 @@ export default function ChatDetail() {
                     <div className='dateDiv sub'>{date}</div>
                 </span>
                 <div className='test'>
-                    <span className='text'>{text}</span>
+                    <span className='text' dangerouslySetInnerHTML={{ __html: text }} />
 
                     {/* <strong>{name}: </strong> */}
                 </div>

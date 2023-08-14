@@ -192,7 +192,7 @@ public class ApplyFormRepository {
         List<Tuple> resultList = em.createQuery(jpql, Tuple.class)
                 .setParameter("fId", fId)
                 .getResultList();
-
+        System.out.println(resultList.size());
         return resultList;
     }
 
