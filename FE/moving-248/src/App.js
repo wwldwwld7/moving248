@@ -27,7 +27,7 @@ function App() {
             <Routes>
                 <Route element={<PrivateRoute />}>
                     <Route path='/chat-list' element={<ChatList />} />
-                    <Route path='/chat-list/chat-detail/:p_id/:u_id/:m_id/:name/:roomId' element={<ChatDetail />} />
+                    <Route path='/chat-list/chat-detail/:p_id/:u_id/:m_id/:name/:roomId/:profile_url' element={<ChatDetail />} />
                     {/* <Route path='/chatTest' element={<ChatListTest />} /> */}
 
                     <Route element={<MainLayout />}>

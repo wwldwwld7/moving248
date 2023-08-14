@@ -94,6 +94,7 @@ export default function ApplyDetail() {
                         //filter가 null이라고 뜨길래 일단 주석처리함
                         .filter(element => element.is_selected === 't')
                         .map((element, index) => {
+                            console.log('엔터어케나오나 확인' + element.s_desc);
                             // console.log('element:' + apply.f_id);
                             return <SuggestionBlock key={index} element={element} f_id={apply.f_id} p_id={apply.p_id} u_id={apply.u_id} />;
                         })

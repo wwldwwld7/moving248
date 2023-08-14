@@ -15,3 +15,15 @@
     bottom: 2rem;
     right: 2rem;
 }
+
+.suggestion-block__content {
+    padding: 0.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.suggestion-block__content p {
+    white-space: pre-line; /* Preserve line breaks */
+}

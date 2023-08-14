@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `test2`.`apply_form` (
     REFERENCES `test2`.`members` (`m_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_members_TO_apply_form_2`
     FOREIGN KEY (`p_id`)
-    REFERENCES `test2`.`members` (`m_id`) ON DELETE CASCADE ON UPDATE CASCADE)
+    REFERENCES `test2`.`members` (`m_id`) ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
