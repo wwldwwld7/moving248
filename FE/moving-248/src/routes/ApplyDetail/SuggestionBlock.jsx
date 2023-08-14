@@ -130,9 +130,13 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
 
     return (
         <div className='suggestion-block'>
-            <img className='suggestion-block__image' src={element.profile_url} alt='img' />
+            <Link to={`/partner-my-page/${element.p_id}`} className='suggestion-block__image no_blue'>
+                <img src={element.profile_url} alt='img' className='hb_img' />
+            </Link>
             <div className='suggestion-block__content'>
-                <h4 className='sec-two-container__h4'>{element.name}</h4>
+                <Link to={`/partner-my-page/${element.p_id}`} className='sec-two-container__h4 no_blue'>
+                    <h4>{element.name}</h4>
+                </Link>
                 <p className='sec-two-container__paragraph'>
                     <b>{element.s_money.toLocaleString()}원</b>
                     <span className='paragraph sec-two-container__paragraph'>
