@@ -4,13 +4,14 @@ import './ChatDetail.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { memberIdAtom } from '../../atom';
+import { memberIdAtom, memberNameAtom } from '../../atom';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 export default function ChatDetail() {
     // const [messages, setMessages] = useState([]);
     const memberId = useRecoilValue(memberIdAtom);
-    const memberName_copy = '김김김'; // 값 가져오기
+    const memberName = useRecoilValue(memberNameAtom);
+
     // const location = useLocation();
     // const queryParams = new URLSearchParams(location.search);
     const { p_id, u_id, m_id, name, roomId, profile_url } = useParams();
@@ -187,7 +188,7 @@ export default function ChatDetail() {
                 )}
             </div>
 
-            <ChatInput myId={memberId} p_id={p_id} u_id={u_id} m_id={m_id} roomId={roomId} name={memberName_copy} />
+            <ChatInput myId={memberId} p_id={p_id} u_id={u_id} m_id={m_id} roomId={roomId} name={memberName} />
         </div>
     );
 }

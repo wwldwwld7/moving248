@@ -1,36 +1,18 @@
 import './ChatList.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
+import { useRecoilValue } from 'recoil';
+import { memberIdAtom, memberTypeAtom } from '../../atom';
 import { Helmet } from 'react-helmet-async';
 
 export default function ChatList() {
-    const myId = '2';
-    let p_id = '1';
-    let u_id = '2';
-    // const member_type = 'm';
-    const now = new Date();
     const today = new Date().setHours(0, 0, 0, 0);
 
-    const memberName = useRecoilValue(memberNameAtom); // 값 가져오기
-    const memberEmail = useRecoilValue(memberEmailAtom);
     const member_type = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
-
-    //member_type 가져오고
-    // if (memberType == 'p') {
-    // if (member_type == 'p') {
-    //     // p_id = memberId;
-    //     p_id = myId;
-    // } else {
-    //     // u_id = memberId;
-    //     u_id = myId;
-    // }
+    const [showWelcomeMessage, setShowWelcomeMessage] = useState(false);
 
     const [data, setData] = useState([]);
-    //읽음여부
-    // const [showDiv, setShowDiv] = useState(true);
 
     //m인경우 /chat/user/{u_id}로 get요청
     useEffect(() => {
@@ -44,21 +26,24 @@ export default function ChatList() {
         // resize 이벤트 리스너 등록
         window.addEventListener('resize', handleResize);
 
-        // 컴포넌트가 unmount될 때 resize 이벤트 리스너 해제
+        getData();
 
+        // 컴포넌트가 unmount될 때 resize 이벤트 리스너 해제
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const getData = async () => {
         if (member_type == 'u') {
             // GET 요청 보내기
-            axios
+            await axios
                 .get(`http://localhost:8080/chat/user/${memberId}`)
                 .then(response => {
                     setData(response.data.data);
-                    // console.log(response.data.data[0].profile_url);
-                    console.log(Date.parse(response.data.data[0].room_last_date));
-                    console.log(today);
-                    console.log(response.data.data[0].noread_message);
 
                     console.log('sadfsadfsadfsd');
-                    // console.log(Date(response.data.data.room_last_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+                    if (response.data.data.length == 0) {
+                        setShowWelcomeMessage(true);
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
@@ -70,50 +55,26 @@ export default function ChatList() {
                 .get(`http://localhost:8080/chat/partner/${memberId}`)
                 .then(response => {
                     setData(response.data.data);
-                    // date = new Date(response.data.data);
-                    console.log(response.data.data[0]);
-                    console.log(Date.parse(today));
-                    console.log('memberType : p');
+                    if (response.data.data.length == 0) {
+                        setShowWelcomeMessage(true);
+                    }
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
                 });
         }
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    let formattedDateTime;
-
-    // if (now.getTime() >= today) {
-    //     // If current date is today
-    //     formattedDateTime = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    // } else {
-    //     // If current date is not today
-    //     formattedDateTime = now.toLocaleDateString();
-    // }
-
-    // console.log(formattedDateTime);
-
-    //받아서 data 개수 체크 하고 그만큼 map 돌기
-    const datas = [1, 2, 3, 4, 5, 6];
-    const text = 'sppppppppppppppppppppppppppppppppppppppppppppppspppppsppppppppppppppppppppppppppppppppppppppppppppppspppppsppppppppppppppppppppppppppppppppppppppppppppppsppppp';
-    const name = '김승용ㅇㅇㅇ';
-    // if (member_type == 'u') {
-    // }
+    };
 
     return (
         <div className='rot'>
             <Helmet>
                 <title>248 | 채팅 메신저</title>
             </Helmet>
-            {/* <Header /> */}
-            {/* <FontAwesomeIcon icon={faSearch} className='search' /> */}
             <h2 className='head'>248 메신저</h2>
-            {/* <LineDrawing></LineDrawing> */}
 
             <div className='inner-rot'>
                 <div className='sec-rot-container__divide'></div>
+                {showWelcomeMessage && <div className='startChatMsgList'>여러분의 행복한 이사에 함께합니다.</div>}
                 {data.map(item => (
                     <div>
                         <div
@@ -174,48 +135,3 @@ export default function ChatList() {
         </div>
     );
 }
-const LineDrawing = () => {
-    return (
-        <div className='Line'>
-            <svg width='3000' height='10'>
-                <line x1='0' y1='0' x2='3000' y2='0' stroke='black' strokeWidth='1' />
-            </svg>
-        </div>
-    );
-};
-
-const MyComponent = () => {
-    const [lineHeight, setLineHeight] = useState(0);
-
-    useEffect(() => {
-        const handleResize = () => {
-            const viewportHeight = window.innerHeight;
-            const newLineHeight = viewportHeight * 0.005; // 원하는 비율로 조정
-            setLineHeight(newLineHeight);
-        };
-
-        // 페이지 로드 시에 한 번 호출하고 화면 크기 변경 시에도 호출
-        handleResize();
-        window.addEventListener('resize', handleResize);
-
-        // 컴포넌트 언마운트 시에 이벤트 리스너 제거
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    return (
-        <div className='Linecontainer'>
-            <div
-                style={{
-                    position: 'relative',
-                    left: 40,
-                    width: '100%',
-                    height: 0,
-                    paddingBottom: lineHeight,
-                    borderTop: '2px solid black', // 직선의 선 스타일을 설정
-                }}
-            />
-        </div>
-    );
-};
