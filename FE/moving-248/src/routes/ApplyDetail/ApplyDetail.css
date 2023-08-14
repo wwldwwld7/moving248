@@ -50,7 +50,6 @@
 }
 
 .suggestion-block__image {
-    border: 1px solid var(--color-primary-variant);
     width: 8rem;
     height: 8rem;
     margin-right: 2rem;

@@ -49,7 +49,7 @@ const MoverMyPageDetail = props => {
 
             // Handle the response
             console.log('정보 수정 성공:', response.data);
-
+            alert('수정되었습니다.');
             setIsEditMode(false);
             fetchUserInfo();
         } catch (error) {
