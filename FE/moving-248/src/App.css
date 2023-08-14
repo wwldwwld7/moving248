@@ -14,7 +14,7 @@
 
     /* size */
     --size-max-width: 1200px;
-    --size-normal-width: 1000px;
+    --size-normal-width: 800px;
     --size-half-width: 600px;
     --size-left-width: 60%;
     --size-right-width: 40%;
@@ -86,6 +86,7 @@ h5 {
 
 p {
     font-size: 1rem;
+    word-wrap: break-word;
 }
 
 .dynamic {
@@ -278,7 +279,6 @@ section {
 .display-none {
     display: none;
 }
-
 .display-hidden {
     visibility: hidden;
 }
@@ -286,6 +286,7 @@ section {
 @media (max-width: 768px) {
     .sec-one-one-container {
         width: 100%;
+        padding: 5rem 3rem;
     }
     .sec-one-half-container {
         width: 100%;

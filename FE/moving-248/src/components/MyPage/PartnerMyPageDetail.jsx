@@ -215,11 +215,11 @@ const PartnerMyPageDetail = props => {
                     )}
                     <div class='sec-two-container__divide display-hidden'></div>
 
-                    <h2 className='sec-two-container__h2'>업체 정보</h2>
+                    <h2 className='sec-two-container__h2'>파트너 정보</h2>
 
                     <div className='inner-half-outer'>
                         <div className='inner-half'>
-                            <h4 className='sec-two-container__h4 left-align'>대표명</h4>
+                            <h4 className='sec-two-container__h4 left-align'>대표자</h4>
                             <p className='paragraph sec-two-container__paragraph left-align'>{partnerInfo.p_ceo}</p>
                             <div className='sec-two-container__divide'></div>
                         </div>
@@ -281,232 +281,6 @@ const PartnerMyPageDetail = props => {
                             <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
                         </div>
                     )}
-
-                    {/* <table className='mypage-table'>
-                    <tbody>
-                        <h2>업체 정보</h2>
-                        <hr></hr>
-                        {isEditMode ? (
-                            <>
-                                <div className='mypage-table-double'>
-                                    <div>
-                                        <div>
-                                            <span className='partner-innerbox-label'>연락처</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>
-                                                <input className='partner-mypage-input-phone' type='text' name='phone' onChange={handleChange} placeholder={partnerInfo.phone} />
-                                                {messages.phone && <div className={`message ${isValid.phone ? 'success' : 'error'}`}>{messages.phone}</div>}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <tr className='mypage-table-double'>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>대표명</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>
-                                                <input className='partner-mypage-input' type='text' name='p_ceo' value={partnerInfo.p_ceo} readOnly />
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>활동지역</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>
-                                                <input className='partner-mypage-input' type='text' name='p_location' value={partnerInfo.p_location} onChange={handleChange} />
-                                            </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className='mypage-table-double'>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>평점</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>
-                                                ★{parseFloat((partnerInfo.p_total_score / partnerInfo.p_review_cnt).toFixed(2))} ({partnerInfo.p_move_cnt})
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>경력</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>
-                                                <input className='partner-mypage-input' type='text' name='p_exp' value={partnerInfo.p_exp} onChange={handleChange} />
-                                            </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className='mypage-table-double'>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>직원수</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>
-                                                <input className='partner-mypage-input' type='text' name='p_emp_cnt' value={partnerInfo.p_emp_cnt} onChange={handleChange} />
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>연락 가능 시간</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>
-                                                <input className='partner-mypage-input' type='number' min='0' max='24' name='p_starttime' value={partnerInfo.p_starttime} onChange={handleChange} />
-                                                시 ~&nbsp;
-                                                <input className='partner-mypage-input' type='number' min='0' max='24' name='p_endtime' value={partnerInfo.p_endtime} onChange={handleChange} />시
-                                            </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </>
-                        ) : (
-                            <>
-                                <div className='mypage-table-double'>
-                                    <div>
-                                        <div>
-                                            <span className='partner-innerbox-label'>연락처</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>{partnerInfo.phone}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <tr className='mypage-table-double'>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>대표명</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>{partnerInfo.p_ceo}</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>활동지역</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>{partnerInfo.p_location}</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className='mypage-table-double'>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>평점</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>
-                                                ★{parseFloat((partnerInfo.p_total_score / partnerInfo.p_review_cnt).toFixed(2))} ({partnerInfo.p_move_cnt})
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>경력</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>{partnerInfo.p_exp}년</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr className='mypage-table-double'>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>직원수</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>{partnerInfo.p_emp_cnt}</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div>
-                                            <span className='partner-innerbox-label'>연락 가능 시간</span>
-                                        </div>
-                                        <div>
-                                            <span className='partner-innerbox-value'>
-                                                {partnerInfo.p_starttime}시 ~ {partnerInfo.p_endtime}시
-                                            </span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </>
-                        )}
-                    </tbody>
-                </table>
-
-                {isEditMode ? (
-                    <div className='partner-innerbox'>
-                        <div>
-                            <h3>상세설명</h3>
-                        </div>
-                        <div>
-                            <textarea className='profile-mypage-desc' type='textarea' name='p_desc' value={partnerInfo.p_desc} onChange={handleChange} />
-                        </div>
-                    </div>
-                ) : (
-                    <div className='partner-innerbox'>
-                        <div>
-                            <h3>상세설명</h3>
-                        </div>
-                        <div className='partner-desc'>{partnerInfo.p_desc}</div>
-                    </div>
-                )}
-
-                {isEditMode ? (
-                    <>
-                        <div className='partner-innerbox'>
-                            <table className='mypage-table'>
-                                <tbody>
-                                    <tr>
-                                        <div>
-                                            <span className='partner-innerbox-label'>Password</span>
-                                            <td>
-                                                <span className='partner-innerbox-value'>
-                                                    <div>
-                                                        <input className='partner-mypage-input-password' type='password' name='password' onChange={handleChange} />
-                                                        {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
-                                                    </div>
-                                                </span>
-                                            </td>
-                                        </div>
-                                    </tr>
-                                    <tr>
-                                        <div>
-                                            <span className='partner-innerbox-label'>Password 확인</span>
-                                            <td>
-                                                <span className='partner-innerbox-value'>
-                                                    <div>
-                                                        <input className='partner-mypage-input-password' type='password' name='checkPass' onChange={handleChange} />
-                                                        {messages.checkPass && <div className={`message ${isValid.checkPass ? 'success' : 'error'}`}>{messages.checkPass}</div>}
-                                                    </div>
-                                                </span>
-                                            </td>
-                                        </div>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className='mypage-detail-button-align'>
-                            <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
-                            <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
-                            <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
-                        </div>
-                    </>
-                ) : (
-                    isCurrentUser && <input className='button-modify' type='button' value={'정보 수정'} onClick={handleEditClick} />
-                )} */}
                 </div>
             ) : (
                 <div className='sec-two-one-container inner__section overlap-imgbox'>
@@ -517,11 +291,11 @@ const PartnerMyPageDetail = props => {
                     </div>
                     <div class='sec-two-container__divide display-hidden'></div>
 
-                    <h2 className='sec-two-container__h2'>업체 정보</h2>
+                    <h2 className='sec-two-container__h2'>파트너 정보</h2>
 
                     <div className='inner-half-outer'>
                         <div className='inner-half'>
-                            <h4 className='sec-two-container__h4 left-align'>대표명</h4>
+                            <h4 className='sec-two-container__h4 left-align'>대표자</h4>
                             <p className='paragraph sec-two-container__paragraph left-align'>{partnerInfo.p_ceo}</p>
                             <div className='sec-two-container__divide'></div>
                         </div>

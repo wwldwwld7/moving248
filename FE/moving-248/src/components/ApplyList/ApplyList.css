@@ -1,3 +1,11 @@
+.list-table__fixed-width1 {
+    width: 120px;
+}
+
+.list-table__fixed-width3 {
+    width: 130px;
+}
+
 .applylist-max-container {
     max-width: var(--size-max-width);
     margin: auto;
@@ -79,14 +87,14 @@
 }
 
 .filter-dropAndButton {
-    width: 80%;
+    width: 100%;
     display: flex;
     justify-content: space-between; /* 양 옆 끝으로 정렬 */
     margin-bottom: 1rem;
 }
 
 .filter-status {
-    width: 80%;
+    width: 100%;
     display: flex;
     gap: 10px;
     border-radius: 20px;
@@ -180,7 +188,7 @@
     width: 100%;
     /* border-collapse: collapse; */
 
-    padding: 1rem;
+    padding: 2rem 0;
 }
 
 .listTable-row {
@@ -192,6 +200,7 @@
 
 .listTable-column {
     padding: 1rem;
+    margin: auto;
     /* border-bottom: 2px solid var(--color-primary); */
 
     /* border: 2px solid var(--color-accent); */
@@ -200,7 +209,7 @@
     padding: 1px;
 }
 .listTable-column-double {
-    padding: 0.5rem 0 0.5rem 0.5rem;
+    padding: 0.5rem;
     border-bottom: 2px solid var(--color-primary);
 
     /* border: 2px solid var(--color-accent); */
@@ -209,13 +218,12 @@
 .listTable-column.완료,
 .listTable-column.입찰 {
     /* padding: */
-    padding: 0.2rem;
+    padding: 0.4rem 0.2rem;
     border-radius: 1rem;
     text-align: center; /* Center align text */
     vertical-align: middle; /* Center content vertically */
-    margin: 1rem;
     /* border: 2px solid var(--color-accent); */
-    max-width: 5rem;
+    max-width: 4rem;
 }
 
 .listTable-column.확정 {
@@ -236,4 +244,15 @@
 .listTable-row:hover {
     background-color: lightgray; /* 원하는 hover 배경색으로 변경 */
     cursor: pointer; /* 마우스 커서 모양 변경 */
+}
+
+/* 768 이하 */
+@media (max-width: 768px) {
+    .list-table__fixed-width1 {
+        width: 80px;
+    }
+
+    .list-table__fixed-width3 {
+        width: 90px;
+    }
 }

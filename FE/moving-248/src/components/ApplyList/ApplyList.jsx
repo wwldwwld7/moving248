@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // react-router-dom 라이브러리에서 Link 컴포넌트 불러오기
 
-import Footer from '../../components/Footer/Footer';
-import Header from '../../components/header/Header';
 import ImgBox from '../../components/ImgBox/ImgBox';
 import './ApplyList.css';
 import axios from 'axios';
@@ -122,10 +120,8 @@ const ApplyList = props => {
 
     return (
         <div>
-            <Header />
-            <ImgBox imgSrc='moving-box' imgTitle='신청서 목록' />
             <div className='margin-box one-section'>
-                <div className='sec-one-half-container'>
+                <div className='sec-one-one-container'>
                     <div className='filter-container'>
                         <div className='filter-dropAndButton'>
                             <div className='filter-dropdown'>
@@ -198,22 +194,30 @@ const ApplyList = props => {
                                         {/* <td className='listTable-column-double'>{rowData.f_id}</td> */}
 
                                         {/* 상세 신청서 페이지 이동 */}
-                                        <td className='listTable-column-double'>
+                                        <td className='listTable-column-double list-table__fixed-width1'>
                                             <div className={`listTable-column ${rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}`}>
-                                                {rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}
+                                                <p className='dynamic'>{rowData.f_status === 1 ? '입찰' : rowData.f_status === 2 ? '확정' : rowData.f_status === 3 ? '완료' : ''}</p>
                                             </div>
                                         </td>
-                                        <td className='listTable-column-double'>
+                                        <td className='listTable-column-double list-table__fixed-width2'>
                                             <div className='listTable-column-child'>
-                                                출발 : {rowData.f_dep_sido} {rowData.f_dep_gungu}
+                                                <p className='dynamic'>
+                                                    출발 : {rowData.f_dep_sido} {rowData.f_dep_gungu}
+                                                </p>
                                             </div>
                                             <div className='listTable-column-child'>
-                                                도착 : {rowData.f_arr_sido} {rowData.f_arr_gungu}
+                                                <p className='dynamic'>
+                                                    도착 : {rowData.f_arr_sido} {rowData.f_arr_gungu}
+                                                </p>
                                             </div>
                                         </td>
-                                        <td className='listTable-column-double'>
-                                            <div className='listTable-column-child'>{formattedDate}</div>
-                                            <div className='listTable-column-child'>{rowData.f_category}</div>
+                                        <td className='listTable-column-double list-table__fixed-width3'>
+                                            <div className='listTable-column-child'>
+                                                <p className='dynamic'>{formattedDate}</p>
+                                            </div>
+                                            <div className='listTable-column-child'>
+                                                <p className='dynamic'>{rowData.f_category}</p>
+                                            </div>
                                         </td>
                                     </tr>
                                 );
@@ -234,7 +238,6 @@ const ApplyList = props => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };

@@ -7,11 +7,11 @@ const InputBox = props => {
 
     const isValid = !hasError; // Determine validity based on error status
 
-    const handleKeyPress = e => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-        }
-    };
+    // const handleKeyPress = e => {
+    //     if (e.key === 'Enter') {
+    //         e.preventDefault();
+    //     }
+    // };
 
     return (
         <div className={`${classes.input_box}`}>
@@ -25,7 +25,7 @@ const InputBox = props => {
                 value={value}
                 onChange={onChange}
                 readOnly={readOnly}
-                onKeyDown={handleKeyPress}
+                // onKeyDown={handleKeyPress}
             />
             {/* Optionally, you can display the error message here for better placement */}
             {props.children}

@@ -1,68 +1,31 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faVideo, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faVideo } from '@fortawesome/free-solid-svg-icons';
 import './ChatDetail.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { useRecoilValue } from 'recoil';
+import { memberIdAtom } from '../../atom';
 import axios from 'axios';
 export default function ChatDetail() {
     // const [messages, setMessages] = useState([]);
-
+    const memberId = useRecoilValue(memberIdAtom);
     const memberName_copy = '김김김'; // 값 가져오기
     // const location = useLocation();
     // const queryParams = new URLSearchParams(location.search);
     const { p_id, u_id, m_id, name, roomId, profile_url } = useParams();
-    const myId = u_id;
+
+    // const myId = u_id;
     const today = new Date().setHours(0, 0, 0, 0);
     const [data, setData] = useState([]);
     const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
 
-    // const [dlength, setDlength] = useState(0);
-
     let dlength = 0;
-    // const [myData, setMyData] = useState([]);
-    // const [addData, setAddData] = useState([]); //2번째 부터 여기다가 데이터 저장
 
-    // let checkMsg = 0;
     const scrollRef = useRef();
-    // useEffect(() => {
-    //     scrollToBottom();
-    // }, dlength);
-
-    // const scrollToBottom = () => {
-    //     this.scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-    // };
-    // const [memberType, setMemberType] = useState();
-    // const handleMessageSubmit = message => {
-    //     setMessages([...messages, { name: name, text: message }]);
-    // };
-
-    // var list = [
-    //     {
-    //         m_id: 'sss',
-    //         c_message: '123',
-    //     },
-    //     {
-    //         m_id: 'ddd',
-    //         c_message: '123',
-    //     },
-    //     {
-    //         m_id: 'sss',
-    //         c_message: '123',
-    //     },
-    //     {
-    //         m_id: 'ddd',
-    //         c_message: '123',
-    //     },
-    //     {
-    //         m_id: 'sss',
-    //         c_message: '123',
-    //     },
-    // ];
 
     useEffect(() => {
         const handleResize = () => {
-            window.resizeTo(500, 800);
+            window.resizeTo(480, 920);
             window.screenLeft = 500;
             window.screenTop = 0;
         };
@@ -89,13 +52,7 @@ export default function ChatDetail() {
             console.log('testst');
             const response = await axios.get(`http://localhost:8080/chat/message/${p_id}/${u_id}/${m_id}`); // GET 요청을 보냄
             console.log(response);
-            // console.log(response.data.data[0].c_message);
-            // for (let index = 0; index < responses.data.data.length; index++) {
-            //     if (responses.data.data[index].c_write_date > checkMsg && responses.data.data[index].m_id != myId) {
-            //         setAddData(...addData, responses.data.data); // 받아온 데이터를 상태에 저장
-            //         console.log(responses.data.data[index].c_write_date);
-            //         console.log(Date.parse(responses.data.data[index].c_write_date));
-            //     }
+
             await setData(response.data.data);
             // }
 
@@ -139,15 +96,6 @@ export default function ChatDetail() {
             if (response.data.data.length != 0) {
                 setShowWelcomeMessage(false);
             }
-            // console.log(response.data.data[0]);
-            // for (let index = 0; index < response.data.data.length; index++) {
-            //     // const element = array[index];
-            //     if (response.data.data[index].m_id == myId) {
-            //         checkMsg = Date.parse(response.data.data[index].c_write_date);
-            //         console.log(checkMsg);
-            //     }
-            //     // console.log(Date.parse(response.data.data[index].c_write_date) + 'test');
-            // }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -161,7 +109,7 @@ export default function ChatDetail() {
                     <span className='text'>{text}</span>
                 </div>
                 <span className='dateLeft'>
-                    <div className='dateLeftDiv'>{date}</div>
+                    <p className='dateLeftDiv sub'>{date}</p>
                 </span>
             </div>
         );
@@ -171,10 +119,10 @@ export default function ChatDetail() {
         return (
             <div className='messages'>
                 <span className='date'>
-                    <div className='dateDiv'>{date}</div>
+                    <div className='dateDiv sub'>{date}</div>
                 </span>
                 <div className='test'>
-                    <span className='text'>{text}</span>
+                    <span className='text' dangerouslySetInnerHTML={{ __html: text }} />
 
                     {/* <strong>{name}: </strong> */}
                 </div>
@@ -189,19 +137,13 @@ export default function ChatDetail() {
             <h2 className='hea'>248메신저</h2>
             <div className='member'>
                 <div className='imgName'>
-                    {profile_url != null ? (
-                        // <img src={profile_url} className='profile_urlImg' alt='profile_img'></img>
-                        <img src='/apple.jpg' className='profile_urlImg' alt='profile_img'></img>
+                    {profile_url !== 'mover' ? (
+                        <img src={`https://yeonybucket.s3.ap-northeast-2.amazonaws.com/file/${profile_url}`} className='profile_urlImg' alt='profile_img'></img>
                     ) : (
-                        <div className='profileBox'>
-                            <div className='circle'>
-                                <FontAwesomeIcon className='userimg' icon={faUser} style={{ color: '#f1ebd6' }} />
-                            </div>
-                        </div>
+                        <img src={require(`../../assets/image/profile/${u_id % 10}.jpg`)} alt='img' className='profile_urlImg'></img>
                     )}
                     <h4 className='memberName'>{name}</h4>
                 </div>
-                {/* </div> */}
 
                 <button
                     className='btn_close'
@@ -215,7 +157,7 @@ export default function ChatDetail() {
             <div className='chat-box' ref={scrollRef}>
                 {showWelcomeMessage && <div className='startChatMsg'>여러분의 행복한 이사에 함께합니다.</div>}
                 {data.map((item, index) =>
-                    item.m_id == myId ? (
+                    item.m_id == memberId ? (
                         <div className='chat-messagesRight' key={index}>
                             {/* <div className='messageBoxs'> */}
                             {Date.parse(item.c_write_date) < today ? (
@@ -241,7 +183,7 @@ export default function ChatDetail() {
                 )}
             </div>
 
-            <ChatInput myId={myId} p_id={p_id} u_id={u_id} m_id={m_id} roomId={roomId} name={memberName_copy} />
+            <ChatInput myId={memberId} p_id={p_id} u_id={u_id} m_id={m_id} roomId={roomId} name={memberName_copy} />
         </div>
     );
 }
@@ -320,25 +262,37 @@ const ChatInput = ({ p_id, u_id, myId, roomId, name }) => {
     };
     return (
         // ref={el => (this.myFormRef = el)}
-        <form onSubmit={handleSubmit} className='chat-input '>
-            <textarea className='inputText' placeholder='메시지를 입력하세요' onKeyDown={handleKeyDown} rows='10' cols='50' value={message} onChange={e => setMessage(e.target.value)}></textarea>
-            {/* <input className='inputText' type='text' placeholder='메시지를 입력하세요' value={message} onChange={e => setMessage(e.target.value)} /> */}
-            <div className='sendCam'>
-                <FontAwesomeIcon className='paperPlane' onClick={handleSubmit} icon={faPaperPlane} style={{ color: '#f1ebd6' }} />
+        <div className='chat-input-outer'>
+            <div onSubmit={handleSubmit} className='chat-input '>
+                <div className='input-text-outer'>
+                    <textarea
+                        className='inputText'
+                        placeholder='메시지를 입력하세요'
+                        onKeyDown={handleKeyDown}
+                        rows='10'
+                        cols='50'
+                        value={message}
+                        onChange={e => setMessage(e.target.value)}
+                    ></textarea>
+                </div>
+                {/* <input className='inputText' type='text' placeholder='메시지를 입력하세요' value={message} onChange={e => setMessage(e.target.value)} /> */}
+                <div className='sendCam'>
+                    <FontAwesomeIcon className='send-cam-icon' onClick={handleSubmit} icon={faPaperPlane} style={{ color: '#f1ebd6' }} />
 
-                <FontAwesomeIcon
-                    className='cam'
-                    icon={faVideo}
-                    style={{ color: '#f1ebd6' }}
-                    onClick={() => {
-                        const koreanName = name;
-                        const encodedText = encodeURIComponent(koreanName);
+                    <FontAwesomeIcon
+                        className='send-cam-icon'
+                        icon={faVideo}
+                        style={{ color: '#f1ebd6' }}
+                        onClick={() => {
+                            const koreanName = name;
+                            const encodedText = encodeURIComponent(koreanName);
 
-                        console.log('sessionstorage 저장');
-                        window.open(`http://localhost:3001/?name=${encodedText}&roomId=${roomId}`, '_blank', 'width=1000, height=1000');
-                    }}
-                />
+                            console.log('sessionstorage 저장');
+                            window.open(`http://localhost:3001/?name=${encodedText}&roomId=${p_id}` + `${u_id}`, '_blank', 'width=1000, height=1000');
+                        }}
+                    />
+                </div>
             </div>
-        </form>
+        </div>
     );
 };
