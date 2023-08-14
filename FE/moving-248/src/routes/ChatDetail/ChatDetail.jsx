@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { memberIdAtom } from '../../atom';
 import axios from 'axios';
+import { Helmet } from 'react-helmet-async';
 export default function ChatDetail() {
     // const [messages, setMessages] = useState([]);
     const memberId = useRecoilValue(memberIdAtom);
@@ -106,7 +107,7 @@ export default function ChatDetail() {
             <div className='messagesLeft'>
                 {/* <strong className='userName'>{name} </strong> */}
                 <div className='test'>
-                    <span className='text'>{text}</span>
+                    <span className='text' dangerouslySetInnerHTML={{ __html: text }} />
                 </div>
                 <span className='dateLeft'>
                     <p className='dateLeftDiv sub'>{date}</p>
@@ -132,6 +133,9 @@ export default function ChatDetail() {
 
     return (
         <div className='ro'>
+            <Helmet>
+                <title>248 | 채팅</title>
+            </Helmet>
             {/* <Header /> */}
             {/* <FontAwesomeIcon icon={faSearch} className='search' /> */}
             <h2 className='hea'>248메신저</h2>
@@ -189,46 +193,12 @@ export default function ChatDetail() {
 }
 const ChatInput = ({ p_id, u_id, myId, roomId, name }) => {
     const [message, setMessage] = useState('');
-    // const [formData, setFormData] = useState({
-    //     m_id: '',
-    //     c_message: '',
-    //     c_write_date: '',
-    // });
-    // const chatContainerRef = useRef(null); // 채팅 컨테이너를 참조하기 위한 useRef
 
     const handleSubmit = e => {
-        // let today = new Date();
-        // let year = today.getFullYear();
-        // let month = today.getMonth() + 1;
-        // let date = today.getDate(); // 일
-        // let hours = today.getHours();
-        // let minutes = today.getMinutes();
-        // let seconds = today.getSeconds();
-
-        // const Msgdate = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds;
-
-        // console.log(Msgdate + 'submit');
-
         e.preventDefault();
-        // checkMsg = Date.parse(Msgdate);
-        // console.log(checkMsg + 'submit');
-        // if (chatContainerRef.current) {
-        //     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-        // }
+
         if (message.trim() !== '') {
             console.log(message);
-            // const newMessage = [
-            //     {
-            //         m_id: myId,
-            //         c_message: message,
-            //         c_write_date: Msgdate,
-            //     },
-            // ];
-            // setFormData();
-            // ChatMessageLeft(name, message, date);
-            // onMessageSubmit(message);
-            // setMyData(...myData, newMessage);
-            // console.log(myData[0]);
 
             axios
                 .post(`http://localhost:8080/chat/message/${p_id}/${u_id}`, {
@@ -244,16 +214,7 @@ const ChatInput = ({ p_id, u_id, myId, roomId, name }) => {
             setMessage('');
         }
     };
-    // useEffect(() => {
-    //     // 메시지 리스트가 업데이트될 때마다 스크롤을 아래로 내림
-    //     if (chatContainerRef.current) {
-    //         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    //     }
-    // }, [message]);
-    // useEffect(() => {
-    //     // GET 요청 보내기
 
-    // }, []);
     const handleKeyDown = e => {
         if (e.key === 'Enter') {
             e.preventDefault(); // Enter 키의 기본 동작을 막습니다.
@@ -275,7 +236,6 @@ const ChatInput = ({ p_id, u_id, myId, roomId, name }) => {
                         onChange={e => setMessage(e.target.value)}
                     ></textarea>
                 </div>
-                {/* <input className='inputText' type='text' placeholder='메시지를 입력하세요' value={message} onChange={e => setMessage(e.target.value)} /> */}
                 <div className='sendCam'>
                     <FontAwesomeIcon className='send-cam-icon' onClick={handleSubmit} icon={faPaperPlane} style={{ color: '#f1ebd6' }} />
 

@@ -14,18 +14,13 @@ export default function Footer() {
                     <div>
                         <ul className='footer__menu' style={{ paddingBottom: '1rem' }}>
                             <li>
-                                <a href='#!' target='_blank' className='sub'>
+                                <a href='https://angelplayer.notion.site/61d8f100f8a44048bed160592cf37e3a?pvs=4' target='_blank' className='sub' rel='noreferrer'>
                                     이용약관
                                 </a>
                             </li>
                             <li>
-                                <a href='#!' target='_blank' className='sub'>
+                                <a href='https://angelplayer.notion.site/10fbb8c6102342378b75ca88cee172e5?pvs=4' target='_blank' className='sub' rel='noreferrer'>
                                     <b>개인정보처리방침</b>
-                                </a>
-                            </li>
-                            <li>
-                                <a href='#!' target='_blank' className='sub'>
-                                    위치기반서비스 이용약관
                                 </a>
                             </li>
                             <li>

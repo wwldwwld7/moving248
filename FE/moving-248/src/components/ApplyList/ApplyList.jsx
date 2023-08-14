@@ -149,29 +149,30 @@ const ApplyList = props => {
                                         </select>
                                     </label>
                                 </div>
-                                {/* <div className='filter-label'>
-                                <label>
-                                    신청서 구분:
-                                    <select value={selectedCartegory} onChange={e => setSelectedCartegory(e.target.value)}>
-                                        <option value=''>신청서를 선택하세요</option>
-                                        {categoryOptions.map(option => (
-                                            <option key={option.category_code} value={option.category_code}>
-                                                {option.category_name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </label>
-                            </div> */}
+                                <div className='filter-label'>
+                                    <label>
+                                        <select className='select-css' value={selectedCartegory} onChange={e => handleCategoryChange(e.target.value)}>
+                                            <option value=''>상태(견적)</option>
+                                            {categoryOptions.map(option => (
+                                                <option key={option.category_code} value={option.category_code}>
+                                                    {option.category_name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </label>
+                                </div>
                             </div>
                             {/* <div className='buttons-box'> */}
+                            {/* </div> */}
+                        </div>
+                        <div className='filter-dropAndButton'>
                             <button className='filter-buttons' onClick={handleSearch}>
                                 조회하기
                             </button>
-                            {/* </div> */}
                         </div>
                     </div>
 
-                    <div className='filter-container'>
+                    {/* <div className='filter-container'>
                         <div className='filter-status'>
                             {categoryOptions.map(option => (
                                 <button key={option.category_code} className={selectedCartegory === option.category_code ? 'active' : ''} onClick={() => handleCategoryChange(option.category_code)}>
@@ -179,7 +180,7 @@ const ApplyList = props => {
                                 </button>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
 
                     <table className='listTable'>
                         <tbody>

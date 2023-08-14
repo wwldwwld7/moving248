@@ -5,10 +5,10 @@ const StarRating = ({ rating }) => {
     const stars = [];
 
     for (let i = 0; i < rating; i++) {
-        stars.push(<div key={i} className={classes.star}></div>);
+        stars.push(<p key={i} className={classes.star}></p>);
     }
 
-    return <div className={classes.starRating}>{stars}</div>;
+    return <p className={classes.starRating}>{stars}</p>;
 };
 
 export default StarRating;

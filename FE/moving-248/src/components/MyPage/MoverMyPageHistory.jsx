@@ -75,20 +75,6 @@ const MoverMyPageHistory = props => {
         <div className='sec-two-two-container inner__section'>
             <h2>지난 이사</h2>
             {historyList.map((history, index) => (
-                // <div className='suggestion-block'>
-                //     <img className='suggestion-block__image' src={history.profile_url} alt='img' />
-                //     <div className='suggestion-block__content'>
-                //         <h4 className='sec-two-container__h4'>{history.name}</h4>
-                //         <p className='sec-two-container__paragraph'>
-                //             <b>{history.s_money.toLocaleString()}원</b>
-                //             <span className='paragraph sec-two-container__paragraph'>
-                //                 &nbsp;&nbsp;|&nbsp;&nbsp;<b>이사 횟수</b> {history.p_move_cnt}
-                //             </span>
-                //         </p>
-                //         <p className='paragraph sec-two-container__paragraph'>{history.s_desc}</p>
-                //         <br />
-                //     </div>
-                // </div>
                 <div key={index} className='suggestion-block history-suggestion-block'>
                     <div className='mypage-block__left'>
                         <h5 className='sec-two-container__h4'>{history.name}</h5>
@@ -113,7 +99,7 @@ const MoverMyPageHistory = props => {
                                 </>
                             ) : (
                                 <>
-                                    <div className='padding-05'></div>
+                                    <span className='padding-05'></span>
                                     <StarRating rating={history.r_rate} />
                                 </>
                             )}

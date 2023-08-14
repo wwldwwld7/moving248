@@ -3,9 +3,10 @@
 }
 
 .scoll-suggestion {
-    border-top: 2px solid #f1f1f1;
+    border-top: 2px solid var(--color-primary-variant);
+    /* border-bottom: 2px solid var(--color-primary-variant); */
     /* border: 1px solid #d3c09a; */
-    max-height: 850px;
+    max-height: 720px;
     overflow-y: scroll;
     /* box-shadow: 1px 1px 2px 6px #d3c09a; */
     /* background-color: #d3c09a; */

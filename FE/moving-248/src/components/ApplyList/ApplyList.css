@@ -41,6 +41,7 @@
 .filter-dropdown {
     display: flex;
     flex-direction: row; /* Display items vertically */
+    flex-wrap: wrap;
 
     gap: 10px;
 }
@@ -62,6 +63,7 @@
     outline: none;
     transition: border-color 0.3s;
     width: 100px;
+    font-size: 0.9rem;
 
     /* 배경색 및 색상 설정 */
     background: #9b8d78; /* 배경색 */
@@ -82,14 +84,17 @@
 /* 스타일을 수정하거나 추가할 수 있습니다. */
 .filter-container {
     width: 100%;
+    flex-direction: row;
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .filter-dropAndButton {
-    width: 100%;
+    width: auto;
     display: flex;
-    justify-content: space-between; /* 양 옆 끝으로 정렬 */
+
+    justify-content: flex-end;
     margin-bottom: 1rem;
 }
 
@@ -99,16 +104,19 @@
     gap: 10px;
     border-radius: 20px;
     padding: 10px 0px;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 
 .filter-status button {
+    height: 35px;
+
+    color: white;
     display: flex;
     align-items: center;
     cursor: pointer;
     padding: 5px 15px;
     border-radius: 3px;
-    background-color: #ddd;
+    background-color: var(--color-accent-variant);
     border: none;
     transition: background-color 0.3s ease;
 }
@@ -122,8 +130,6 @@
 .filter-status .active {
     background-color: var(--color-accent);
     color: white;
-    font-weight: bold;
-    transform: scale(1.05);
 }
 
 .buttons-box {
@@ -253,6 +259,20 @@
     }
 
     .list-table__fixed-width3 {
-        width: 90px;
+        width: 76px;
+    }
+
+    .filter-buttons {
+        font-size: 0.8rem;
+    }
+
+    .filter-dropdown select {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 557px) {
+    .filter-container {
+        justify-content: flex-end;
     }
 }

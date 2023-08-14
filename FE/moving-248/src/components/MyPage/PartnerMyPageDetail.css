@@ -7,7 +7,6 @@
 .button-modify {
     background-color: #9b8d78;
     color: white;
-    font-size: 1rem;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
     border: 0px;
@@ -22,7 +21,6 @@
 .button-send {
     background-color: #9b8d78;
     color: white;
-    font-size: 1rem;
     border: 0px;
     border-radius: 3px;
     width: 100%;
@@ -36,7 +34,6 @@
 .button-delete {
     background-color: grey;
     color: white;
-    font-size: 1rem;
     margin-left: 0.5rem;
     margin-right: 0.5rem;
     border: 0px;
@@ -121,7 +118,7 @@ h3 {
     background-color: #e9e7e7;
     border-radius: 4px;
     resize: vertical;
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1.5;
 }
 .partner-mypage-input-password,
@@ -133,7 +130,7 @@ h3 {
     background-color: #e9e7e7;
     border-radius: 4px;
     resize: vertical;
-    font-size: 1rem;
+    font-size: 0.9rem;
     line-height: 1.5;
 }
 
@@ -145,8 +142,7 @@ h3 {
     background-color: #e9e7e7;
     border-radius: 4px;
     resize: none;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.9rem;
     line-height: 1.5;
 }
 
@@ -209,8 +205,14 @@ td {
     margin-right: 2rem;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
     .partner-outerbox {
         width: 75%;
+    }
+    .profile-mypage-desc,
+    .partner-mypage-input,
+    .partner-mypage-input-password,
+    .partner-mypage-input-phone {
+        font-size: 0.8rem;
     }
 }

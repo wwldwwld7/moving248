@@ -271,6 +271,7 @@ body {
     min-height: 60px;
     width: 100%;
     background-color: #3a2c2b;
+    margin-right: 0.5rem;
 }
 
 .dateDiv {
@@ -281,6 +282,7 @@ body {
     /* display: block; */
     color: white;
     margin: 10px 0;
+
     width: 96%;
     float: right;
     justify-content: end;
@@ -338,7 +340,7 @@ body {
     border: 3px solid #f1ebd6;
     border-radius: 5px;
     color: white;
-    font-size: large;
+    font-size: 0.9rem;
     outline: none;
 }
 
@@ -376,6 +378,7 @@ body {
     margin: 10px;
     color: white;
     width: 95%;
+    margin-left: 0.5rem;
     justify-content: start;
     display: inline-flex;
     position: relative;
@@ -400,9 +403,15 @@ body {
     /* bottom: 0; */
     /* float: left; */
 }
+.chatMessage {
+    cursor: pointer;
+}
 /* 768 이하 */
 @media (max-width: 450px) {
     .chat-messages {
         width: 100%;
+    }
+    .inputText {
+        font-size: 0.8rem;
     }
 }
