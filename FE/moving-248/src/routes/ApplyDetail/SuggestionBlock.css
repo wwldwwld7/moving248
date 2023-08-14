@@ -27,3 +27,20 @@
 .suggestion-block__content p {
     white-space: pre-line; /* Preserve line breaks */
 }
+
+.no_blue:link {
+    color: black;
+    text-decoration: none;
+}
+.no_blue:visited {
+    color: black;
+    text-decoration: none;
+}
+.no_blue:hover {
+    color: black;
+    text-decoration: none;
+}
+.no_blue:active {
+    color: black;
+    text-decoration: none;
+}
