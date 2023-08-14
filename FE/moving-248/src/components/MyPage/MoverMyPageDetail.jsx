@@ -129,13 +129,13 @@ const MoverMyPageDetail = props => {
     return (
         <>
             {!isEditMode ? (
-                <div className='sec-two-one-container inner__section overlap-imgbox'>
+                <div className='sec-two-one-container inner__section overlap-imgbox mover-mypage__sec-two-one-container'>
                     <h2 className='sec-two-container__h2'>{userInfo.name}</h2>
                     <div className='profile__image-outer div-center'>
                         {/* <img className='profile__image' src={userInfo.profile_url} alt='Profile' /> */}
                         <img className='profile__image' src={require(`../../assets/image/profile/${id % 10}.jpg`)} alt='img' />
                     </div>
-                    <div class='sec-two-container__divide display-hidden'></div>
+                    <div className='sec-two-container__divide display-hidden'></div>
 
                     <div className='inner-half-outer'>
                         <div className='inner-half'>
@@ -158,14 +158,14 @@ const MoverMyPageDetail = props => {
                         </div>
                     ) : (
                         <div className='message-button div-center message_btn'>
-                            <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
-                            <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
-                            <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
+                            <input className='btn-modify button-modify' type='button' value={'저장'} onClick={handleSubmit} />
+                            <input className='btn-modify button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
+                            <input className='btn-modify button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
                         </div>
                     )}
                 </div>
             ) : (
-                <div className='sec-two-one-container inner__section overlap-imgbox'>
+                <div className='sec-two-one-container inner__section overlap-imgbox mover-mypage__sec-two-one-container-edit'>
                     <h2 className='sec-two-container__h2'>{userInfo.name}</h2>
                     <div className='profile__image-outer div-center'>
                         {/* <img className='profile__image' src={userInfo.profile_url} alt='Profile' /> */}
@@ -190,7 +190,7 @@ const MoverMyPageDetail = props => {
 
                     <div className='inner-full'>
                         <h4 className='sec-two-container__h4 left-align'>비밀번호 변경</h4>
-                        <input className='partner-mypage-input-phone' type='password' name='password' onChange={handleChange} placeholder='변경을 원치 않으시면 입력하지 마십쇼!' />
+                        <input className='partner-mypage-input-phone' type='password' name='password' onChange={handleChange} placeholder='수정이 필요한 경우에만 입력해주세요.' />
                         {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
                         <div class='sec-two-container__divide'></div>
                     </div>
@@ -202,9 +202,9 @@ const MoverMyPageDetail = props => {
                         </div>
                     ) : (
                         <div className='message-button div-center message_btn'>
-                            <input className='button-modify' type='button' value={'저장'} onClick={handleSubmit} />
-                            <input className='button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
-                            <input className='button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
+                            <input className='btn-modify button-modify' type='button' value={'저장'} onClick={handleSubmit} />
+                            <input className='btn-modify button-modify' type='button' value={'취소'} onClick={handleCancelEdit} />
+                            <input className='btn-modify button-delete' type='button' value={'회원 탈퇴'} onClick={handleDelete} />
                         </div>
                     )}
                 </div>

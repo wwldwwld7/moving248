@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { memberIdAtom, memberTypeAtom } from '../../atom';
 import ApplyList from '../../components/ApplyList/ApplyList';
+import { Helmet } from 'react-helmet-async';
 
 export default function ApplyDetail() {
     const { id } = useParams();
@@ -120,8 +121,12 @@ export default function ApplyDetail() {
                 <div className='filter-container'>
                     <div className='filter-status'>
                         {categoryOptions.map(option => (
-                            <button key={option.category_code} className={selectedCartegory === option.category_code ? 'active' : ''} onClick={() => handleCategoryChange(option.category_code)}>
-                                {option.category_name}
+                            <button
+                                key={option.category_code}
+                                className={selectedCartegory === option.category_code ? 'active category-btn' : 'category-btn'}
+                                onClick={() => handleCategoryChange(option.category_code)}
+                            >
+                                <p className='paragraph'>{option.category_name}</p>
                             </button>
                         ))}
                     </div>
@@ -173,9 +178,12 @@ export default function ApplyDetail() {
 
     return (
         <div className='apply-detail'>
+            <Helmet>
+                <title>248 | 신청서 상세</title>
+            </Helmet>
             {/* {console.log(apply)} */}
             {/* {console.log(`type${memberTypeAtom}`)} */}
-            <ImgBox imgSrc='moving-box' imgTitle='신청서 상세' />
+            <ImgBox imgSrc='apply-detail' imgTitle='신청서 상세' />
 
             <section className='max-container section'>
                 {/* [S] 요청 신청서 */}

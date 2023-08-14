@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
+import { Helmet } from 'react-helmet-async';
 
 export default function ChatList() {
     const myId = '2';
@@ -103,6 +104,9 @@ export default function ChatList() {
 
     return (
         <div className='rot'>
+            <Helmet>
+                <title>248 | 채팅 메신저</title>
+            </Helmet>
             {/* <Header /> */}
             {/* <FontAwesomeIcon icon={faSearch} className='search' /> */}
             <h2 className='head'>248 메신저</h2>

@@ -350,7 +350,7 @@ const PartnerMyPageDetail = props => {
                     </div>
                     <div className='inner-full'>
                         <h4 className='sec-two-container__h4 left-align'>비밀번호 변경</h4>
-                        <input className='partner-mypage-input-phone' type='password' name='password' onChange={handleChange} placeholder='변경을 원치 않으시면 입력하지 마십쇼!' />
+                        <input className='partner-mypage-input-phone' type='password' name='password' onChange={handleChange} placeholder='수정이 필요한 경우에만 입력해주세요.' />
                         {messages.password && <div className={`message ${isValid.password ? 'success' : 'error'}`}>{messages.password}</div>}
                         <div class='sec-two-container__divide'></div>
                     </div>
@@ -370,7 +370,7 @@ const PartnerMyPageDetail = props => {
 
             <div className='sec-two-two-container inner__section hb-scroll'>
                 <div>
-                    <h3>업체 후기</h3>
+                    <h4>이사 후기</h4>
                 </div>
                 <div>
                     {reviewDatabase.map((review, index) => (

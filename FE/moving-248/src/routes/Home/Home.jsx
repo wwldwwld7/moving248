@@ -1,9 +1,13 @@
 import VideoBox from './VideoBox.jsx';
 import './Home.css';
+import { Helmet } from 'react-helmet-async';
 
 export default function Home() {
     return (
         <div>
+            <Helmet>
+                <title>Moving 248</title>
+            </Helmet>
             <VideoBox />
 
             <section className='max-container section home__sec-two-container-outer'>

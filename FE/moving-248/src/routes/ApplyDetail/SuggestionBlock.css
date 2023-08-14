@@ -1,3 +1,6 @@
+.suggestion-block {
+    margin-right: 10px;
+}
 .suggestion-block__btn-outer {
     display: flex;
     flex-direction: row;
