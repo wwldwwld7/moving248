@@ -133,7 +133,7 @@ export default function ChatList() {
                         >
                             {/* <img src={item.profile_url} className='profile_img' alt='profile_img' style={{ width: '100px', height: '100px' }}></img> */}
                             {item.profile_url == null ? (
-                                <img src='./apple.jpg' className='profile_img' alt='profile_img' style={{ width: '100px', height: '100px' }}></img>
+                                <img src={require(`../../assets/image/profile/${item.m_id % 10}.jpg`)} alt='img' className='profile_img' style={{ width: '100px', height: '100px' }}></img>
                             ) : (
                                 <img src={item.profile_url} className='profile_img' alt='profile_img' style={{ width: '100px', height: '100px' }}></img>
                             )}

@@ -3,16 +3,20 @@ import { faPaperPlane, faVideo, faUser } from '@fortawesome/free-solid-svg-icons
 import './ChatDetail.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
 import axios from 'axios';
 export default function ChatDetail() {
     // const [messages, setMessages] = useState([]);
-
+    const memberName = useRecoilValue(memberNameAtom); // 값 가져오기
+    const memberEmail = useRecoilValue(memberEmailAtom);
+    const member_type = useRecoilValue(memberTypeAtom);
+    const memberId = useRecoilValue(memberIdAtom);
     const memberName_copy = '김김김'; // 값 가져오기
     // const location = useLocation();
     // const queryParams = new URLSearchParams(location.search);
     const { p_id, u_id, m_id, name, roomId, profile_url } = useParams();
-    const myId = u_id;
+    // const myId = u_id;
     const today = new Date().setHours(0, 0, 0, 0);
     const [data, setData] = useState([]);
     const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
@@ -191,7 +195,7 @@ export default function ChatDetail() {
                 <div className='imgName'>
                     {profile_url != null ? (
                         // <img src={profile_url} className='profile_urlImg' alt='profile_img'></img>
-                        <img src='/apple.jpg' className='profile_urlImg' alt='profile_img'></img>
+                        <img src={`https://yeonybucket.s3.ap-northeast-2.amazonaws.com/file/${profile_url}`} className='profile_urlImg' alt='profile_img'></img>
                     ) : (
                         <div className='profileBox'>
                             <div className='circle'>
@@ -215,7 +219,7 @@ export default function ChatDetail() {
             <div className='chat-box' ref={scrollRef}>
                 {showWelcomeMessage && <div className='startChatMsg'>여러분의 행복한 이사에 함께합니다.</div>}
                 {data.map((item, index) =>
-                    item.m_id == myId ? (
+                    item.m_id == memberId ? (
                         <div className='chat-messagesRight' key={index}>
                             {/* <div className='messageBoxs'> */}
                             {Date.parse(item.c_write_date) < today ? (
@@ -241,7 +245,7 @@ export default function ChatDetail() {
                 )}
             </div>
 
-            <ChatInput myId={myId} p_id={p_id} u_id={u_id} m_id={m_id} roomId={roomId} name={memberName_copy} />
+            <ChatInput myId={memberId} p_id={p_id} u_id={u_id} m_id={m_id} roomId={roomId} name={memberName_copy} />
         </div>
     );
 }
@@ -335,7 +339,7 @@ const ChatInput = ({ p_id, u_id, myId, roomId, name }) => {
                         const encodedText = encodeURIComponent(koreanName);
 
                         console.log('sessionstorage 저장');
-                        window.open(`http://localhost:3001/?name=${encodedText}&roomId=${roomId}`, '_blank', 'width=1000, height=1000');
+                        window.open(`http://localhost:3001/?name=${encodedText}&roomId=${p_id}` + `${u_id}`, '_blank', 'width=1000, height=1000');
                     }}
                 />
             </div>

@@ -1,7 +1,7 @@
 import './SuggestionBlock.css';
 import { useRecoilValue } from 'recoil';
 import { memberIdAtom, memberTypeAtom } from '../../atom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -9,21 +9,33 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
     const room_id = 0;
+    const [cutUrl, setCutUrl] = useState('');
+    const url = '';
+
     useEffect(() => {
-        // console.log('[suggestion block] element : ');
-        // console.log(element.p_id);
-        // console.log(p_id + '+' + u_id);
-        // console.log('[suggestion block] fid : ' + f_id);
+        const changeUrl = setCutUrl();
     }, []);
     const moveUrl = useNavigate();
     const onQuestionHandler = () => {
         // moveUrl('/apply-form', { state: { isModify: id } });
         console.log(memberId);
-        window.open(
-            `/chat-list/chat-detail/${element.p_id}/${memberId}/${memberId}/${element.name}/${room_id}/${element.profile_url}`,
-            `chat-detail${room_id}`,
-            '_blank,left =500,top=0, width=480, height=920, resizable=no'
-        );
+        if (element.profile_url != null) {
+            const url = element.profile_url.split('https://yeonybucket.s3.ap-northeast-2.amazonaws.com/file/');
+            window.open(
+                `/chat-list/chat-detail/${element.p_id}/${memberId}/${memberId}/${element.name}/${room_id}/${url[1]}`,
+                `chat-detail${room_id}`,
+                '_blank,left =500,top=0, width=480, height=920, resizable=no'
+            );
+        } else {
+            window.open(
+                `/chat-list/chat-detail/${element.p_id}/${memberId}/${memberId}/${element.name}/${room_id}/${element.profile_url}`,
+                `chat-detail${room_id}`,
+                '_blank,left =500,top=0, width=480, height=920, resizable=no'
+            );
+        }
+
+        console.log(element.profile_url + '///232');
+        console.log(url[1] + '232');
     };
 
     // 견적서 확정 버튼 0
