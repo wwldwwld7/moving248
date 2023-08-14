@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useRecoilValue } from 'recoil';
 import { memberIdAtom, memberTypeAtom } from '../../atom';
+import ApplyList from '../../components/ApplyList/ApplyList';
 
 export default function ApplyDetail() {
     const { id } = useParams();
@@ -17,6 +18,13 @@ export default function ApplyDetail() {
     const memberId = useRecoilValue(memberIdAtom);
     // const user_status = 2; // 전역으로 사용할 것임
     // const user_id = 4; // 전역으로 사용할 것임
+
+    const [categoryOptions, setCategoryOptions] = useState([
+        { category_code: 1, category_name: '최신순' },
+        { category_code: 2, category_name: '최저가' },
+        { category_code: 3, category_name: '이용횟수' },
+    ]);
+    const [selectedCartegory, setSelectedCartegory] = useState('');
 
     const moveUrl = useNavigate();
 
@@ -58,7 +66,7 @@ export default function ApplyDetail() {
             res.data.data.f_req_desc = newDesc;
             setApply(importData);
             setSuggestion(importData);
-
+            console.log(suggestion.list + ' ' + importData);
             suggestion.list
                 .filter(element => element.p_id === memberId)
                 .map(element => {
@@ -79,7 +87,7 @@ export default function ApplyDetail() {
         return (
             <>
                 <h2 className='left-align'>확정된 견적서</h2>
-                {suggestion.list !== null && (apply.f_status === 2 || apply.f_status === 3) ? (
+                {suggestion.list.length != 0 && (apply.f_status === 2 || apply.f_status === 3) ? (
                     suggestion.list
                         //신청서 날짜가 끝나서 완료로 바꼈는데
                         //확정한 견적서가 없는 경우
@@ -95,14 +103,30 @@ export default function ApplyDetail() {
             </>
         );
     };
+    const handleCategoryChange = async categoryCode => {
+        setSelectedCartegory(categoryCode);
+        console.log(apply.f_id + ' ' + categoryCode);
+        const response = await axios.get(`http://localhost:8080/form/${apply.f_id}/${categoryCode}`);
+        console.log(response);
+        setSuggestion(response.data);
+    };
 
     const renderAll = () => {
         return (
             <>
                 <div className='sub-division'></div>
                 <h2 className='apply-detail__suggestion-h2 left-align'>제안된 견적서</h2>
+                <div className='filter-container'>
+                    <div className='filter-status'>
+                        {categoryOptions.map(option => (
+                            <button key={option.category_code} className={selectedCartegory === option.category_code ? 'active' : ''} onClick={() => handleCategoryChange(option.category_code)}>
+                                {option.category_name}
+                            </button>
+                        ))}
+                    </div>
+                </div>
                 <div className='scoll-suggestion'>
-                    {suggestion.list !== null ? (
+                    {suggestion.list.length != 0 ? (
                         suggestion.list
                             // .filter(element => element.is_selected !== 't')
                             .map(element => {
