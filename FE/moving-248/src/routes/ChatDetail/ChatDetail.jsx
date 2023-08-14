@@ -16,13 +16,14 @@ export default function ChatDetail() {
     // const location = useLocation();
     // const queryParams = new URLSearchParams(location.search);
     const { p_id, u_id, m_id, name, roomId, profile_url } = useParams();
+
     // const myId = u_id;
     const today = new Date().setHours(0, 0, 0, 0);
     const [data, setData] = useState([]);
     const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
 
     // const [dlength, setDlength] = useState(0);
-
+    console.log(profile_url + '21111111111111111111111');
     let dlength = 0;
     // const [myData, setMyData] = useState([]);
     // const [addData, setAddData] = useState([]); //2번째 부터 여기다가 데이터 저장
@@ -193,15 +194,17 @@ export default function ChatDetail() {
             <h2 className='hea'>248메신저</h2>
             <div className='member'>
                 <div className='imgName'>
-                    {profile_url != null ? (
+                    {profile_url !== 'mover' ? (
                         // <img src={profile_url} className='profile_urlImg' alt='profile_img'></img>
                         <img src={`https://yeonybucket.s3.ap-northeast-2.amazonaws.com/file/${profile_url}`} className='profile_urlImg' alt='profile_img'></img>
                     ) : (
-                        <div className='profileBox'>
-                            <div className='circle'>
-                                <FontAwesomeIcon className='userimg' icon={faUser} style={{ color: '#f1ebd6' }} />
-                            </div>
-                        </div>
+                        <img src={require(`../../assets/image/profile/${u_id % 10}.jpg`)} alt='img' className='profile_urlImg'></img>
+
+                        // <div className='profileBox'>
+                        //     <div className='circle'>
+                        //         <FontAwesomeIcon className='userimg' icon={faUser} style={{ color: '#f1ebd6' }} />
+                        //     </div>
+                        // </div>
                     )}
                     <h4 className='memberName'>{name}</h4>
                 </div>

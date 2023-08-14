@@ -115,22 +115,27 @@ export default function ChatList() {
                             key={item.room_id}
                             className='profileList'
                             onClick={() => {
+                                let url = '';
+                                if (item.profile_url != null) {
+                                    url = item.profile_url.split('https://yeonybucket.s3.ap-northeast-2.amazonaws.com/file/')[1];
+                                } else {
+                                    url = 'mover';
+                                }
                                 // 내가 누군지 확인해서 p_id, u_id,m_id 순으로 요청해서 보내기 순서 주의!!!!
                                 if (member_type == 'p') {
                                     window.open(
-                                        `chat-list/chat-detail/${memberId}/${item.m_id}/${memberId}/${item.name}/${item.room_id}/${item.profile_url}`,
+                                        `chat-list/chat-detail/${memberId}/${item.m_id}/${memberId}/${item.name}/${item.room_id}/${url}`,
                                         `chat-detail${item.room_id}`,
                                         '_blank, left =500,top=0,  width=480, height=920, resizable=no'
                                     );
                                 } else {
                                     window.open(
-                                        `chat-list/chat-detail/${item.m_id}/${memberId}/${memberId}/${item.name}/${item.room_id}/${item.profile_url}`,
+                                        `chat-list/chat-detail/${item.m_id}/${memberId}/${memberId}/${item.name}/${item.room_id}/${url}`,
                                         `chat-detail${item.room_id}`,
                                         '_blank,left =500,top=0, width=480, height=920, resizable=no'
                                     );
                                 }
                             }}
-                            gt
                         >
                             {/* <img src={item.profile_url} className='profile_img' alt='profile_img' style={{ width: '100px', height: '100px' }}></img> */}
                             {item.profile_url == null ? (
