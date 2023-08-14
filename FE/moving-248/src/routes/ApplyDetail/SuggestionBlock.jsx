@@ -8,16 +8,22 @@ import axios from 'axios';
 export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
     const memberType = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
-
+    const room_id = 0;
     useEffect(() => {
         // console.log('[suggestion block] element : ');
-        // console.log(element);
+        // console.log(element.p_id);
+        // console.log(p_id + '+' + u_id);
         // console.log('[suggestion block] fid : ' + f_id);
     }, []);
-
     const moveUrl = useNavigate();
     const onQuestionHandler = () => {
         // moveUrl('/apply-form', { state: { isModify: id } });
+        console.log(memberId);
+        window.open(
+            `/chat-list/chat-detail/${element.p_id}/${memberId}/${memberId}/${element.name}/${room_id}/${element.profile_url}`,
+            `chat-detail${room_id}`,
+            '_blank,left =500,top=0, width=480, height=920, resizable=no'
+        );
     };
 
     // 견적서 확정 버튼 0
