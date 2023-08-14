@@ -38,7 +38,7 @@ export default function Header() {
             // 무버라면
             if (memberType === 'u') {
                 axios
-                    .all([axios.get(`/form/user/${memberId}`), axios.get(`http://localhost:8080/chat/user/${memberId}`)])
+                    .all([axios.get(`/form/user/${memberId}`), axios.get(`http://localhost:8080/chat/message/${memberId}`)])
                     .then(
                         axios.spread((res, res2) => {
                             // console.log(res.data.data);
@@ -64,23 +64,8 @@ export default function Header() {
                                 setBtnUrl('/apply-form');
                             }
 
-                            for (let index = 0; index < res2.data.data.length; index++) {
-                                console.log(res2.data.data[index].noread_message + '12121212121212121');
-                                if (res2.data.data[index].noread_message === true) {
-                                    // noReadMsg++;
-                                    setNoReadMsg(1);
-                                    break;
-                                }
-                            }
-
-                            // res.data.data.forEach(item => {
-                            //     if (item.f_status !== 3) {
-                            //         setBtntxt('신청서 보기');
-                            //         setterActiveApply(item.f_id);
-                            //         setBtnUrl(`/apply-detail/${memberActiveApply}`);
-                            //         setIsActiveApply('t');
-                            //     }
-                            // });
+                            console.log(res2.data);
+                            setNoReadMsg(res2.data.noread_message);
                         })
                     )
                     .catch(error => {
@@ -92,16 +77,9 @@ export default function Header() {
                 setBtntxt('견적 리스트');
                 setBtnUrl('/apply-list');
                 axios
-                    .get(`http://localhost:8080/chat/partner/${memberId}`)
+                    .get(`http://localhost:8080/chat/message/${memberId}`)
                     .then(response => {
-                        for (let index = 0; index < response.data.data.length; index++) {
-                            console.log(response.data.data[index].noread_message + '12121212121212121');
-                            if (response.data.data[index].noread_message === true) {
-                                // noReadMsg++;
-                                setNoReadMsg(1);
-                                break;
-                            }
-                        }
+                        setNoReadMsg(response.data.noread_message);
                     })
                     .catch(error => {
                         console.error('Error fetching data:', error);
