@@ -111,7 +111,7 @@ body {
 } */
 .ro {
     height: 100vh;
-    background-color: #f1ebd6;
+    background-color: #3a2c2b;
 }
 .circle {
     margin-left: 20px;
@@ -125,10 +125,10 @@ body {
     align-items: center;
 }
 .profile_urlImg {
-    margin-left: 20px;
+    margin-left: 1rem;
     /* display: inline; */
     border-radius: 50%;
-    background-color: #3a2c2b;
+    background-color: white;
     width: 40px;
     height: 40px;
     display: flex;
@@ -204,22 +204,27 @@ body {
     font-size: 9px;
     cursor: pointer;
     border-radius: 5px;
-    margin-right: 20px;
+    margin-right: 1rem;
 }
 
 .sendCam {
     /* float: right; */
-    display: inline-flex;
+    display: flex;
+    width: 20%;
+    padding: 2.2rem;
+    padding-left: 0rem;
+    padding-right: 1rem;
 
-    /*위에서 아래로 수직 배치*/
-    float: right;
-    /*중앙정렬*/
-    margin-right: 4%;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+}
+
+.send-cam-icon {
+    width: 100%;
 }
 .chat-box {
-    height: 62%;
+    height: 62.6%;
+    padding: 0.5rem 0.5rem;
     display: block;
     /* justify-content: end; */
     background-color: #3a2c2b;
@@ -246,7 +251,7 @@ body {
 }
 .startChatMsg {
     /* margin-left: 50%; */
-    margin-top: 1%;
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
     color: #f1ebd6;
@@ -264,22 +269,18 @@ body {
     float: right;
     justify-content: end;
     min-height: 60px;
-    width: 80%;
+    width: 100%;
     background-color: #3a2c2b;
 }
-.messageBoxs {
-    /* display: inline-block; */
-    /* width: 50%; */
-    /* margin-left: 50px; */
-    /* display: flex; */
+
+.dateDiv {
+    padding: 0;
 }
-/* .chatMessage {
-    float: right;
-} */
+
 .messages {
     /* display: block; */
     color: white;
-    margin: 10px 6px;
+    margin: 10px 0;
     width: 96%;
     float: right;
     justify-content: end;
@@ -303,10 +304,9 @@ body {
     border-radius: 5px;
     padding: 8px;
     min-width: 17px;
+    max-width: 270px;
     display: inline-block;
     text-align: left;
-    margin-right: 5px;
-    margin-left: 5px;
 }
 .text {
     color: #3a2c2b;
@@ -320,16 +320,20 @@ body {
     justify-content: end;
 }
 .chat-input {
-    position: absolute;
+    display: flex;
+    border-top: 4px solid #f1ebd6;
     width: 100%;
-    bottom: 0;
     background-color: #3a2c2b;
 }
-.inputText {
-    margin-top: 30px;
-    margin-left: 4%;
+.input-text-outer {
+    display: flex;
+    margin: auto;
     width: 80%;
+    margin: 1rem 1rem;
+}
+.inputText {
     height: 17vh;
+    width: 100%;
     background-color: #3a2c2b;
     border: 3px solid #f1ebd6;
     border-radius: 5px;
@@ -343,8 +347,8 @@ body {
     /* margin-right: 50px; */
     position: relative;
     color: gray;
-    width: 69%;
-    margin-right: 10px;
+    width: 70%;
+    margin-right: 5px;
 
     /* position: absolute; */
     /* bottom: 0; */
@@ -354,7 +358,13 @@ body {
     position: absolute;
     bottom: 0;
     width: 100%;
+    padding-right: 4px;
     text-align: end;
+}
+.dateLeftDiv {
+    position: absolute;
+    bottom: 0;
+    padding: 0;
 }
 
 .userName {
@@ -363,8 +373,8 @@ body {
 }
 .messagesLeft {
     /* display: block; */
+    margin: 10px;
     color: white;
-    margin: 10px 6px;
     width: 95%;
     justify-content: start;
     display: inline-flex;
@@ -390,7 +400,9 @@ body {
     /* bottom: 0; */
     /* float: left; */
 }
-.dateLeftDiv {
-    position: absolute;
-    bottom: 0;
+/* 768 이하 */
+@media (max-width: 450px) {
+    .chat-messages {
+        width: 100%;
+    }
 }

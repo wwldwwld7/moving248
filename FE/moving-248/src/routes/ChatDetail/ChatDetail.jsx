@@ -1,16 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faVideo, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane, faVideo } from '@fortawesome/free-solid-svg-icons';
 import './ChatDetail.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { memberEmailAtom, memberIdAtom, memberNameAtom, memberTypeAtom } from '../../atom';
+import { useRecoilValue } from 'recoil';
+import { memberIdAtom } from '../../atom';
 import axios from 'axios';
 export default function ChatDetail() {
     // const [messages, setMessages] = useState([]);
-    const memberName = useRecoilValue(memberNameAtom); // 값 가져오기
-    const memberEmail = useRecoilValue(memberEmailAtom);
-    const member_type = useRecoilValue(memberTypeAtom);
     const memberId = useRecoilValue(memberIdAtom);
     const memberName_copy = '김김김'; // 값 가져오기
     // const location = useLocation();
@@ -22,48 +19,9 @@ export default function ChatDetail() {
     const [data, setData] = useState([]);
     const [showWelcomeMessage, setShowWelcomeMessage] = useState(true);
 
-    // const [dlength, setDlength] = useState(0);
-    console.log(profile_url + '21111111111111111111111');
     let dlength = 0;
-    // const [myData, setMyData] = useState([]);
-    // const [addData, setAddData] = useState([]); //2번째 부터 여기다가 데이터 저장
 
-    // let checkMsg = 0;
     const scrollRef = useRef();
-    // useEffect(() => {
-    //     scrollToBottom();
-    // }, dlength);
-
-    // const scrollToBottom = () => {
-    //     this.scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-    // };
-    // const [memberType, setMemberType] = useState();
-    // const handleMessageSubmit = message => {
-    //     setMessages([...messages, { name: name, text: message }]);
-    // };
-
-    // var list = [
-    //     {
-    //         m_id: 'sss',
-    //         c_message: '123',
-    //     },
-    //     {
-    //         m_id: 'ddd',
-    //         c_message: '123',
-    //     },
-    //     {
-    //         m_id: 'sss',
-    //         c_message: '123',
-    //     },
-    //     {
-    //         m_id: 'ddd',
-    //         c_message: '123',
-    //     },
-    //     {
-    //         m_id: 'sss',
-    //         c_message: '123',
-    //     },
-    // ];
 
     useEffect(() => {
         const handleResize = () => {
@@ -94,13 +52,7 @@ export default function ChatDetail() {
             console.log('testst');
             const response = await axios.get(`http://localhost:8080/chat/message/${p_id}/${u_id}/${m_id}`); // GET 요청을 보냄
             console.log(response);
-            // console.log(response.data.data[0].c_message);
-            // for (let index = 0; index < responses.data.data.length; index++) {
-            //     if (responses.data.data[index].c_write_date > checkMsg && responses.data.data[index].m_id != myId) {
-            //         setAddData(...addData, responses.data.data); // 받아온 데이터를 상태에 저장
-            //         console.log(responses.data.data[index].c_write_date);
-            //         console.log(Date.parse(responses.data.data[index].c_write_date));
-            //     }
+
             await setData(response.data.data);
             // }
 
@@ -144,15 +96,6 @@ export default function ChatDetail() {
             if (response.data.data.length != 0) {
                 setShowWelcomeMessage(false);
             }
-            // console.log(response.data.data[0]);
-            // for (let index = 0; index < response.data.data.length; index++) {
-            //     // const element = array[index];
-            //     if (response.data.data[index].m_id == myId) {
-            //         checkMsg = Date.parse(response.data.data[index].c_write_date);
-            //         console.log(checkMsg);
-            //     }
-            //     // console.log(Date.parse(response.data.data[index].c_write_date) + 'test');
-            // }
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -166,7 +109,7 @@ export default function ChatDetail() {
                     <span className='text'>{text}</span>
                 </div>
                 <span className='dateLeft'>
-                    <div className='dateLeftDiv'>{date}</div>
+                    <p className='dateLeftDiv sub'>{date}</p>
                 </span>
             </div>
         );
@@ -176,7 +119,7 @@ export default function ChatDetail() {
         return (
             <div className='messages'>
                 <span className='date'>
-                    <div className='dateDiv'>{date}</div>
+                    <div className='dateDiv sub'>{date}</div>
                 </span>
                 <div className='test'>
                     <span className='text'>{text}</span>
@@ -195,20 +138,12 @@ export default function ChatDetail() {
             <div className='member'>
                 <div className='imgName'>
                     {profile_url !== 'mover' ? (
-                        // <img src={profile_url} className='profile_urlImg' alt='profile_img'></img>
                         <img src={`https://yeonybucket.s3.ap-northeast-2.amazonaws.com/file/${profile_url}`} className='profile_urlImg' alt='profile_img'></img>
                     ) : (
                         <img src={require(`../../assets/image/profile/${u_id % 10}.jpg`)} alt='img' className='profile_urlImg'></img>
-
-                        // <div className='profileBox'>
-                        //     <div className='circle'>
-                        //         <FontAwesomeIcon className='userimg' icon={faUser} style={{ color: '#f1ebd6' }} />
-                        //     </div>
-                        // </div>
                     )}
                     <h4 className='memberName'>{name}</h4>
                 </div>
-                {/* </div> */}
 
                 <button
                     className='btn_close'
@@ -327,25 +262,37 @@ const ChatInput = ({ p_id, u_id, myId, roomId, name }) => {
     };
     return (
         // ref={el => (this.myFormRef = el)}
-        <form onSubmit={handleSubmit} className='chat-input '>
-            <textarea className='inputText' placeholder='메시지를 입력하세요' onKeyDown={handleKeyDown} rows='10' cols='50' value={message} onChange={e => setMessage(e.target.value)}></textarea>
-            {/* <input className='inputText' type='text' placeholder='메시지를 입력하세요' value={message} onChange={e => setMessage(e.target.value)} /> */}
-            <div className='sendCam'>
-                <FontAwesomeIcon className='paperPlane' onClick={handleSubmit} icon={faPaperPlane} style={{ color: '#f1ebd6' }} />
+        <div className='chat-input-outer'>
+            <div onSubmit={handleSubmit} className='chat-input '>
+                <div className='input-text-outer'>
+                    <textarea
+                        className='inputText'
+                        placeholder='메시지를 입력하세요'
+                        onKeyDown={handleKeyDown}
+                        rows='10'
+                        cols='50'
+                        value={message}
+                        onChange={e => setMessage(e.target.value)}
+                    ></textarea>
+                </div>
+                {/* <input className='inputText' type='text' placeholder='메시지를 입력하세요' value={message} onChange={e => setMessage(e.target.value)} /> */}
+                <div className='sendCam'>
+                    <FontAwesomeIcon className='send-cam-icon' onClick={handleSubmit} icon={faPaperPlane} style={{ color: '#f1ebd6' }} />
 
-                <FontAwesomeIcon
-                    className='cam'
-                    icon={faVideo}
-                    style={{ color: '#f1ebd6' }}
-                    onClick={() => {
-                        const koreanName = name;
-                        const encodedText = encodeURIComponent(koreanName);
+                    <FontAwesomeIcon
+                        className='send-cam-icon'
+                        icon={faVideo}
+                        style={{ color: '#f1ebd6' }}
+                        onClick={() => {
+                            const koreanName = name;
+                            const encodedText = encodeURIComponent(koreanName);
 
-                        console.log('sessionstorage 저장');
-                        window.open(`http://localhost:3001/?name=${encodedText}&roomId=${p_id}` + `${u_id}`, '_blank', 'width=1000, height=1000');
-                    }}
-                />
+                            console.log('sessionstorage 저장');
+                            window.open(`http://localhost:3001/?name=${encodedText}&roomId=${p_id}` + `${u_id}`, '_blank', 'width=1000, height=1000');
+                        }}
+                    />
+                </div>
             </div>
-        </form>
+        </div>
     );
 };
