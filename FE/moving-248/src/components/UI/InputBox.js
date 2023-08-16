@@ -1,7 +1,7 @@
 import classes from './InputBox.module.css';
 
 const InputBox = props => {
-    const { label, type, name, placeholder, required, value, onChange, readOnly } = props;
+    const { label, type, name, placeholder, required, value, onChange, readOnly, onBlur } = props;
 
     const hasError = props.children && props.children.props.className.includes('error');
 
@@ -25,6 +25,7 @@ const InputBox = props => {
                 value={value}
                 onChange={onChange}
                 readOnly={readOnly}
+                onBlur={onBlur}
                 // onKeyDown={handleKeyPress}
             />
             {/* Optionally, you can display the error message here for better placement */}

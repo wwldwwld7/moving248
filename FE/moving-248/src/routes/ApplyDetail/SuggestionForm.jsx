@@ -163,6 +163,27 @@ export default function SuggestionForm() {
                 });
         }
     };
+
+    const handleBlur = () => {
+        let moneyValue = parseFloat(formData.s_money);
+
+        // 최소값 조건 확인
+        if (moneyValue < 100000) {
+            moneyValue = 100000;
+        }
+
+        // 1000 단위로 반올림
+        moneyValue = Math.ceil(moneyValue / 1000) * 1000;
+
+        setFormData(prevState => ({
+            ...prevState,
+            s_money: moneyValue,
+        }));
+    };
+    function formatNumberWithCommas(number) {
+        return number.toLocaleString();
+    }
+
     return (
         <>
             <div className='sub-division'></div>
@@ -171,7 +192,7 @@ export default function SuggestionForm() {
                     <h2 className='left-align'>견적서 작성하기</h2>
                     <form onSubmit={submitHandler}>
                         <h5 className='suggestion-block__h5'>예상 견적가</h5>
-                        <InputBox type='text' name='s_money' placeholder='원' value={formData.s_money} onChange={changeHandler}></InputBox>
+                        <InputBox type='text' name='s_money' placeholder='원' value={formatNumberWithCommas(formData.s_money)} onChange={changeHandler} onBlur={handleBlur}></InputBox>
                         <h5>상세 설명</h5>
                         <textarea className='apply-form-desc' type='textarea' name='s_desc' value={formData.s_desc} onChange={changeHandler} placeholder='ex) 함께 일하기 어렵습니다.'></textarea>
                         {/* <InputBox

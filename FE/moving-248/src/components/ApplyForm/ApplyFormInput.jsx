@@ -23,7 +23,6 @@ const ApplyFormInput = props => {
         arr_ev: false,
         arr_ladder: false,
     });
-    const [selectedDate, setSelectedDate] = useState(new Date());
 
     const [selectedOption, setSelectedOption] = useState('');
     const [isMovingType, setIsMovingType] = useState(null);
@@ -34,6 +33,11 @@ const ApplyFormInput = props => {
     const [selectedDepGu, setSelectedDepGu] = useState(''); // 추가된 부분
     const [selectedArrSido, setSelectedArrSido] = useState(''); // 추가된 부분
     const [selectedArrGu, setSelectedArrGu] = useState(''); // 추가된 부분
+
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const [selectedDate, setSelectedDate] = useState(tomorrow);
 
     ////////////// 이 값이 숫자를 가지고 있으면 수정, 그게 아니면 신규 입력
     useEffect(() => {
@@ -277,8 +281,7 @@ const ApplyFormInput = props => {
                             <DatePicker
                                 dateFormat='yyyy-MM-dd' // 날짜 형태
                                 shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
-                                minDate={new Date()} // minDate 이전 날짜 선택 불가
-                                // maxDate={new Date('2024-12-31')} // maxDate 이후 날짜 선택 불가
+                                minDate={tomorrow} // minDate 이전 날짜 선택 불가
                                 selected={selectedDate}
                                 onChange={handleDateChange}
                                 className='date-picker'
@@ -343,6 +346,7 @@ const ApplyFormInput = props => {
                             name='apply-form-desc'
                             value={textareaValue}
                             onChange={handleTextareaChange}
+                            maxLength={500}
                             placeholder='ex) 함께 일하기 어렵습니다.'
                         ></textarea>
                     </div>
