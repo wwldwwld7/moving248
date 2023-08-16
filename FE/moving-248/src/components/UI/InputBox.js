@@ -17,7 +17,7 @@ const InputBox = props => {
         <div className={`${classes.input_box}`}>
             <label>{label}</label>
             <input
-                className={`${classes.input_field} ${!isValid ? classes.invalid : ''}`}
+                className={`${classes.input_field} ${!isValid ? classes.invalid : ''} input-box__input`}
                 type={type}
                 name={name}
                 placeholder={placeholder}

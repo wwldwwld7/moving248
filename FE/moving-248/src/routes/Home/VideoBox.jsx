@@ -5,7 +5,7 @@ export default function VideoBox({ imgSrc = 'move' }) {
         <div className='video-box'>
             {/* <!-- [S] Movie --> */}
             <div className='jb-box '>
-                <video muted autoPlay loop>
+                <video className='.jb-video' muted autoPlay loop>
                     <source src={require('../../assets/video/truck.mp4')} type='video/mp4' />
                     <strong>Your browser does not support the video tag.</strong>
                 </video>

@@ -1,5 +1,11 @@
-video {
+.apply-form__video {
+    width: 100%;
     height: auto;
+}
+
+.explanation {
+    padding-bottom: 1rem;
+    display: none;
 }
 
 .padding-05 {
@@ -29,6 +35,8 @@ video {
     padding: 8px;
     border: 0px;
     border: 2px solid var(--color-primary);
+    /* border: 2px solid black; */
+
     border-radius: 3px;
     resize: none;
     line-height: 1.5;
@@ -49,6 +57,7 @@ video {
 }
 
 .help-video {
+    width: 100%;
     margin-top: 1rem;
     /* margin-bottom: 2rem; */
 }
@@ -77,5 +86,8 @@ video {
 @media (max-width: 768px) {
     .apply-form-desc {
         font-size: 0.8rem;
+    }
+    .explanation {
+        display: block;
     }
 }

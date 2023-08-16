@@ -220,6 +220,10 @@ section {
     box-sizing: border-box;
 }
 
+.input-box__input {
+    border: 2px solid var(--color-primary);
+}
+
 /* **********button********** */
 .btn-static {
     cursor: pointer;
@@ -304,14 +308,16 @@ section {
 @media (max-width: 768px) {
     .sec-one-one-container {
         width: 100%;
-        padding: 5rem 3rem;
+        padding: 5rem 2rem;
     }
     .sec-one-half-container {
         width: 100%;
+        padding: 5rem 2rem;
     }
 
     .sec-two-one-container {
         margin-right: 0;
+        padding: 5rem 2rem;
         width: 100%;
     }
     .sec-two-two-container {
@@ -347,5 +353,8 @@ section {
         padding-bottom: 0px;
         border-top: 2px solid var(--color-primary-variant);
         margin-top: 77px;
+    }
+    .sec-two-container__h2-form {
+        padding-bottom: 2rem;
     }
 }

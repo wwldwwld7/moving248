@@ -57,3 +57,9 @@
         width: 72px;
     }
 }
+
+@media (max-width: 768px) {
+    .loc-filter-dropdown select {
+        width: 100px;
+    }
+}

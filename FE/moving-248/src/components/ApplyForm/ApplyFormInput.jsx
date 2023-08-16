@@ -106,6 +106,7 @@ const ApplyFormInput = props => {
                 setImageSrc(importData.f_room_video_url);
 
                 setTextareaValue(importData.f_req_desc);
+                setCharacterCount(importData.f_req_desc.length);
 
                 // console.log(selectedDate);
                 /* @@@@@@@@@@@@@@@@@@@@@@@ 여기에서 수정 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  */
@@ -137,6 +138,7 @@ const ApplyFormInput = props => {
     };
     const handleTextareaChange = event => {
         setTextareaValue(event.target.value);
+        setCharacterCount(event.target.value.length);
     };
     const radioOptions = [
         { label: '포장이사', value: 'packing' },
@@ -144,6 +146,8 @@ const ApplyFormInput = props => {
     ];
 
     const [file, setFile] = useState(null);
+
+    const [characterCount, setCharacterCount] = useState(0);
 
     // const handleFileChange = event => {
     //     setFile(event.target.files[0]);
@@ -258,6 +262,7 @@ const ApplyFormInput = props => {
                 alert('신청서 수정이 완료되었습니다.');
                 window.location.href = '/';
             } catch (error) {
+                alert('신청서 수정 에러 발생');
                 console.error('수정 에러 발생:', error);
             }
             // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 알맞게 수정 필요합니다
@@ -268,7 +273,10 @@ const ApplyFormInput = props => {
         <>
             <section className='max-container section'>
                 <div className='sec-two-one-container inner__section  overlap-imgbox'>
-                    <h2 className='sec-two-container__h2'>이사 신청서</h2>
+                    <h2 className='sec-two-container__h2 sec-two-container__h2-form'>이사 신청서</h2>
+                    <a href='#explanation' className='explanation paragraph'>
+                        ※ 신청서 작성법은 해당 문구를 눌러 확인해주세요.
+                    </a>
                     <div className='apply-form-innerbox'>
                         <h4 className='sec-two-container__h4'>이사 종류</h4>
                         <RadioButton options={radioOptions} selectedOption={selectedOption} onChange={handleRadioChange} />
@@ -332,7 +340,7 @@ const ApplyFormInput = props => {
                         <div className='apply-form__padding'>
                             <input type='file' accept='video/*' onChange={handleFileChange} />
                         </div>
-                        {imageSrc ? <video src={imageSrc} controls></video> : <div></div>}
+                        {imageSrc ? <video className='apply-form__video' src={imageSrc} controls></video> : <div></div>}
 
                         {/* <div className='preview'>{imageSrc && <img src={imageSrc} alt='preview-img' />}</div> */}
                     </div>
@@ -346,9 +354,10 @@ const ApplyFormInput = props => {
                             name='apply-form-desc'
                             value={textareaValue}
                             onChange={handleTextareaChange}
-                            maxLength={500}
-                            placeholder='ex) 함께 일하기 어렵습니다.'
+                            maxLength={254}
+                            placeholder='ex) 매트리스 커버는 새걸로 부탁드립니다.'
                         ></textarea>
+                        <div className='character-count sub'>{characterCount}/255</div>
                     </div>
                     {/* </div> */}
                     {/* <div className='form-submit-button'> */}
@@ -360,7 +369,7 @@ const ApplyFormInput = props => {
                     <div className='apply-form-innerbox-e'>{errorMessage && <p className='form-error-message dynamic pad-top-05'>{errorMessage}</p>}</div>
                 </div>
 
-                <div className='sec-two-two-container inner__section'>
+                <div className='sec-two-two-container inner__section' id='explanation'>
                     <div className='suggestion-block center-align'>
                         <div>
                             <h2 className='left-align faq'>FAQ</h2>

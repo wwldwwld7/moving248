@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import InputBox from '../../components/UI/InputBox';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
+import { defaultInstance as api } from '../../jwt/token';
 import { useRecoilValue } from 'recoil';
 import { memberIdAtom } from '../../atom';
 
@@ -42,9 +43,10 @@ export default function SuggestionForm() {
         s_desc: '',
     });
 
+    const [characterCount, setCharacterCount] = useState(0);
+
     const getData = () => {
-        axios
-            .get(`/form/${id}`)
+        api.get(`/form/${id}`)
             .then(res => {
                 const importData = { ...res.data.data };
 
@@ -65,6 +67,7 @@ export default function SuggestionForm() {
                         s_desc: filteredSuggestions[0].s_desc,
                         s_money: filteredSuggestions[0].s_money,
                     });
+                    setCharacterCount(filteredSuggestions[0].s_desc.length);
                 }
             })
             .catch(error => {
@@ -91,7 +94,7 @@ export default function SuggestionForm() {
             [name]: value,
         }));
 
-        // console.log('견적' + formData.s_money);
+        setCharacterCount(value.length);
     };
 
     const submitHandler = e => {
@@ -109,8 +112,8 @@ export default function SuggestionForm() {
             return;
         }
 
-        if (data.s_money <= 0 || data.s_money >= 100000000) {
-            alert('올바르지 않은 가격을 작성하였습니다. (ex. 1~100,000,000 이내)');
+        if (data.s_money <= 100000 || data.s_money >= 100000000) {
+            alert('올바르지 않은 가격을 작성하였습니다.\n(ex. 100,000~100,000,000 이내)');
             return;
         }
 
@@ -121,8 +124,7 @@ export default function SuggestionForm() {
 
         // 신규 등록이면
         if (isNew === true) {
-            axios
-                .post(`/form/suggestion/${id}`, data)
+            api.post(`/form/suggestion/${id}`, data)
                 .then(res => {
                     alert('견적이 등록되었습니다.');
                     window.location.reload();
@@ -135,8 +137,7 @@ export default function SuggestionForm() {
 
         // 수정 이면
         else {
-            axios
-                .put(`/form/suggestion/${id}`, data)
+            api.put(`/form/suggestion/${id}`, data)
                 .then(res => {
                     alert('견적이 수정되었습니다.');
                     window.location.reload();
@@ -151,8 +152,7 @@ export default function SuggestionForm() {
     const onDeleteHandler = () => {
         const confirmed = window.confirm('견적을 삭제 하시겠습니까?');
         if (confirmed) {
-            axios
-                .delete(`/form/suggestion/${id}/${memberId}`)
+            api.delete(`/form/suggestion/${id}/${memberId}`)
                 .then(res => {
                     alert('견적이 삭제되었습니다.');
                     window.location.reload();
@@ -163,27 +163,6 @@ export default function SuggestionForm() {
                 });
         }
     };
-
-    const handleBlur = () => {
-        let moneyValue = parseFloat(formData.s_money);
-
-        // 최소값 조건 확인
-        if (moneyValue < 100000) {
-            moneyValue = 100000;
-        }
-
-        // 1000 단위로 반올림
-        moneyValue = Math.ceil(moneyValue / 1000) * 1000;
-
-        setFormData(prevState => ({
-            ...prevState,
-            s_money: moneyValue,
-        }));
-    };
-    function formatNumberWithCommas(number) {
-        return number.toLocaleString();
-    }
-
     return (
         <>
             <div className='sub-division'></div>
@@ -192,9 +171,17 @@ export default function SuggestionForm() {
                     <h2 className='left-align'>견적서 작성하기</h2>
                     <form onSubmit={submitHandler}>
                         <h5 className='suggestion-block__h5'>예상 견적가</h5>
-                        <InputBox type='text' name='s_money' placeholder='원' value={formatNumberWithCommas(formData.s_money)} onChange={changeHandler} onBlur={handleBlur}></InputBox>
-                        <h5>상세 설명</h5>
-                        <textarea className='apply-form-desc' type='textarea' name='s_desc' value={formData.s_desc} onChange={changeHandler} placeholder='ex) 함께 일하기 어렵습니다.'></textarea>
+                        <InputBox type='text' name='s_money' placeholder='원' value={formData.s_money} onChange={changeHandler}></InputBox>
+                        <h5 className='suggestion-block__h5'>상세 설명</h5>
+                        <textarea
+                            className='apply-form-desc'
+                            type='textarea'
+                            name='s_desc'
+                            value={formData.s_desc}
+                            onChange={changeHandler}
+                            placeholder='ex) 새 매트리스 커버 개당 20,000원 추가 가격 붙습니다.'
+                        ></textarea>
+                        <div className='character-count sub'>{characterCount}/255</div>
                         {/* <InputBox
                             type='text'
                             name='s_desc'

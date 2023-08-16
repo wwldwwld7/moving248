@@ -123,7 +123,7 @@ export default function ChatList() {
 
                                 <div className='chat__message'>
                                     <div className='lastMassage paragraph'>{item.room_last_message.length > 25 ? `${item.room_last_message.slice(0, 25)}...` : item.room_last_message}</div>
-                                    {item.noread_message && <div className='dot' style={{ width: '12px', height: '12px' }}></div>}
+                                    {item.noread_message && <div className='dot' style={{ width: '14px', height: '14px' }}></div>}
                                 </div>
                             </div>
                         </div>
