@@ -154,13 +154,13 @@ public class ApplyFormRepository {
 
 
         if (!sido.equals("0")) {
-            jpql += " And  a.fDepSido = :sido or a.fArrSido = :sido ";
+            jpql += " And (a.fDepSido = :sido or a.fArrSido = :sido) ";
             parameters.put("sido", sido);
         }
 
-        // 군구에서 전국
+        // 만약 군구의 값이 있으면
         if (!gungu.equals("0")) {
-            jpql += " AND a.fDepGungu = :gungu or a.fArrGungu = :gungu ";
+            jpql += " AND (a.fDepGungu = :gungu or a.fArrGungu = :gungu) ";
             parameters.put("gungu", gungu);
         }
 

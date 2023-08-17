@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/test2
-    username: root
-    password: 1234
+    username: test
+    password: ssafyb301
 
 
 ---
@@ -12,7 +12,7 @@ spring:
     group:
       "local": "local, common"
       "development": "development, common"
-    active: local
+    active: development
 ---
 spring:
   config:

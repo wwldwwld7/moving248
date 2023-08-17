@@ -160,7 +160,7 @@ const RenderMoverSignUpForm = props => {
         axios
             .post('https://i9b301.p.ssafy.io/api/member/partner', data)
             .then(res => {
-                if (res.request.statusText === 'Created') {
+                if (res.request.status === 201) {
                     alert('파트너 회원가입이 완료되었습니다.');
                     moveToHome('/');
                 }
