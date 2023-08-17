@@ -1,20 +1,19 @@
 import { faRunning } from '@fortawesome/free-solid-svg-icons';
-import axios from "axios";
+import axios from 'axios';
 import { func } from 'prop-types';
 import { Cookies } from 'react-cookie';
 
 const instance = axios.create({
-    baseURL: "http://localhost:8080",
-    headers: {"Content-type": "application/json"}
+    baseURL: 'https://i9b301.p.ssafy.io/api',
+    headers: { 'Content-type': 'application/json' },
 });
 
 //요청을 보내기 전
 instance.interceptors.request.use(
-
-    function(config){
+    function (config) {
         const atk = localStorage.getItem('accessToken');
 
-        if(!atk){
+        if (!atk) {
             config.headers.Authorization = null;
             return config;
         }
@@ -24,7 +23,7 @@ instance.interceptors.request.use(
         // console.log(config);
         return config;
     },
-    function(error){
+    function (error) {
         return Promise.reject(error);
     }
 );
@@ -32,40 +31,37 @@ instance.interceptors.request.use(
 const cookies = new Cookies(); // Cookies 객체 생성
 //응답이 들어오면
 instance.interceptors.response.use(
-    function(response){
-        console.log("interceptor response 200");
+    function (response) {
+        console.log('interceptor response 200');
         return response;
     },
-    async(error)=>{
+    async error => {
         // console.log(error.config.url);
         const {
-            config, 
-            response: {status}
+            config,
+            response: { status },
         } = error;
-        
 
-        if(status === 401){
+        if (status === 401) {
             // const [cookies, setCookie] = useCookies(["refreshToken"]);
             const originalRequest = config;
             // console.log(cookies.get("refreshToken"));
-            const refreshToken = cookies.get("refreshToken");
+            const refreshToken = cookies.get('refreshToken');
             // const refreshToken = cookies;
             // const refreshToken = localStorage.getItem("refreshToken");
             // console.log(refreshToken);
 
-            if(refreshToken){
-                const res = await axios.get('/member/reissue',
-                {
+            if (refreshToken) {
+                const res = await axios.get('https://i9b301.p.ssafy.io/api/member/reissue', {
                     headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `${refreshToken}`,
+                        'Content-Type': 'application/json',
+                        Authorization: `${refreshToken}`,
                     },
-                }
-                );
+                });
 
                 // console.log(res);
                 const accessToken = res.data.accessToken;
-                await localStorage.setItem("accessToken", accessToken);
+                await localStorage.setItem('accessToken', accessToken);
 
                 originalRequest.headers.Authorization = `${accessToken}`;
                 return axios(originalRequest);

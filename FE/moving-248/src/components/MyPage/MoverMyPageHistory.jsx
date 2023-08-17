@@ -19,7 +19,7 @@ const MoverMyPageHistory = props => {
 
     const fetchUserInfo = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/member/user/${id}`);
+            const response = await axios.get(`https://i9b301.p.ssafy.io/api/member/user/${id}`);
             setHistoryList(response.data.data.list);
             console.log(response.data.data.list);
         } catch (error) {
@@ -59,7 +59,7 @@ const MoverMyPageHistory = props => {
         };
 
         try {
-            const response = await axios.post(`http://localhost:8080/review`, jsonData); // 예시 URL
+            const response = await axios.post(`https://i9b301.p.ssafy.io/api/review`, jsonData); // 예시 URL
             fetchUserInfo();
             // const updatedHistoryList = [...historyList];
             // updatedHistoryList[index].r_id = response.data.data.r_id;

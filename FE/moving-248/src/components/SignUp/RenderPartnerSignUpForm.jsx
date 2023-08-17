@@ -158,7 +158,7 @@ const RenderMoverSignUpForm = props => {
             password: formData.password,
         };
         axios
-            .post('/member/partner', data)
+            .post('https://i9b301.p.ssafy.io/api/member/partner', data)
             .then(res => {
                 if (res.request.statusText === 'Created') {
                     alert('파트너 회원가입이 완료되었습니다.');

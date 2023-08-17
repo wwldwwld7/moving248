@@ -96,7 +96,7 @@ export default function RenderForm() {
         };
 
         axios
-            .post('/member/login', data)
+            .post('https://i9b301.p.ssafy.io/api/member/login', data)
             .then(res => {
                 // res.data에 토큰 들어있음
                 // local storage에 저장해서 모든 request의 header에 "Authorizatoin" 이름으로 박아야 함.!!!!!!!!!!!!!!!

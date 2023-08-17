@@ -64,7 +64,7 @@ const PartnerMyPageDetail = props => {
 
     const fetchPartnerInfo = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/member/partner/${id}`);
+            const response = await axios.get(`https://i9b301.p.ssafy.io/api/member/partner/${id}`);
             setPartnerInfo(response.data.data);
             setOriginalPartnerInfo(response.data.data);
             setReviewDatabase(response.data.data.list);
@@ -117,7 +117,7 @@ const PartnerMyPageDetail = props => {
             );
 
             // Send the formData to the server
-            const response = await axios.put(`http://localhost:8080/member/partner/${id}`, formData, {
+            const response = await axios.put(`https://i9b301.p.ssafy.io/api/member/partner/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -136,7 +136,7 @@ const PartnerMyPageDetail = props => {
     const handleDelete = async () => {
         try {
             if (window.confirm('탈퇴하시겠습니까?')) {
-                const response = await axios.delete(`http://localhost:8080/member/${id}`);
+                const response = await axios.delete(`https://i9b301.p.ssafy.io/api/member/${id}`);
                 localStorage.removeItem('accessToken');
                 document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                 setMemberId(``);

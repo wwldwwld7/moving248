@@ -47,6 +47,12 @@ public class ApplyFormService {
 
             if (currentDate.after(fDate)) {
                 applyFormRepository.updateFormStatus(applyForm.getId());
+
+                // 신청서 날짜 지났는데 파트너 확정이 없으면 삭제하자
+                if(applyForm.getPId() == null){
+                    applyFormRepository.deleteApplyForm(applyForm.getId());
+                }
+
             }
         }
     }

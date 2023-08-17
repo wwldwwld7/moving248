@@ -30,7 +30,7 @@ const ApplyList = props => {
     useEffect(() => {
         // 서버에서 데이터 가져오기
         axios
-            .get('http://localhost:8080/form')
+            .get('https://i9b301.p.ssafy.io/api/form')
             .then(response => {
                 setDataList(response.data.data);
             })
@@ -40,7 +40,7 @@ const ApplyList = props => {
 
         // 시도 목록 가져오기
         axios
-            .get('http://localhost:8080/form/sido')
+            .get('https://i9b301.p.ssafy.io/api/form/sido')
             .then(response => {
                 setSidoOptions(response.data.data);
             })
@@ -53,7 +53,7 @@ const ApplyList = props => {
         if (selectedSido) {
             // 선택된 시도에 해당하는 군구 목록 가져오기
             axios
-                .get(`http://localhost:8080/form/gu/${selectedSido}`)
+                .get(`https://i9b301.p.ssafy.io/api/form/gu/${selectedSido}`)
                 .then(response => {
                     setGuOptions(response.data.data);
                 })
@@ -70,7 +70,7 @@ const ApplyList = props => {
             return;
         }
         axios
-            .get(`http://localhost:8080/form/${selectedSido}/${selectedGu}/${selectedCartegory}/${memberId}`)
+            .get(`https://i9b301.p.ssafy.io/api/form/${selectedSido}/${selectedGu}/${selectedCartegory}/${memberId}`)
             .then(response => {
                 // 서버 응답 처리 로직
                 const filteredData = response.data;

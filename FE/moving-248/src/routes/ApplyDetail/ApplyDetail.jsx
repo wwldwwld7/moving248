@@ -55,7 +55,7 @@ export default function ApplyDetail() {
 
     // 처음 페이지 도착 시 실행 할 코드
     useEffect(() => {
-        axios.get(`/form/${id}`).then(res => {
+        axios.get(`https://i9b301.p.ssafy.io/api/form/${id}`).then(res => {
             const importData = res.data.data;
             const newDesc = res.data.data.f_req_desc.split('\n').map((line, index) => (
                 // 출력 시 태그 적용 코드
@@ -108,7 +108,7 @@ export default function ApplyDetail() {
     const handleCategoryChange = async categoryCode => {
         setSelectedCartegory(categoryCode);
         console.log(apply.f_id + ' ' + categoryCode);
-        const response = await axios.get(`http://localhost:8080/form/${apply.f_id}/${categoryCode}`);
+        const response = await axios.get(`https://i9b301.p.ssafy.io/api/form/${apply.f_id}/${categoryCode}`);
         console.log(response);
         setSuggestion(response.data);
     };

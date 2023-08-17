@@ -63,7 +63,8 @@ public class SuggestionService {
 
         Suggestion suggestion = suggestionRepository.findSuggestionByFidAndPid(fId, pId);
         ApplyForm applyForm = applyFormRepository.findApplyFormById(fId);
-        if(applyForm.getPId().getId()==pId){
+        // 확정일때 신청서에 pid 적혀 있을거고, 근데 견적서를 삭제 할 때
+        if(applyForm.getPId() != null && applyForm.getPId().getId()==pId){
             applyForm.setPId(null);
             applyForm.setFStatus('1');
         }

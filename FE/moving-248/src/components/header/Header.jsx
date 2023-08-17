@@ -38,7 +38,7 @@ export default function Header() {
             // 무버라면
             if (memberType === 'u') {
                 axios
-                    .all([axios.get(`/form/user/${memberId}`), axios.get(`http://localhost:8080/chat/message/${memberId}`)])
+                    .all([axios.get(`https://i9b301.p.ssafy.io/api/form/user/${memberId}`), axios.get(`https://i9b301.p.ssafy.io/api/chat/message/${memberId}`)])
                     .then(
                         axios.spread((res, res2) => {
                             // console.log(res.data.data);
@@ -74,10 +74,10 @@ export default function Header() {
             }
             // 파트너라면
             else {
-                setBtntxt('견적 리스트');
+                setBtntxt('신청 리스트');
                 setBtnUrl('/apply-list');
                 axios
-                    .get(`http://localhost:8080/chat/message/${memberId}`)
+                    .get(`https://i9b301.p.ssafy.io/api/chat/message/${memberId}`)
                     .then(response => {
                         setNoReadMsg(response.data.noread_message);
                     })

@@ -9,7 +9,7 @@ const LocationDropdown = ({ label, selectedSido, setSelectedSido, selectedGu, se
     useEffect(() => {
         // 시도 목록 가져오기
         axios
-            .get('http://localhost:8080/form/sido')
+            .get('https://i9b301.p.ssafy.io/api/form/sido')
             .then(response => {
                 // 이사신청서 작성할 때 시도목록을 필요 없으니깐
                 const filterSido = response.data.data.filter(option => option.sido_name !== '전체');
@@ -24,7 +24,7 @@ const LocationDropdown = ({ label, selectedSido, setSelectedSido, selectedGu, se
         if (selectedSido) {
             // 선택된 시도에 해당하는 군구 목록 가져오기
             axios
-                .get(`http://localhost:8080/form/gu/${selectedSido}`)
+                .get(`https://i9b301.p.ssafy.io/api/form/gu/${selectedSido}`)
                 .then(response => {
                     //이사신청서 작성할 때 구군 목록에서 전체 필요없음
                     const filterGu = response.data.data.filter(option => option.gu_name !== '전체');

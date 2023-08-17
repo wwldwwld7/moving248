@@ -36,7 +36,7 @@ export default function ChatList() {
         if (member_type == 'u') {
             // GET 요청 보내기
             await axios
-                .get(`http://localhost:8080/chat/user/${memberId}`)
+                .get(`https://i9b301.p.ssafy.io/api/chat/user/${memberId}`)
                 .then(response => {
                     setData(response.data.data);
 
@@ -52,7 +52,7 @@ export default function ChatList() {
         //p인경우 /chat/partner/{p_id}로 get요청
         else {
             axios
-                .get(`http://localhost:8080/chat/partner/${memberId}`)
+                .get(`https://i9b301.p.ssafy.io/api/chat/partner/${memberId}`)
                 .then(response => {
                     setData(response.data.data);
                     if (response.data.data.length == 0) {

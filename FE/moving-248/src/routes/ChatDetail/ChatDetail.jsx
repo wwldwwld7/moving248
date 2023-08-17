@@ -52,7 +52,7 @@ export default function ChatDetail() {
     const getData = async () => {
         try {
             console.log('testst');
-            const response = await axios.get(`http://localhost:8080/chat/message/${p_id}/${u_id}/${m_id}`); // GET 요청을 보냄
+            const response = await axios.get(`https://i9b301.p.ssafy.io/api/chat/message/${p_id}/${u_id}/${m_id}`); // GET 요청을 보냄
             console.log(response);
 
             await setData(response.data.data);
@@ -89,7 +89,7 @@ export default function ChatDetail() {
 
     const firstGetData = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/chat/message/${p_id}/${u_id}/${m_id}`); // GET 요청을 보냄
+            const response = await axios.get(`https://i9b301.p.ssafy.io/api/chat/message/${p_id}/${u_id}/${m_id}`); // GET 요청을 보냄
             console.log(response);
             await setData(response.data.data); // 받아온 데이터를 상태에 저장
             // setDlength(responseData.data.data.length);
@@ -202,7 +202,7 @@ const ChatInput = ({ p_id, u_id, myId, roomId, name }) => {
             console.log(message);
 
             axios
-                .post(`http://localhost:8080/chat/message/${p_id}/${u_id}`, {
+                .post(`https://i9b301.p.ssafy.io/api/chat/message/${p_id}/${u_id}`, {
                     m_id: myId,
                     message: message,
                 })
@@ -249,7 +249,7 @@ const ChatInput = ({ p_id, u_id, myId, roomId, name }) => {
                             const encodedText = encodeURIComponent(koreanName);
 
                             console.log('sessionstorage 저장');
-                            window.open(`http://localhost:3001/?name=${encodedText}&roomId=${p_id}` + `a` + `${u_id}`, '_blank', 'width=1000, height=1000');
+                            window.open(`https://i9b301.p.ssafy.io/api2/?name=${encodedText}&roomId=${p_id}` + `a` + `${u_id}`, '_blank', 'width=1000, height=1000');
                         }}
                     />
                 </div>

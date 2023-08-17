@@ -50,7 +50,7 @@ const ApplyFormInput = props => {
         }
         // 수정이면
         else {
-            axios.get(`/form/${isModify}`).then(res => {
+            axios.get(`https://i9b301.p.ssafy.io/api/form/${isModify}`).then(res => {
                 // 받아온 객체
                 console.log(`이거는 is modify: ` + isModify);
                 const importData = res.data.data;
@@ -238,7 +238,7 @@ const ApplyFormInput = props => {
         // 신규 작성
         if (isModify === undefined) {
             try {
-                const response = await axios.post('http://localhost:8080/form', formData, {
+                const response = await axios.post('https://i9b301.p.ssafy.io/api/form', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -258,7 +258,7 @@ const ApplyFormInput = props => {
         else {
             try {
                 console.log(isModify);
-                const response = await axios.put(`http://localhost:8080/form/${isModify}`, formData, {
+                const response = await axios.put(`https://i9b301.p.ssafy.io/api/form/${isModify}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },

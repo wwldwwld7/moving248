@@ -19,7 +19,7 @@ const MoverMyPageDetail = props => {
 
     const fetchUserInfo = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/member/user/${id}`);
+            const response = await axios.get(`https://i9b301.p.ssafy.io/api/member/user/${id}`);
             setUserInfo(response.data.data);
             setOriginalUserInfo(response.data.data); // 원래 정보 설정
             const imageUrl = `/profile/${id % 10}.jpg`;
@@ -45,7 +45,7 @@ const MoverMyPageDetail = props => {
             };
 
             // Send the updated data to the server
-            const response = await axios.put(`http://localhost:8080/member/user/${id}`, dataToUpdate);
+            const response = await axios.put(`https://i9b301.p.ssafy.io/api/member/user/${id}`, dataToUpdate);
 
             // Handle the response
             console.log('정보 수정 성공:', response.data);
@@ -66,7 +66,7 @@ const MoverMyPageDetail = props => {
     const handleDelete = async () => {
         try {
             if (window.confirm('탈퇴하시겠습니까?')) {
-                const response = await axios.delete(`http://localhost:8080/member/${id}`);
+                const response = await axios.delete(`https://i9b301.p.ssafy.io/api/member/${id}`);
                 localStorage.removeItem('accessToken');
                 document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                 setMemberId(``);

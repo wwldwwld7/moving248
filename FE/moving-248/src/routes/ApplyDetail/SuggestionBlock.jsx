@@ -42,7 +42,7 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
     // 견적서 확정 버튼 0
     const onConfirmHandler = () => {
         axios
-            .post(`http://localhost:8080/chat/message/${element.p_id}/${u_id}`, {
+            .post(`https://i9b301.p.ssafy.io/api/chat/message/${element.p_id}/${u_id}`, {
                 m_id: u_id,
                 message: `[공지] "${memberName}"님 신청서에 등록하신 견적이 확정되었습니다. <br /> <a href="/apply-detail/${f_id}" target='_blank'>바로가기</a>`,
             })
@@ -53,7 +53,7 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
                 console.error('Error fetching data:', error);
             });
         axios
-            .put(`/form/suggestion/${f_id}/${element.p_id}`)
+            .put(`https://i9b301.p.ssafy.io/api/form/suggestion/${f_id}/${element.p_id}`)
             .then(res => {
                 alert('견적서가 확정 되었습니다.');
                 window.location.reload();
@@ -67,7 +67,7 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
 
     const onCancelHandler = () => {
         axios
-            .post(`http://localhost:8080/chat/message/${element.p_id}/${u_id}`, {
+            .post(`https://i9b301.p.ssafy.io/api/chat/message/${element.p_id}/${u_id}`, {
                 m_id: u_id,
                 message: `[공지] "${memberName}"님 신청서에 등록하신 견적의 확정이 취소되었습니다. <br /> <a href="/apply-detail/${f_id}" target='_blank'>바로가기</a>`,
             })
@@ -78,7 +78,7 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
                 console.error('Error fetching data:', error);
             });
         axios
-            .put(`/form/suggestion/${f_id}/${u_id}/${p_id}`)
+            .put(`https://i9b301.p.ssafy.io/api/form/suggestion/${f_id}/${u_id}/${p_id}`)
             .then(res => {
                 alert('견적서가 취소 되었습니다.');
                 window.location.reload();

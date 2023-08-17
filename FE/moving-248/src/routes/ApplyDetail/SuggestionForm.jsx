@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import InputBox from '../../components/UI/InputBox';
 import { useParams } from 'react-router-dom';
-// import axios from 'axios';
+import axios from 'axios';
 import { defaultInstance as api } from '../../jwt/token';
 import { useRecoilValue } from 'recoil';
 import { memberIdAtom } from '../../atom';
@@ -34,7 +34,7 @@ export default function SuggestionForm() {
     const [isNew, setIsNew] = useState(true);
 
     const [mySuggestion, setMySuggestion] = useState({
-        s_money: 0,
+        s_money: '',
         s_desc: '',
     });
 
@@ -46,7 +46,8 @@ export default function SuggestionForm() {
     const [characterCount, setCharacterCount] = useState(0);
 
     const getData = () => {
-        api.get(`/form/${id}`)
+        axios
+            .get(`https://i9b301.p.ssafy.io/api/form/${id}`)
             .then(res => {
                 const importData = { ...res.data.data };
 
@@ -124,7 +125,8 @@ export default function SuggestionForm() {
 
         // 신규 등록이면
         if (isNew === true) {
-            api.post(`/form/suggestion/${id}`, data)
+            axios
+                .post(`https://i9b301.p.ssafy.io/api/form/suggestion/${id}`, data)
                 .then(res => {
                     alert('견적이 등록되었습니다.');
                     window.location.reload();
@@ -137,7 +139,8 @@ export default function SuggestionForm() {
 
         // 수정 이면
         else {
-            api.put(`/form/suggestion/${id}`, data)
+            axios
+                .put(`https://i9b301.p.ssafy.io/api/form/suggestion/${id}`, data)
                 .then(res => {
                     alert('견적이 수정되었습니다.');
                     window.location.reload();
@@ -152,7 +155,8 @@ export default function SuggestionForm() {
     const onDeleteHandler = () => {
         const confirmed = window.confirm('견적을 삭제 하시겠습니까?');
         if (confirmed) {
-            api.delete(`/form/suggestion/${id}/${memberId}`)
+            axios
+                .delete(`https://i9b301.p.ssafy.io/api/form/suggestion/${id}/${memberId}`)
                 .then(res => {
                     alert('견적이 삭제되었습니다.');
                     window.location.reload();
@@ -179,7 +183,7 @@ export default function SuggestionForm() {
                             name='s_desc'
                             value={formData.s_desc}
                             onChange={changeHandler}
-                            placeholder='ex) 최종 가격 :  000&#13;&#10;차량 0 : 00만 원&#13;&#10;인원 0 : 00만 원&#13;&#10;산정 이유 : -'
+                            placeholder='ex) 차량 0 : 00만 원&#13;&#10;인원 0 : 00만 원&#13;&#10;기타 : -'
                             maxLength={255}
                         ></textarea>
                         <div className='character-count sub'>{characterCount}/255</div>
