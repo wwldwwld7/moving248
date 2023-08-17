@@ -179,7 +179,7 @@ export default function SuggestionForm() {
                             name='s_desc'
                             value={formData.s_desc}
                             onChange={changeHandler}
-                            placeholder='ex) 새 매트리스 커버 개당 20,000원 추가 가격 붙습니다.'
+                            placeholder='ex) 최종 가격 :  000&#13;&#10;차량 0 : 00만 원&#13;&#10;인원 0 : 00만 원&#13;&#10;산정 이유 : -'
                             maxLength={255}
                         ></textarea>
                         <div className='character-count sub'>{characterCount}/255</div>

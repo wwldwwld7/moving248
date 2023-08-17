@@ -129,7 +129,7 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
     };
 
     return (
-        <div className='suggestion-block scoll-suggestion-inner'>
+        <div className='suggestion-block'>
             <Link to={`/partner-my-page/${element.p_id}`} className='suggestion-block__image no_blue'>
                 <img src={element.profile_url} alt='img' className='hb_img' />
             </Link>
@@ -140,10 +140,10 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
                 <p className='sec-two-container__paragraph'>
                     <b>{element.s_money.toLocaleString()}원</b>
                     <span className='paragraph sec-two-container__paragraph'>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;<b>이사 횟수</b> {element.p_move_cnt}
+                        &nbsp;&nbsp;<p>|&nbsp;&nbsp;이사 횟수 {element.p_move_cnt}</p>
                     </span>
                 </p>
-                <p className='paragraph sec-two-container__paragraph'>{element.s_desc}</p>
+                <p className='paragraph sec-two-container__paragraph scoll-suggestion-inner'>{element.s_desc}</p>
                 <br />
             </div>
             <div className='suggestion-block__btn-div'>

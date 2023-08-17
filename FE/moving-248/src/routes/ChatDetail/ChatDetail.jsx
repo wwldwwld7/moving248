@@ -249,7 +249,7 @@ const ChatInput = ({ p_id, u_id, myId, roomId, name }) => {
                             const encodedText = encodeURIComponent(koreanName);
 
                             console.log('sessionstorage 저장');
-                            window.open(`http://localhost:3001/?name=${encodedText}&roomId=${p_id}` + `${u_id}`, '_blank', 'width=1000, height=1000');
+                            window.open(`http://localhost:3001/?name=${encodedText}&roomId=${p_id}` + `a` + `${u_id}`, '_blank', 'width=1000, height=1000');
                         }}
                     />
                 </div>

@@ -142,7 +142,7 @@
 .dot {
     position: relative;
     top: 0%;
-    right: 4%;
+    /* right: 4%; */
     transform: translateY(-50%);
     float: right;
     background-color: red;
