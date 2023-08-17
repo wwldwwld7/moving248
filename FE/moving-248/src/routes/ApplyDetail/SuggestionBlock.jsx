@@ -129,7 +129,7 @@ export default function SuggestionBlock({ element, f_id, p_id, u_id }) {
     };
 
     return (
-        <div className='suggestion-block'>
+        <div className='suggestion-block scoll-suggestion-inner'>
             <Link to={`/partner-my-page/${element.p_id}`} className='suggestion-block__image no_blue'>
                 <img src={element.profile_url} alt='img' className='hb_img' />
             </Link>

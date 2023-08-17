@@ -180,6 +180,7 @@ export default function SuggestionForm() {
                             value={formData.s_desc}
                             onChange={changeHandler}
                             placeholder='ex) 새 매트리스 커버 개당 20,000원 추가 가격 붙습니다.'
+                            maxLength={255}
                         ></textarea>
                         <div className='character-count sub'>{characterCount}/255</div>
                         {/* <InputBox

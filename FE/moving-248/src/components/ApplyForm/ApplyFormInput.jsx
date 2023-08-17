@@ -34,6 +34,8 @@ const ApplyFormInput = props => {
     const [selectedArrSido, setSelectedArrSido] = useState(''); // 추가된 부분
     const [selectedArrGu, setSelectedArrGu] = useState(''); // 추가된 부분
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -230,6 +232,8 @@ const ApplyFormInput = props => {
                 type: 'application/json',
             })
         );
+        // 제출이 진행 중임을 나타내기 위해 isSubmitting을 true로 설정
+        setIsSubmitting(true);
 
         // 신규 작성
         if (isModify === undefined) {
@@ -245,13 +249,15 @@ const ApplyFormInput = props => {
                 window.location.href = '/';
             } catch (error) {
                 console.error('신규 작성 에러 발생:', error);
+            } finally {
+                // 요청이 완료된 후에 isSubmitting을 false로 재설정
+                setIsSubmitting(false);
             }
         }
         // 수정
         else {
             try {
                 console.log(isModify);
-                // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 알맞게 수정 필요합니다
                 const response = await axios.put(`http://localhost:8080/form/${isModify}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -264,13 +270,21 @@ const ApplyFormInput = props => {
             } catch (error) {
                 alert('신청서 수정 에러 발생');
                 console.error('수정 에러 발생:', error);
+            } finally {
+                // 요청이 완료된 후에 isSubmitting을 false로 재설정
+                setIsSubmitting(false);
             }
-            // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 알맞게 수정 필요합니다
         }
     };
 
     return (
         <>
+            {/* 로딩 오버레이 */}
+            {isSubmitting && (
+                <div className='loading-overlay'>
+                    <div className='spinner'></div>
+                </div>
+            )}
             <section className='max-container section'>
                 <div className='sec-two-one-container inner__section  overlap-imgbox'>
                     <h2 className='sec-two-container__h2 sec-two-container__h2-form'>이사 신청서</h2>
@@ -354,7 +368,7 @@ const ApplyFormInput = props => {
                             name='apply-form-desc'
                             value={textareaValue}
                             onChange={handleTextareaChange}
-                            maxLength={254}
+                            maxLength={255}
                             placeholder='ex) 매트리스 커버는 새걸로 부탁드립니다.'
                         ></textarea>
                         <div className='character-count sub'>{characterCount}/255</div>

@@ -39,3 +39,10 @@
         height: 200px;
     }
 }
+
+@media (max-width: 400px) {
+    .profile__image {
+        width: 100%;
+        height: auto;
+    }
+}

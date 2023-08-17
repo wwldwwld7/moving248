@@ -96,3 +96,9 @@ header {
         padding: 0.8rem 1rem;
     }
 }
+
+@media (max-width: 400px) {
+    .header__logo__img {
+        content: url('../../assets/image/logo-color-only.png');
+    }
+}
