@@ -15,6 +15,8 @@ const MoverMyPageHistory = props => {
     const setterActiveApply = useSetRecoilState(memberActiveApplyAtom);
     const moveUrl = useNavigate();
 
+    const moveToHome = useNavigate();
+
     const [historyList, setHistoryList] = useState([]);
 
     const fetchUserInfo = async () => {
@@ -52,7 +54,7 @@ const MoverMyPageHistory = props => {
     // 서버에서 사용자 정보 가져오는 로직을 수행
     const handleSaveClick = async (history, index) => {
         const jsonData = {
-            u_id: 1,
+            u_id: memberId,
             p_id: history.p_id,
             r_rate: history.r_rate,
             r_content: history.r_content,
@@ -60,6 +62,8 @@ const MoverMyPageHistory = props => {
 
         try {
             const response = await axios.post(`https://i9b301.p.ssafy.io/api/review`, jsonData); // 예시 URL
+            alert('이사 후기가 작성되었습니다.');
+            moveToHome('/');
             fetchUserInfo();
             // const updatedHistoryList = [...historyList];
             // updatedHistoryList[index].r_id = response.data.data.r_id;
