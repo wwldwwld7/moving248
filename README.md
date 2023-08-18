@@ -53,7 +53,7 @@ SSAFY 9기 2학기 공통 프로젝트
 ---
 
 ## ERD
-![image]https://lab.ssafy.com/s09-webmobile1-sub2/S09P12B301/uploads/cde5ba9370a86706e87fea3855bc79a3/image.png
+![image](/uploads/cde5ba9370a86706e87fea3855bc79a3/image.png)
 
 ---
 
