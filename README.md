@@ -45,30 +45,24 @@ SSAFY 9기 2학기 공통 프로젝트
     - 각자 나눈 역할에 맞는 브랜치를 나누고 각 커밋을 지라의 이슈와 연결하며 프로젝트를 진행했습니다.
 
 
-
 ## ERD
 ![image](https://github.com/ssh5212/moving248/assets/133843645/3107a0df-e487-4721-be08-ac91cb98b9c4)
 
----
 
 ## 요구사항 명세서
 ![image](https://github.com/ssh5212/moving248/assets/133843645/64608f99-77d8-4b46-a56d-ad268d5a081c)
 
----
 
 ## 기능 명세서
 ![image](https://github.com/ssh5212/moving248/assets/133843645/578df68f-4e27-4fec-a8f1-c8a6ccc5185b)
 
----
 
 ## API 명세서
 ![image](https://github.com/ssh5212/moving248/assets/133843645/a9079552-bc3b-4360-af40-9293ed9494dc)
 
----
 
 ## 목업
 ![image](https://github.com/ssh5212/moving248/assets/133843645/132f73c1-007d-4c15-bea3-9716de7d4136)
 
----
-
 ## 서비스 시연 영상
+https://www.youtube.com/watch?v=oEacniI6hjQ
