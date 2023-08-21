@@ -1,24 +1,18 @@
-# README
-
 # 이사할 땐 248 - 비대면 이사 견적 서비스
 
----
-
 ## 프로젝트 진행 기간
-
 SSAFY 9기 2학기 공통 프로젝트
-
 2023.07.03(월) ~ 2023.08.18(금) 7주간 진행
 
----
 
 ## 프로젝트 소개
-
 - 프로젝트 명 : 비대면 이사 견적 서비스
+
 - 주요 기능
     - 영상등록을 통한 이사 신청서 간소화
     - 업체들의 견적 등록을 통한 가격 비교
     - 실시간 화상 상담
+
 - 주요 기술
     - React.js
     - Spring boot
@@ -27,18 +21,18 @@ SSAFY 9기 2학기 공통 프로젝트
     - EC2
     - Redis
 
----
+
 
 ## 팀소개
 
 - 손승연 : Team Leader, BE, Amazon S3
 - 정호빈 : BE Leader, openvidu
-- 신승헌 : FE Leader, Design
+- 신승헌 : FE Leader, UI/UX
 - 김승용 : FE, openvidu
 - 김라현 : BE, All Rounder
 - 김현중 : FE, Infra
 
----
+
 
 ## 협업 도구
 
@@ -50,7 +44,7 @@ SSAFY 9기 2학기 공통 프로젝트
 - GitLab
     - 각자 나눈 역할에 맞는 브랜치를 나누고 각 커밋을 지라의 이슈와 연결하며 프로젝트를 진행했습니다.
 
----
+
 
 ## ERD
 ![image](/uploads/cde5ba9370a86706e87fea3855bc79a3/image.png)
