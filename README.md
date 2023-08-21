@@ -47,27 +47,27 @@ SSAFY 9기 2학기 공통 프로젝트
 
 
 ## ERD
-![image](/uploads/cde5ba9370a86706e87fea3855bc79a3/image.png)
+![image](https://github.com/ssh5212/moving248/assets/133843645/3107a0df-e487-4721-be08-ac91cb98b9c4)
 
 ---
 
 ## 요구사항 명세서
-![image](/uploads/e8c13e260b84f28732ec279a521dfec7/image.png)
+![image](https://github.com/ssh5212/moving248/assets/133843645/64608f99-77d8-4b46-a56d-ad268d5a081c)
 
 ---
 
 ## 기능 명세서
-![image](/uploads/96ed74e0b4daee20c3a9410ab6ec10ea/image.png)
+![image](https://github.com/ssh5212/moving248/assets/133843645/578df68f-4e27-4fec-a8f1-c8a6ccc5185b)
 
 ---
 
 ## API 명세서
-![image](/uploads/5646e32623e3a4369033f4f9c4680b4b/image.png)
+![image](https://github.com/ssh5212/moving248/assets/133843645/a9079552-bc3b-4360-af40-9293ed9494dc)
 
 ---
 
 ## 목업
-![image](/uploads/4eca82a38ab366c1af1faf1a248b3d76/image.png)
+![image](https://github.com/ssh5212/moving248/assets/133843645/132f73c1-007d-4c15-bea3-9716de7d4136)
 
 ---
 
